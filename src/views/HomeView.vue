@@ -293,7 +293,7 @@ export default {
       }
     }
     &-right{
-      width: 90%;
+      width: 500px;
       display: flex;
       img{
         width: 100%;
