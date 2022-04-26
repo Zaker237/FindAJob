@@ -1,5 +1,10 @@
 <template>
-  <div class="home">
+  <div class="home" id="home">
+            <a href="#home">
+              <div class="arrow-up">
+                <img src="../assets/icons/arrow-up.svg" alt="arrow-down">
+              </div>
+            </a>
     <nav class="navigation">
       <div class="navigation__center">
         <div class="navigation-left">
@@ -11,7 +16,7 @@
           </span>
         </div>
         <ul class="navigation-right">
-          <li><a href="#">A propos</a></li>
+          <li><a href="#about">A propos</a></li>
           <li><a href="#">Teams</a></li>
           <li><a href="#">Contact</a></li>
           <router-link to="/login"><li><button class="btn__login">Connexion</button></li></router-link>
@@ -29,11 +34,57 @@
         <div class="header-right">
           <img src="../assets/illustrations/illustration-5.png" alt="illustration">
         </div>
-        <a href="#about">
-          <div class="scroll-down">
-            <img src="../assets/icons/arrow-down.svg" alt="arrow-down">
-          </div>
-        </a>
+<!--        <a href="#about">-->
+<!--          <div class="scroll-down">-->
+<!--            <img src="../assets/icons/arrow-down.svg" alt="arrow-down">-->
+<!--          </div>-->
+<!--        </a>-->
+      </div>
+    </header>
+    <header id="about" class="about">
+      <div class="about__center">
+        <div class="about-right">
+          <img src="../assets/illustrations/illustration-1.png" alt="illustration">
+        </div>
+        <div class="about-left">
+          <h1>Vous etes a la recherche d' emploi ?</h1>
+          <h2>Vous auriez la possibilite de voir toutes les offres d' emploi correspondant a ton profil.</h2>
+        </div>
+      </div>
+    </header>
+    <header class="about">
+      <div class="about__center">
+        <div class="about-left">
+          <h1>Vous etes recruteur ?</h1>
+          <h2>Vous pourriez publier vos offres d' emploi afin d' avoir de bon employe'.</h2>
+        </div>
+        <div class="about-right">
+          <img src="../assets/illustrations/illustration-4.png" alt="illustration">
+        </div>
+      </div>
+    </header>
+    <header class="about">
+      <div class="about__center">
+        <div class="about-right">
+          <img src="../assets/illustrations/illustration-2.png" alt="illustration">
+        </div>
+        <div class="about-left">
+          <h1>Alors viens qu' attends tu ?</h1>
+          <h2>Viens t' inscrire et postule a des offres ou publis en !</h2>
+          <router-link to="/login"><button>Commencez</button></router-link>
+        </div>
+      </div>
+    </header>
+    <header class="about">
+      <div class="about__center">
+        <div class="about-left">
+          <h1>Satisfait ou pas ?</h1>
+          <h2>Votre avis nous aide beaucoup, donc n' hesitez surtout pas !</h2>
+          <a href="mailto:leonelngoya@gmail.com"><button>Feedback</button></a>
+        </div>
+        <div class="about-right">
+          <img src="../assets/illustrations/illustration-3.png" alt="illustration">
+        </div>
       </div>
     </header>
   </div>
@@ -54,6 +105,22 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/styles/settings.scss";
 .home {
+  .arrow-up{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid $dark;
+    background: $info;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    img{
+      width: 25px;
+    }
+  }
   .navigation{
     display: flex;
     align-items: center;
@@ -164,6 +231,53 @@ export default {
           font-weight: 600;
           margin: 10px 0;
         }
+      button{
+        cursor: pointer;
+        background: linear-gradient(to right, #7F3EF1, #A94DFC);
+        color: $white;
+        border: 2px solid $purple;
+        font-weight: 500;
+        border-radius: 30px;
+        padding: 10px;
+        transition: .3s ease-in-out;
+        &:hover{
+          background: linear-gradient(to right, #A94DFC, #7F3EF1);
+        }
+      }
+    }
+    &-right{
+      width: 90%;
+      display: flex;
+      img{
+        width: 100%;
+      }
+    }
+  }
+  .about{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //background: url("../assets/images/02.png");
+    //background-size: cover;
+    //background-repeat: no-repeat;
+    //min-height: 100vh;
+    &__center{
+      width: 80%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &-left{
+      h1 {
+        font-size: 45px;
+        font-weight: 900;
+        line-height: 78px;
+      }
+      h2 {
+        font-size: 27px;
+        font-weight: 500;
+        margin: 10px 0;
+      }
       button{
         cursor: pointer;
         background: linear-gradient(to right, #7F3EF1, #A94DFC);
