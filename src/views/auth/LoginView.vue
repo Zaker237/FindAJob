@@ -1,19 +1,22 @@
 <template>
-  <div class="container">
-    <h2>Connectez vous</h2>
-    <div class="container-input">
-      <label for="email">Adresse email</label>
-      <input id="email" type="text" placeholder="Entrez votre adresse email">
+  <div id="login">
+    <div class="container">
+      <h2>Connectez vous</h2>
+      <div class="container-input">
+        <label for="email">Adresse email</label>
+        <input id="email" type="email" placeholder="Entrez votre adresse email">
+      </div>
+      <div class="container-input">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" placeholder="Entrez votre mot de passe">
+      </div>
+      <h3 class="container-options">Pas encore un compte ? <router-link to="/register">Inscrivez vous</router-link></h3>
+      <router-link to="/">
+        <button class="container-button">
+          Se connecter
+        </button>
+      </router-link>
     </div>
-    <div class="container-input">
-      <label for="password">Mot de passe</label>
-      <input id="password" type="password" placeholder="Entrez votre mot de passe">
-    </div>
-    <router-link to="/">
-      <button class="container-button">
-        Se connecter
-      </button>
-    </router-link>
   </div>
 </template>
 
@@ -26,8 +29,15 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
 
+#login{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .container {
-  margin: 0 20px;
+  width: clamp(40%, 400px, 95%);
 
   h2 {
     font-size: 36px;
@@ -60,6 +70,14 @@ export default {
     }
   }
 
+  &-options {
+    margin: 10px 0 15px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #252F3F;
+    text-align: right;
+  }
+
   button {
     background: $dark;
     border: 1px solid $dark;
@@ -68,7 +86,7 @@ export default {
     width: 100%;
     font-size: 16px;
     font-weight: 500;
-    color: #252F3F;
+    color: $ligth;
     margin-top: 20px;
     cursor: pointer;
     transition: box-shadow 0.2s ease-in-out;
