@@ -1,10 +1,5 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/auth/LoginView.vue';
-import RegisterView from '../views/auth/RegisterView';
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -14,17 +9,18 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'Login',
-    component: LoginView
+    name: 'LoginView',
+    component: () => import('../views/auth/LoginView.vue')
   },
   {
     path: '/register',
-    name: 'Register',
-    component: RegisterView
-  },
+    name: 'RegisterView',
+    component: () => import('../views/auth/RegisterView.vue')
+  }
 ]
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 
