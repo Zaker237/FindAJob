@@ -19,7 +19,6 @@
           <li><a href="#about">A propos</a></li>
           <li><a href="#teams">Teams</a></li>
           <li><a href="#contact">Contact</a></li>
-
           <li>
             <router-link to="/login">
               <button class="btn__login">Connexion</button>
@@ -31,7 +30,7 @@
             </router-link>
           </li>
         </ul>
-        <img src="../assets/icons/burger.svg" alt="burger" class="navigation-burger">
+        <img @click="toggleBurger" src="../assets/icons/burger.svg" alt="burger" class="navigation-burger">
       </div>
     </nav>
     <header class="header">
@@ -118,7 +117,16 @@
 
 <script>
 export default {
-  name: "HomeView"
+  name: "HomeView",
+  methods: {
+    toggleBurger() {
+      const burger = document.querySelector(".navigation-burger");
+      const menu = document.querySelector(".navigation-right");
+      burger.addEventListener("click", () => {
+        menu.classList.toggle("active");
+      });
+    }
+}
 }
 </script>
 
@@ -390,8 +398,11 @@ export default {
         background: $ligth;
         top: 70px;
         display: flex;
+        justify-content: flex-start;
         flex-direction: column;
+        padding-top: 50px;
         z-index: 3;
+        transform: translateX(-100%);
 
         li {
           width: 100%;
@@ -408,7 +419,7 @@ export default {
 
           a:is(a[href="/login"], a[href="/register"]){
             width: 100%;
-            margin: px 0;
+            margin: 7px 0;
           }
 
           button {
@@ -420,6 +431,10 @@ export default {
             background: $white;
           }
         }
+      }
+      
+      &-right.active{
+        transform: translateX(0);
       }
     }
   }
