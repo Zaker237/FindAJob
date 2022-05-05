@@ -1,5 +1,10 @@
 <template>
   <div id="register">
+    <router-link to="/">
+      <div class="back-home">
+        <img src="../../assets/icons/arrow-up.svg" alt="back to home">
+      </div>
+    </router-link>
     <div class="container">
       <h2>Enregistrez vous</h2>
       <div class="container-input">
@@ -38,6 +43,21 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.back-home{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: rgba($dark, 0.05);
+  border-radius: 50%;
+  transform: rotate(-90deg);
 }
 
 .container {

@@ -244,6 +244,9 @@ export default {
         @media screen and (max-width: 1200px) {
           font-size: 40px;
         }
+        @media screen and (max-width: 535px) {
+          line-height: 55px;
+        }
       }
 
       h2 {
