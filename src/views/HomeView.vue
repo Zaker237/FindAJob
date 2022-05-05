@@ -45,13 +45,10 @@
         <div class="header-right">
           <img src="../assets/illustrations/illustration-5.png" alt="illustration">
         </div>
-        <!--        <a href="#about">-->
-        <!--          <div class="scroll-down">-->
-        <!--            <img src="../assets/icons/arrow-down.svg" alt="arrow-down">-->
-        <!--          </div>-->
-        <!--        </a>-->
       </div>
     </header>
+    <div class="about" id="about">
+    </div>
     <div class="teams" id="teams">
       <div class="teams__center">
         <div class="card">
@@ -67,18 +64,18 @@
           action="https://formspree.io/f/xzboklab"
           method="POST"
       >
-        <label>
-          Your email:
-          <input type="email" name="email">
-        </label>
-        <label>
-          Your message:
-          <textarea name="message"></textarea>
-        </label>
-        <!-- your other form fields go here -->
-        <button type="submit">Send</button>
+        <div>
+          <label for="email"></label>
+          <input type="email" name="email" id="email" placeholder="Entrez votre mail" required>
+        </div>
+        <div>
+          <label for="message"></label>
+          <textarea name="message" id="message" placeholder="Entrez votre message" maxlength="1000" required></textarea>
+        </div>
+        <button type="submit">Envoyer</button>
       </form>
     </div>
+    <p class="copy">&copy; Tout droits réservés - Find A Job - 2022</p>
   </div>
 </template>
 
@@ -244,12 +241,18 @@ export default {
         font-size: 56px;
         font-weight: 900;
         line-height: 78px;
+        @media screen and (max-width: 1200px) {
+          font-size: 40px;
+        }
       }
 
       h2 {
         font-size: 30px;
         font-weight: 600;
         margin: 10px 0;
+        @media screen and (max-width: 1200px) {
+          font-size: 25px;
+        }
       }
 
       button {
@@ -259,7 +262,7 @@ export default {
         border: 2px solid $purple;
         font-weight: 600;
         border-radius: 30px;
-        padding: 15px;
+        padding: 13px;
         font-size: 16px;
         transition: .3s ease-in-out;
 
@@ -272,11 +275,79 @@ export default {
     &-right {
       width: 90%;
       display: flex;
+      @media screen and (max-width: 970px) {
+        display: none;
+      }
 
       img {
         width: 100%;
       }
     }
+  }
+
+  .contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+    form {
+      background: $dark;
+      width: clamp(40%, 400px, 95%);
+      padding: 10px;
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin: 20px 0;
+
+        label {
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+
+        input, textarea {
+          width: 100%;
+          border: 1px solid #E5E7EB;
+          border-radius: 4px;
+          padding: 10px;
+          outline: none;
+          resize: none;
+
+          &:focus {
+            border-color: #bcbec3;
+          }
+        }
+      }
+
+      button {
+        background: $dark;
+        border: 1px solid $dark;
+        border-radius: 4px;
+        padding: 10px;
+        width: 100%;
+        font-size: 16px;
+        font-weight: 500;
+        color: $ligth;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: box-shadow 0.2s ease-in-out;
+
+        &:hover {
+          box-shadow: 2px 2px 10px #dfdfdf;
+        }
+      }
+    }
+  }
+
+  .copy {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    background: $white;
   }
 }
 
