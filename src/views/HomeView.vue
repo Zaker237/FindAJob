@@ -52,56 +52,6 @@
         <!--        </a>-->
       </div>
     </header>
-    <header id="about" class="about">
-      <div class="about__center">
-        <div class="about-right">
-          <img src="../assets/illustrations/illustration-1.png" alt="illustration">
-        </div>
-        <div class="about-left">
-          <h1>Vous etes a la recherche d' emploi ?</h1>
-          <h2>Vous auriez la possibilite de voir toutes les offres d' emploi correspondant a ton profil.</h2>
-        </div>
-      </div>
-    </header>
-    <header class="about">
-      <div class="about__center">
-        <div class="about-left">
-          <h1>Vous etes recruteur ?</h1>
-          <h2>Vous pourriez publier vos offres d' emploi afin d' avoir de bon employe'.</h2>
-        </div>
-        <div class="about-right">
-          <img src="../assets/illustrations/illustration-4.png" alt="illustration">
-        </div>
-      </div>
-    </header>
-    <header class="about">
-      <div class="about__center">
-        <div class="about-right">
-          <img src="../assets/illustrations/illustration-2.png" alt="illustration">
-        </div>
-        <div class="about-left">
-          <h1>Alors viens qu' attends tu ?</h1>
-          <h2>Viens t' inscrire et postule a des offres ou publis en !</h2>
-          <router-link to="/login">
-            <button>Commencez</button>
-          </router-link>
-        </div>
-      </div>
-    </header>
-    <header class="about">
-      <div class="about__center">
-        <div class="about-left">
-          <h1>Satisfait ou pas ?</h1>
-          <h2>Votre avis nous aide beaucoup, donc n' hesitez surtout pas !</h2>
-          <a href="mailto:leonelngoya@gmail.com">
-            <button>Feedback</button>
-          </a>
-        </div>
-        <div class="about-right">
-          <img src="../assets/illustrations/illustration-3.png" alt="illustration">
-        </div>
-      </div>
-    </header>
     <div class="teams" id="teams">
       <div class="teams__center">
         <div class="card">
@@ -111,6 +61,23 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="contact" id="contact">
+      <form
+          action="https://formspree.io/f/xzboklab"
+          method="POST"
+      >
+        <label>
+          Your email:
+          <input type="email" name="email">
+        </label>
+        <label>
+          Your message:
+          <textarea name="message"></textarea>
+        </label>
+        <!-- your other form fields go here -->
+        <button type="submit">Send</button>
+      </form>
     </div>
   </div>
 </template>
@@ -126,7 +93,7 @@ export default {
         menu.classList.toggle("active");
       });
     }
-}
+  }
 }
 </script>
 
@@ -290,9 +257,10 @@ export default {
         background: linear-gradient(to right, #7F3EF1, #A94DFC);
         color: $white;
         border: 2px solid $purple;
-        font-weight: 500;
+        font-weight: 600;
         border-radius: 30px;
-        padding: 10px;
+        padding: 15px;
+        font-size: 16px;
         transition: .3s ease-in-out;
 
         &:hover {
@@ -303,60 +271,6 @@ export default {
 
     &-right {
       width: 90%;
-      display: flex;
-
-      img {
-        width: 100%;
-      }
-    }
-  }
-
-  .about {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    //background: url("../assets/images/02.png");
-    //background-size: cover;
-    //background-repeat: no-repeat;
-    //min-height: 100vh;
-    &__center {
-      width: 80%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &-left {
-      h1 {
-        font-size: 45px;
-        font-weight: 900;
-        line-height: 78px;
-      }
-
-      h2 {
-        font-size: 27px;
-        font-weight: 500;
-        margin: 10px 0;
-      }
-
-      button {
-        cursor: pointer;
-        background: linear-gradient(to right, #7F3EF1, #A94DFC);
-        color: $white;
-        border: 2px solid $purple;
-        font-weight: 500;
-        border-radius: 30px;
-        padding: 10px;
-        transition: .3s ease-in-out;
-
-        &:hover {
-          background: linear-gradient(to right, #A94DFC, #7F3EF1);
-        }
-      }
-    }
-
-    &-right {
-      width: 500px;
       display: flex;
 
       img {
@@ -417,7 +331,7 @@ export default {
             text-align: center;
           }
 
-          a:is(a[href="/login"], a[href="/register"]){
+          a:is(a[href="/login"], a[href="/register"]) {
             width: 100%;
             margin: 7px 0;
           }
@@ -432,8 +346,8 @@ export default {
           }
         }
       }
-      
-      &-right.active{
+
+      &-right.active {
         transform: translateX(0);
       }
     }
