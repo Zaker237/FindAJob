@@ -19,17 +19,19 @@
           <li><a href="#about">A propos</a></li>
           <li><a href="#teams">Teams</a></li>
           <li><a href="#contact">Contact</a></li>
-          <router-link to="/login">
-            <li>
+
+          <li>
+            <router-link to="/login">
               <button class="btn__login">Connexion</button>
-            </li>
-          </router-link>
-          <router-link to="/register">
-            <li>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/register">
               <button class="btn__register">Inscription</button>
-            </li>
-          </router-link>
+            </router-link>
+          </li>
         </ul>
+        <img src="../assets/icons/burger.svg" alt="burger" class="navigation-burger">
       </div>
     </nav>
     <header class="header">
@@ -187,7 +189,7 @@ export default {
       justify-content: center;
 
       li {
-        a {
+        a:is(:not(a[href="/login"], a[href="/register"])) {
           padding: 20px;
           margin: 0 5px;
           font-weight: 600;
@@ -214,6 +216,10 @@ export default {
           color: $primary;
         }
       }
+    }
+
+    &-burger {
+      display: none;
     }
   }
 
@@ -347,6 +353,73 @@ export default {
 
       img {
         width: 100%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 990px) {
+  .home {
+    .navigation {
+      &-left {
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 820px) {
+  .home {
+    .navigation {
+      padding: 10px 0;
+      position: relative;
+
+      &-burger {
+        display: block;
+        cursor: pointer;
+        width: 35px;
+      }
+
+      &-right {
+        position: absolute;
+        left: 0;
+        width: 70%;
+        height: calc(100vh - 70px);
+        background: $ligth;
+        top: 70px;
+        display: flex;
+        flex-direction: column;
+        z-index: 3;
+
+        li {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          a:is(:not(a[href="/login"], a[href="/register"])) {
+            width: 100%;
+            padding: 20px 0;
+            margin: 0;
+            text-align: center;
+          }
+
+          a:is(a[href="/login"], a[href="/register"]){
+            width: 100%;
+            margin: px 0;
+          }
+
+          button {
+            width: 100%;
+            margin: 0;
+          }
+
+          .btn__login {
+            background: $white;
+          }
+        }
       }
     }
   }

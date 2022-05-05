@@ -4,15 +4,15 @@
       <h2>Connectez vous</h2>
       <div class="container-input">
         <label for="email">Adresse email</label>
-        <input id="email" type="email" placeholder="Entrez votre adresse email">
+        <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
       </div>
       <div class="container-input">
         <label for="password">Mot de passe</label>
-        <input id="password" type="password" placeholder="Entrez votre mot de passe">
+        <input v-model="password" id="password" type="password" placeholder="Entrez votre mot de passe" required>
       </div>
       <h3 class="container-options">Pas encore un compte ? <router-link to="/register">Inscrivez vous</router-link></h3>
       <router-link to="/">
-        <button class="container-button">
+        <button @submit.prevent="signIn" class="container-button">
           Se connecter
         </button>
       </router-link>
@@ -22,7 +22,16 @@
 
 <script>
 export default {
-  name: "LoginView"
+  name: "LoginView",
+  data(){
+    return{
+      email: '',
+      password: '',
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
 

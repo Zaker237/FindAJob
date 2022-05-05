@@ -4,15 +4,15 @@
       <h2>Enregistrez vous</h2>
       <div class="container-input">
         <label for="name">Votre nom</label>
-        <input id="name" type="text" placeholder="Entrez votre nom">
+        <input id="name" type="text" placeholder="Entrez votre nom" required>
       </div>
       <div class="container-input">
         <label for="email">Adresse email</label>
-        <input id="email" type="email" placeholder="Entrez votre adresse email">
+        <input id="email" type="email" placeholder="Entrez votre adresse email" required>
       </div>
       <div class="container-input">
         <label for="password">Mot de passe</label>
-        <input id="password" type="password" placeholder="Entrez votre mot de passe">
+        <input id="password" type="password" placeholder="Entrez votre mot de passe" required>
       </div>
       <h3 class="container-options">Deja un compte ? <router-link to="/login">Connectez vous</router-link></h3>
       <router-link to="/">
