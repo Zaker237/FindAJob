@@ -43,7 +43,7 @@
           </router-link>
         </div>
         <div class="header-right">
-          <img src="../assets/illustrations/illustration-5.png" alt="illustration">
+          <img src="../assets/illustrations/illustration-4.png" alt="illustration">
         </div>
       </div>
     </header>

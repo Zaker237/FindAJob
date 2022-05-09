@@ -5,8 +5,14 @@
         <img src="../../assets/icons/arrow-up.svg" alt="back to home">
       </div>
     </router-link>
-    <form class="container" @submit.prevent="Register" >
+    <form class="container" @submit.prevent="Register">
       <h2>Enregistrez vous</h2>
+      <div class="container-socials">
+        <button class="button-google" @click="RegisterGoogle">
+          <img src="../../assets/icons/google.svg" alt="google">
+          <span>Google</span>
+        </button>
+      </div>
       <div class="container-input">
         <label for="name">Votre nom</label>
         <input id="name" type="text" placeholder="Entrez votre nom" required>
@@ -19,24 +25,27 @@
         <label for="password">Mot de passe</label>
         <input v-model="password" id="password" type="password" placeholder="Entrez votre mot de passe" required>
       </div>
-      <h3 class="container-options">Deja un compte ? <router-link to="/login">Connectez vous</router-link></h3>
+      <h3 class="container-options">Deja un compte ?
+        <router-link to="/login">Connectez vous</router-link>
+      </h3>
 
-        <button class="container-button">
-          S' enregistrer
-        </button>
+      <button type="submit" class="container-button">
+        S' enregistrer
+      </button>
     </form>
   </div>
 </template>
 
 <script>
-import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 
 export default {
   data() {
     return {
       email: "",
       password: "",
-      auth : getAuth(),
+      auth: getAuth(),
+      provider: new GoogleAuthProvider()
     }
   },
   methods: {
@@ -45,6 +54,8 @@ export default {
           .then((userCredential) => {
             const user = userCredential.user;
             console.log(user);
+            this.email = "";
+            this.password = "";
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -53,6 +64,21 @@ export default {
             console.log(errorCode);
             console.log(errorMessage);
           });
+    },
+    RegisterGoogle() {
+      signInWithPopup(this.auth, this.provider)
+          .then((result) => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            console.log(token, user);
+          }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorCode, errorMessage, email, credential);
+      });
     }
   }
 }
@@ -61,14 +87,14 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
 
-#register{
+#register {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.back-home{
+.back-home {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -116,6 +142,7 @@ export default {
       }
     }
   }
+
   &-options {
     margin: 10px 0 15px 0;
     font-size: 14px;
@@ -125,6 +152,9 @@ export default {
   }
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: $dark;
     border: 1px solid $dark;
     border-radius: 4px;
@@ -139,6 +169,16 @@ export default {
 
     &:hover {
       box-shadow: 2px 2px 10px #dfdfdf;
+    }
+  }
+
+  .button-google {
+    background: rgb($dark, 0.05);
+    border-width: 2px;
+
+    span {
+      font-weight: 600;
+      margin-left: 10px;
     }
   }
 }

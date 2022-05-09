@@ -5,8 +5,14 @@
         <img src="../../assets/icons/arrow-up.svg" alt="back to home">
       </div>
     </router-link>
-    <form class="container" @submit.prevent="Login" >
+    <form class="container" @submit.prevent="Login">
       <h2>Connectez vous</h2>
+      <div class="container-socials">
+        <button class="button-google" @click="LoginGoogle">
+          <img src="../../assets/icons/google.svg" alt="google">
+          <span>Google</span>
+        </button>
+      </div>
       <div class="container-input">
         <label for="email">Adresse email</label>
         <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
@@ -18,7 +24,7 @@
       <h3 class="container-options">Pas encore un compte ?
         <router-link to="/register">Inscrivez vous</router-link>
       </h3>
-      <button class="container-button">
+      <button type="submit" class="container-button">
         Se connecter
       </button>
     </form>
@@ -26,14 +32,15 @@
 </template>
 
 <script>
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
 
 export default {
   data() {
     return {
       email: "",
       password: "",
-      auth : getAuth(),
+      auth: getAuth(),
+      provider: new GoogleAuthProvider()
     }
   },
   methods: {
@@ -50,6 +57,21 @@ export default {
             console.log(errorCode);
             console.log(errorMessage);
           });
+    },
+    LoginGoogle() {
+      signInWithPopup(this.auth, this.provider)
+          .then((result) => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            console.log(token, user);
+          }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorCode, errorMessage, email, credential);
+      });
     }
   }
 }
@@ -123,6 +145,9 @@ export default {
   }
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: $dark;
     border: 1px solid $dark;
     border-radius: 4px;
@@ -137,6 +162,15 @@ export default {
 
     &:hover {
       box-shadow: 2px 2px 10px #dfdfdf;
+    }
+  }
+
+  .button-google{
+    background: rgb($dark, 0.05);
+    border-width: 2px;
+    span{
+      font-weight: 600;
+      margin-left: 10px;
     }
   }
 }
