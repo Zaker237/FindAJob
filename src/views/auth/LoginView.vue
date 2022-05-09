@@ -5,7 +5,7 @@
         <img src="../../assets/icons/arrow-up.svg" alt="back to home">
       </div>
     </router-link>
-    <div class="container">
+    <form class="container" @submit.prevent="Login" >
       <h2>Connectez vous</h2>
       <div class="container-input">
         <label for="email">Adresse email</label>
@@ -15,27 +15,42 @@
         <label for="password">Mot de passe</label>
         <input v-model="password" id="password" type="password" placeholder="Entrez votre mot de passe" required>
       </div>
-      <h3 class="container-options">Pas encore un compte ? <router-link to="/register">Inscrivez vous</router-link></h3>
-      <router-link to="/">
-        <button @submit.prevent="signIn" class="container-button">
-          Se connecter
-        </button>
-      </router-link>
-    </div>
+      <h3 class="container-options">Pas encore un compte ?
+        <router-link to="/register">Inscrivez vous</router-link>
+      </h3>
+      <button class="container-button">
+        Se connecter
+      </button>
+    </form>
   </div>
 </template>
 
 <script>
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+
 export default {
-  name: "LoginView",
-  data(){
-    return{
-      email: '',
-      password: '',
+  data() {
+    return {
+      email: "",
+      password: "",
+      auth : getAuth(),
     }
   },
   methods: {
+    Login() {
+      signInWithEmailAndPassword(this.auth, this.email, this.password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
 
+            console.log(errorCode);
+            console.log(errorMessage);
+          });
+    }
   }
 }
 </script>
@@ -43,14 +58,14 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
 
-#login{
+#login {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.back-home{
+.back-home {
   position: absolute;
   top: 10px;
   left: 10px;

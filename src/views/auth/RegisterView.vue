@@ -5,7 +5,7 @@
         <img src="../../assets/icons/arrow-up.svg" alt="back to home">
       </div>
     </router-link>
-    <div class="container">
+    <form class="container" @submit.prevent="Register" >
       <h2>Enregistrez vous</h2>
       <div class="container-input">
         <label for="name">Votre nom</label>
@@ -13,25 +13,48 @@
       </div>
       <div class="container-input">
         <label for="email">Adresse email</label>
-        <input id="email" type="email" placeholder="Entrez votre adresse email" required>
+        <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
       </div>
       <div class="container-input">
         <label for="password">Mot de passe</label>
-        <input id="password" type="password" placeholder="Entrez votre mot de passe" required>
+        <input v-model="password" id="password" type="password" placeholder="Entrez votre mot de passe" required>
       </div>
       <h3 class="container-options">Deja un compte ? <router-link to="/login">Connectez vous</router-link></h3>
-      <router-link to="/">
+
         <button class="container-button">
           S' enregistrer
         </button>
-      </router-link>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
+import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
+
 export default {
-  name: "LoginView"
+  data() {
+    return {
+      email: "",
+      password: "",
+      auth : getAuth(),
+    }
+  },
+  methods: {
+    Register() {
+      createUserWithEmailAndPassword(this.auth, this.email, this.password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+
+            console.log(errorCode);
+            console.log(errorMessage);
+          });
+    }
+  }
 }
 </script>
 

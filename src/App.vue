@@ -4,16 +4,30 @@
   </div>
 </template>
 
+<script>
+import {onBeforeMount} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import { getAuth } from "firebase/auth";
+
+export default {
+  name: "App",
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+
+    onBeforeMount(() => {
+      getAuth().onAuthStateChanged(user => {
+        if (!user) {
+          router.replace("/login");
+        } else if (route.path === "/login" || route.path === "/register") {
+          router.replace("/");
+        }
+      });
+    });
+  }
+}
+</script>
+
 <style lang="scss">
 @import "assets/styles/settings";
 </style>
-
-<!--// Your web app's Firebase configuration-->
-<!--const firebaseConfig = {-->
-<!--apiKey: "AIzaSyAlgyANTqqFark6TkJ5f9GtnsGl7PeZ3ng",-->
-<!--authDomain: "findajob-f22d4.firebaseapp.com",-->
-<!--projectId: "findajob-f22d4",-->
-<!--storageBucket: "findajob-f22d4.appspot.com",-->
-<!--messagingSenderId: "511888801631",-->
-<!--appId: "1:511888801631:web:fd77919b257456664600ea"-->
-<!--};-->
