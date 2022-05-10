@@ -24,8 +24,11 @@
       <h3 class="container-options">Pas encore un compte ?
         <router-link to="/register">Inscrivez vous</router-link>
       </h3>
-      <button type="submit" class="container-button">
+      <button type="submit" class="container-button" v-if="!isLoading">
         Se connecter
+      </button>
+      <button class="container-button" v-else style="cursor: not-allowed">
+        Traitement ...
       </button>
     </form>
   </div>
@@ -40,11 +43,13 @@ export default {
       email: "",
       password: "",
       auth: getAuth(),
+      isLoading: false,
       provider: new GoogleAuthProvider()
     }
   },
   methods: {
     Login() {
+      this.isLoading = true;
       signInWithEmailAndPassword(this.auth, this.email, this.password)
           .then((userCredential) => {
             const user = userCredential.user;

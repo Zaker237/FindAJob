@@ -25,13 +25,22 @@
         <label for="password">Mot de passe</label>
         <input v-model="password" id="password" type="password" placeholder="Entrez votre mot de passe" required>
       </div>
+      <div class="container-input">
+        <input v-model="confirmPassword" id="confirm-password" type="password" placeholder="Confirmez votre mot de passe" required>
+        <span v-show="isDifferent" style="color: red; font-style: italic; font-size: 13px; font-weight: 500; margin-top: 10px">Les mots de passe sont differents</span>
+      </div>
       <h3 class="container-options">Deja un compte ?
         <router-link to="/login">Connectez vous</router-link>
       </h3>
 
-      <button type="submit" class="container-button">
-        S' enregistrer
-      </button>
+
+        <button type="submit" class="container-button" v-if="!isLoading">
+          S'enregistrer
+        </button>
+        <button class="container-button" v-else style="cursor: not-allowed">
+          Traitement ...
+        </button>
+
     </form>
   </div>
 </template>
@@ -44,26 +53,37 @@ export default {
     return {
       email: "",
       password: "",
+      confirmPassword: "",
+      isLoading: false,
+      isDifferent: false,
       auth: getAuth(),
       provider: new GoogleAuthProvider()
     }
   },
   methods: {
     Register() {
-      createUserWithEmailAndPassword(this.auth, this.email, this.password)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
-            this.email = "";
-            this.password = "";
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
+      if (this.password === this.confirmPassword) {
+        document.querySelector('#confirm-password').classList.remove('error');
+        this.isLoading = true;
+        this.isDifferent = false;
+        createUserWithEmailAndPassword(this.auth, this.email, this.password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              console.log(user);
+              this.email = "";
+              this.password = "";
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
 
-            console.log(errorCode);
-            console.log(errorMessage);
-          });
+              console.log(errorCode);
+              console.log(errorMessage);
+            });
+      } else {
+        document.querySelector('#confirm-password').classList.add('error');
+        this.isDifferent = true;
+      }
     },
     RegisterGoogle() {
       signInWithPopup(this.auth, this.provider)
@@ -170,6 +190,14 @@ export default {
     &:hover {
       box-shadow: 2px 2px 10px #dfdfdf;
     }
+  }
+
+  #confirm-password.error{
+    border: 2px solid red;
+  }
+
+  .container-button.loading {
+    background: green;
   }
 
   .button-google {
