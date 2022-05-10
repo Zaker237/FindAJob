@@ -42,7 +42,7 @@
       <button type="submit" class="container-button" v-if="!isLoading">
         S'enregistrer
       </button>
-      <button class="container-button" v-else style="cursor: not-allowed">
+      <button class="container-button" v-else style="cursor: not-allowed;">
         Traitement ...
       </button>
 

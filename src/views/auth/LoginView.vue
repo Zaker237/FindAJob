@@ -20,6 +20,10 @@
       <div class="container-error" v-if="isWrongPassword">
         <span>Mot de passe incorrect !</span>
       </div>
+      <div class="container-error" v-if="isTooManyRequests">
+        <span>Vous avez effectue' trop de requetes</span>
+        <span>Veuillez patienter ....</span>
+      </div>
       <div class="container-input">
         <label for="email">Adresse email</label>
         <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
@@ -34,7 +38,7 @@
       <button type="submit" class="container-button" v-if="!isLoading">
         Se connecter
       </button>
-      <button class="container-button" v-else style="cursor: not-allowed">
+      <button class="container-button" v-else style="cursor: not-allowed;">
         Traitement ...
       </button>
     </form>
@@ -51,6 +55,7 @@ export default {
       password: "",
       isNotUserExist: false,
       isWrongPassword: false,
+      isTooManyRequests: false,
       auth: getAuth(),
       isLoading: false,
       provider: new GoogleAuthProvider()
@@ -61,6 +66,7 @@ export default {
       this.isLoading = true;
       this.isNotUserExist = false;
       this.isWrongPassword = false;
+      this.isTooManyRequests = false;
       signInWithEmailAndPassword(this.auth, this.email, this.password)
           .then((userCredential) => {
             const user = userCredential.user;
@@ -79,6 +85,11 @@ export default {
 
             if (errorCode === "auth/wrong-password") {
               this.isWrongPassword = true;
+              this.isLoading = false;
+            }
+
+            if (errorCode === "auth/too-many-requests") {
+              this.isTooManyRequests = true;
               this.isLoading = false;
             }
 
