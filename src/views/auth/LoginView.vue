@@ -96,7 +96,7 @@ export default {
           });
     },
     LoginGoogle() {
-      signInWithRedirect(this.auth, this.provider);
+      signInWithRedirect(this.auth, this.provider)
     }
   }
 }

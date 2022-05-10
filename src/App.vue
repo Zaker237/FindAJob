@@ -24,8 +24,12 @@ export default {
         } else {
           if ((route.path === "/")) {
             router.replace("/");
-          } else {
+          } else if ((route.path === "/login")) {
             router.replace("/login");
+          } else if ((route.path === "/register")) {
+            router.replace("/register");
+          } else {
+            router.replace("/");
           }
         }
       });

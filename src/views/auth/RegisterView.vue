@@ -16,6 +16,11 @@
       <div class="container-error" v-if="isAlreadyExist">
         <span>Ce compte existe deja !</span>
       </div>
+      <div class="container-error" v-if="isWeakPassword">
+          <span>
+            Le mot de passe doit contenir au moins 6 caracteres
+          </span>
+      </div>
       <!--      <div class="container-input">-->
       <!--        <label for="name">Votre nom</label>-->
       <!--        <input v-model="displayName" id="name" type="text" placeholder="Entrez votre nom" required>-->
@@ -63,6 +68,7 @@ export default {
       isLoading: false,
       isDifferent: false,
       isAlreadyExist: false,
+      isWeakPassword: false,
       auth: getAuth(),
       provider: new GoogleAuthProvider()
     }
@@ -74,6 +80,7 @@ export default {
         this.isLoading = true;
         this.isDifferent = false;
         this.isAlreadyExist = false;
+        this.isWeakPassword = false;
         createUserWithEmailAndPassword(this.auth, this.email, this.password)
             .then((userCredential) => {
               const user = userCredential.user;
@@ -90,6 +97,11 @@ export default {
 
               if(errorCode === 'auth/email-already-in-use') {
                 this.isAlreadyExist = true;
+                this.isLoading = false;
+              }
+
+              if(errorCode === 'auth/weak-password') {
+                this.isWeakPassword = true;
                 this.isLoading = false;
               }
             });
