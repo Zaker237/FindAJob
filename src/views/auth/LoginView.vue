@@ -13,6 +13,13 @@
           <span>Google</span>
         </button>
       </div>
+      <div class="container-error" v-if="isNotUserExist">
+        <span>Cet utilisateur n' existe pas !</span>
+        <span>Veuillez creer un compte.</span>
+      </div>
+      <div class="container-error" v-if="isWrongPassword">
+        <span>Mot de passe incorrect !</span>
+      </div>
       <div class="container-input">
         <label for="email">Adresse email</label>
         <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
@@ -42,6 +49,8 @@ export default {
     return {
       email: "",
       password: "",
+      isNotUserExist: false,
+      isWrongPassword: false,
       auth: getAuth(),
       isLoading: false,
       provider: new GoogleAuthProvider()
@@ -50,6 +59,8 @@ export default {
   methods: {
     Login() {
       this.isLoading = true;
+      this.isNotUserExist = false;
+      this.isWrongPassword = false;
       signInWithEmailAndPassword(this.auth, this.email, this.password)
           .then((userCredential) => {
             const user = userCredential.user;
@@ -58,9 +69,19 @@ export default {
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-
             console.log(errorCode);
             console.log(errorMessage);
+
+            if (errorCode === "auth/user-not-found") {
+              this.isNotUserExist = true;
+              this.isLoading = false;
+            }
+
+            if (errorCode === "auth/wrong-password") {
+              this.isWrongPassword = true;
+              this.isLoading = false;
+            }
+
           });
     },
     LoginGoogle() {
@@ -135,6 +156,23 @@ export default {
     font-weight: 500;
     color: #252F3F;
     text-align: right;
+  }
+
+  &-error{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    padding: 5px 0;
+    border: 2px solid red;
+    border-radius: 5px;
+    background: rgba(red, 0.05);
+    span{
+      font-size: 13px;
+      font-weight: 500;
+      color: red;
+    }
   }
 
   button {

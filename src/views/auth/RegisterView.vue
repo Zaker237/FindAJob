@@ -13,10 +13,13 @@
           <span>Google</span>
         </button>
       </div>
-<!--      <div class="container-input">-->
-<!--        <label for="name">Votre nom</label>-->
-<!--        <input v-model="displayName" id="name" type="text" placeholder="Entrez votre nom" required>-->
-<!--      </div>-->
+      <div class="container-error" v-if="isAlreadyExist">
+        <span>Ce compte existe deja !</span>
+      </div>
+      <!--      <div class="container-input">-->
+      <!--        <label for="name">Votre nom</label>-->
+      <!--        <input v-model="displayName" id="name" type="text" placeholder="Entrez votre nom" required>-->
+      <!--      </div>-->
       <div class="container-input">
         <label for="email">Adresse email</label>
         <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
@@ -26,20 +29,22 @@
         <input v-model="password" id="password" type="password" placeholder="Entrez votre mot de passe" required>
       </div>
       <div class="container-input">
-        <input v-model="confirmPassword" id="confirm-password" type="password" placeholder="Confirmez votre mot de passe" required>
-        <span v-show="isDifferent" style="color: red; font-style: italic; font-size: 13px; font-weight: 500; margin-top: 10px">Les mots de passe sont differents</span>
+        <input v-model="confirmPassword" id="confirm-password" type="password"
+               placeholder="Confirmez votre mot de passe" required>
+        <span v-show="isDifferent"
+              style="color: red; font-style: italic; font-size: 13px; font-weight: 500; margin-top: 10px">Les mots de passe sont differents</span>
       </div>
       <h3 class="container-options">Deja un compte ?
         <router-link to="/login">Connectez vous</router-link>
       </h3>
 
 
-        <button type="submit" class="container-button" v-if="!isLoading">
-          S'enregistrer
-        </button>
-        <button class="container-button" v-else style="cursor: not-allowed">
-          Traitement ...
-        </button>
+      <button type="submit" class="container-button" v-if="!isLoading">
+        S'enregistrer
+      </button>
+      <button class="container-button" v-else style="cursor: not-allowed">
+        Traitement ...
+      </button>
 
     </form>
   </div>
@@ -57,6 +62,7 @@ export default {
       displayName: "",
       isLoading: false,
       isDifferent: false,
+      isAlreadyExist: false,
       auth: getAuth(),
       provider: new GoogleAuthProvider()
     }
@@ -67,6 +73,7 @@ export default {
         document.querySelector('#confirm-password').classList.remove('error');
         this.isLoading = true;
         this.isDifferent = false;
+        this.isAlreadyExist = false;
         createUserWithEmailAndPassword(this.auth, this.email, this.password)
             .then((userCredential) => {
               const user = userCredential.user;
@@ -80,6 +87,11 @@ export default {
 
               console.log(errorCode);
               console.log(errorMessage);
+
+              if(errorCode === 'auth/email-already-in-use') {
+                this.isAlreadyExist = true;
+                this.isLoading = false;
+              }
             });
       } else {
         document.querySelector('#confirm-password').classList.add('error');
@@ -94,12 +106,12 @@ export default {
             const user = result.user;
             console.log(token, user);
           }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage, email, credential);
-      });
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const email = error.email;
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log(errorCode, errorMessage, email, credential);
+          });
     }
   }
 }
@@ -172,6 +184,23 @@ export default {
     text-align: right;
   }
 
+  &-error{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    padding: 5px 0;
+    border: 2px solid red;
+    border-radius: 5px;
+    background: rgba(red, 0.05);
+    span{
+      font-size: 13px;
+      font-weight: 500;
+      color: red;
+    }
+  }
+
   button {
     display: flex;
     justify-content: center;
@@ -193,7 +222,7 @@ export default {
     }
   }
 
-  #confirm-password.error{
+  #confirm-password.error {
     border: 2px solid red;
   }
 
