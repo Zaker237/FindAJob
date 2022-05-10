@@ -17,8 +17,8 @@
         </div>
         <ul class="navigation-right">
           <li><a href="#about">A propos</a></li>
-          <li><a href="#teams">Teams</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li><a href="#" style="color: #bcbec3; cursor: not-allowed">Contribuer</a></li>
           <li>
             <router-link to="/login">
               <button class="btn__login">Connexion</button>
@@ -48,14 +48,19 @@
       </div>
     </header>
     <div class="about" id="about">
-    </div>
-    <div class="teams" id="teams">
-      <div class="teams__center">
-        <div class="card">
-          <img src="" alt="">
-          <div class="card-footer">
-
-          </div>
+      <h1 class="about-title"><span>C</span>omment ca fonctionne ?</h1>
+      <div class="about__center">
+        <div class="about-card">
+          <img src="../assets/illustrations/step-1.svg" alt="step 1">
+          <p>Creez vous un compte en moins de 2 minutes.</p>
+        </div>
+        <div class="about-card">
+          <img src="../assets/illustrations/step-2.svg" alt="step 2">
+          <p>Creez ou postulez a une offre d' emploi.</p>
+        </div>
+        <div class="about-card">
+          <img src="../assets/illustrations/step-3.svg" alt="step 3">
+          <p>C' est tout ! Vous avez votre job !</p>
         </div>
       </div>
     </div>
@@ -298,8 +303,56 @@ export default {
   }
 
   .about{
-    min-height: 100vh;
+    // min-height: 100vh;
     background: url("../assets/images/bubbles.svg");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 50px 0;
+    &-title {
+      font-size: 56px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 50px;
+      span{
+        font-size: 60px;
+        font-weight: 700;
+        color: $purple;
+        @media screen and (max-width: 1200px) {
+          font-size: 44px;
+        }
+      }
+      @media screen and (max-width: 1200px) {
+        font-size: 40px;
+      }
+    }
+    &__center {
+      position: relative;
+      width: 80%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &-card{
+      background: $white;
+      border-radius: 5px;
+      box-shadow: 2px 2px 10px #dfdfdf;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      img{
+        width: 300px;
+      }
+      p{
+        font-family: 'Inter', sans-serif;
+        font-style: italic;
+        font-size:  16px;
+        text-align: center;
+      }
+    }
   }
 
   .contact {
@@ -309,6 +362,8 @@ export default {
     flex-direction: column;
     width: 100%;
     margin-bottom: 30px;
+    padding-top: 50px;
+    background-image: repeating-linear-gradient(45deg, rgb(255,255,255) 0px, rgb(255,255,255) 10px,transparent 10px, transparent 11px),repeating-linear-gradient(135deg, rgb(255,255,255) 0px, rgb(255,255,255) 10px,transparent 10px, transparent 11px),linear-gradient(90deg, hsl(256,7%,84%),hsl(256,7%,84%));
     form {
       width: clamp(40%, 400px, 95%);
       padding: 15px;
