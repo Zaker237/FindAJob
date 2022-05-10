@@ -50,18 +50,24 @@
     <div class="about" id="about">
       <h1 class="about-title"><span>C</span>omment ca fonctionne ?</h1>
       <div class="about__center">
-        <div class="about-card">
-          <img src="../assets/illustrations/step-1.svg" alt="step 1">
-          <p>Creez vous un compte en moins de 2 minutes.</p>
-        </div>
-        <div class="about-card">
-          <img src="../assets/illustrations/step-2.svg" alt="step 2">
-          <p>Creez ou postulez a une offre d' emploi.</p>
-        </div>
-        <div class="about-card">
-          <img src="../assets/illustrations/step-3.svg" alt="step 3">
-          <p>C' est tout ! Vous avez votre job !</p>
-        </div>
+        <router-link to="/login">
+          <div class="about-card">
+            <img src="../assets/illustrations/step-1.svg" alt="step 1">
+            <p>Creez vous un compte en moins de 2 minutes.</p>
+          </div>
+        </router-link>
+        <router-link to="/login">
+          <div class="about-card">
+            <img src="../assets/illustrations/step-2.svg" alt="step 2">
+            <p>Creez ou postulez a une offre d' emploi.</p>
+          </div>
+        </router-link>
+        <router-link to="/login">
+          <div class="about-card">
+            <img src="../assets/illustrations/step-3.svg" alt="step 3">
+            <p>C' est tout ! Vous avez votre job !</p>
+          </div>
+        </router-link>
       </div>
     </div>
     <div class="contact" id="contact">
@@ -302,20 +308,24 @@ export default {
     }
   }
 
-  .about{
+  .about {
     // min-height: 100vh;
     background: url("../assets/images/bubbles.svg");
+    // background-repeat: no-repeat;
+    // background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     padding: 50px 0;
+
     &-title {
       font-size: 56px;
       font-weight: 700;
       text-align: center;
       margin-bottom: 50px;
-      span{
+
+      span {
         font-size: 60px;
         font-weight: 700;
         color: $purple;
@@ -323,18 +333,23 @@ export default {
           font-size: 44px;
         }
       }
+
       @media screen and (max-width: 1200px) {
         font-size: 40px;
       }
     }
+
     &__center {
       position: relative;
       width: 80%;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      // selection son dexieme element enfant
     }
-    &-card{
+
+    &-card {
+      position: relative;
       background: $white;
       border-radius: 5px;
       box-shadow: 2px 2px 10px #dfdfdf;
@@ -343,14 +358,59 @@ export default {
       align-items: center;
       justify-content: center;
       padding: 10px;
-      img{
+      overflow: hidden;
+
+      img {
         width: 300px;
       }
-      p{
+
+      p {
         font-family: 'Inter', sans-serif;
         font-style: italic;
-        font-size:  16px;
+        font-size: 16px;
         text-align: center;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: $dark;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        font-size: 30px;
+        color: $white;
+        transform-origin: left bottom;
+        transform: scale(0);
+        transition: .5s ease-in-out;
+        border-radius: 50%;
+      }
+
+      &:hover::before {
+        transform: scale(100%);
+      }
+    }
+
+    &__center {
+      a:nth-child(1) {
+        .about-card::before {
+          content: '1';
+        }
+      }
+
+      a:nth-child(2) {
+        .about-card::before {
+          content: '2';
+        }
+      }
+
+      a:nth-child(3) {
+        .about-card::before {
+          content: '3';
+        }
       }
     }
   }
@@ -363,19 +423,23 @@ export default {
     width: 100%;
     margin-bottom: 30px;
     padding-top: 50px;
-    background-image: repeating-linear-gradient(45deg, rgb(255,255,255) 0px, rgb(255,255,255) 10px,transparent 10px, transparent 11px),repeating-linear-gradient(135deg, rgb(255,255,255) 0px, rgb(255,255,255) 10px,transparent 10px, transparent 11px),linear-gradient(90deg, hsl(256,7%,84%),hsl(256,7%,84%));
+    background-image: repeating-linear-gradient(45deg, rgb(255, 255, 255) 0px, rgb(255, 255, 255) 10px, transparent 10px, transparent 11px), repeating-linear-gradient(135deg, rgb(255, 255, 255) 0px, rgb(255, 255, 255) 10px, transparent 10px, transparent 11px), linear-gradient(90deg, hsl(256, 7%, 84%), hsl(256, 7%, 84%));
+
     form {
       width: clamp(40%, 400px, 95%);
       padding: 15px;
       box-shadow: 2px 2px 10px #dfdfdf;
       background: $white;
-      h2{
+
+      h2 {
         font-weight: 600;
-        span{
+
+        span {
           font-weight: 700;
           color: $purple;
         }
       }
+
       div {
         display: flex;
         flex-direction: column;
@@ -414,16 +478,19 @@ export default {
         transition: box-shadow 0.2s ease-in-out;
       }
     }
-    .line{
+
+    .line {
       margin: 15px 0;
     }
+
     &-socials {
       width: clamp(40%, 400px, 95%);
       display: flex;
       justify-content: space-around;
       align-items: center;
       margin-top: 20px;
-      a{
+
+      a {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -431,10 +498,12 @@ export default {
         background: $ligth;
         padding: 10px;
         transition: .3s ease-in-out;
-        img{
+
+        img {
           width: 30px;
         }
-        &:hover{
+
+        &:hover {
           box-shadow: 2px 2px 10px #dfdfdf;
         }
       }
