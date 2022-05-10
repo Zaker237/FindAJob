@@ -175,10 +175,17 @@ export default {
   .button-google {
     background: rgb($dark, 0.05);
     border-width: 2px;
+    border-color: transparent;
+    transition: .3s ease-in-out;
 
     span {
       font-weight: 600;
       margin-left: 10px;
+    }
+
+    &:hover {
+      background: rgb($dark, 0.075);
+      box-shadow: none;
     }
   }
 }

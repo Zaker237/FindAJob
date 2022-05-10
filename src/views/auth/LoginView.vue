@@ -66,11 +66,11 @@ export default {
             const user = result.user;
             console.log(token, user);
           }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage, email, credential);
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const email = error.email;
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log(errorCode, errorMessage, email, credential);
       });
     }
   }
@@ -165,12 +165,20 @@ export default {
     }
   }
 
-  .button-google{
+  .button-google {
     background: rgb($dark, 0.05);
     border-width: 2px;
-    span{
+    border-color: transparent;
+    transition: .3s ease-in-out;
+
+    span {
       font-weight: 600;
       margin-left: 10px;
+    }
+
+    &:hover {
+      background: rgb($dark, 0.075);
+      box-shadow: none;
     }
   }
 }

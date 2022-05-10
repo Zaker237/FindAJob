@@ -64,6 +64,7 @@
           action="https://formspree.io/f/xzboklab"
           method="POST"
       >
+        <h2><span>C</span>ontactez nous</h2>
         <div>
           <label for="email"></label>
           <input type="email" name="email" id="email" placeholder="Entrez votre mail" required>
@@ -74,6 +75,14 @@
         </div>
         <button type="submit">Envoyer</button>
       </form>
+      <div class="contact-socials">
+        <a href="https://twitter.com/ln_dev7" target="_blank">
+          <img src="../assets/icons/twitter.svg" alt="twitter">
+        </a>
+        <a href="https://www.linkedin.com/in/lndev" target="_blank">
+          <img src="../assets/icons/linkedin.svg" alt="linkedin">
+        </a>
+      </div>
     </div>
     <p class="copy">&copy; Tout droits réservés - Find A Job - 2022</p>
   </div>
@@ -288,16 +297,30 @@ export default {
     }
   }
 
+  .about{
+    min-height: 100vh;
+    background: url("../assets/images/bubbles.svg");
+  }
+
   .contact {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
     margin-bottom: 30px;
     form {
-      background: $dark;
       width: clamp(40%, 400px, 95%);
-      padding: 10px;
+      padding: 15px;
+      box-shadow: 2px 2px 10px #dfdfdf;
+      background: $white;
+      h2{
+        font-weight: 600;
+        span{
+          font-weight: 700;
+          color: $purple;
+        }
+      }
       div {
         display: flex;
         flex-direction: column;
@@ -313,7 +336,6 @@ export default {
         input, textarea {
           width: 100%;
           border: 1px solid #E5E7EB;
-          border-radius: 4px;
           padding: 10px;
           outline: none;
           resize: none;
@@ -325,19 +347,39 @@ export default {
       }
 
       button {
-        background: $dark;
-        border: 1px solid $dark;
-        border-radius: 4px;
+        background: $ligth;
+        border: 1px solid $ligth;
         padding: 10px;
         width: 100%;
         font-size: 16px;
         font-weight: 500;
-        color: $ligth;
+        color: $dark;
         margin-top: 20px;
         cursor: pointer;
         transition: box-shadow 0.2s ease-in-out;
-
-        &:hover {
+      }
+    }
+    .line{
+      margin: 15px 0;
+    }
+    &-socials {
+      width: clamp(40%, 400px, 95%);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 20px;
+      a{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: $ligth;
+        padding: 10px;
+        transition: .3s ease-in-out;
+        img{
+          width: 30px;
+        }
+        &:hover{
           box-shadow: 2px 2px 10px #dfdfdf;
         }
       }
@@ -350,7 +392,7 @@ export default {
     padding: 10px 0;
     font-size: 16px;
     font-weight: 600;
-    background: $white;
+    background: rgb($dark, 0.05);
   }
 }
 
