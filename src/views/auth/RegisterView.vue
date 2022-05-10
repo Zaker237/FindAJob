@@ -13,10 +13,10 @@
           <span>Google</span>
         </button>
       </div>
-      <div class="container-input">
-        <label for="name">Votre nom</label>
-        <input id="name" type="text" placeholder="Entrez votre nom" required>
-      </div>
+<!--      <div class="container-input">-->
+<!--        <label for="name">Votre nom</label>-->
+<!--        <input v-model="displayName" id="name" type="text" placeholder="Entrez votre nom" required>-->
+<!--      </div>-->
       <div class="container-input">
         <label for="email">Adresse email</label>
         <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
@@ -54,6 +54,7 @@ export default {
       email: "",
       password: "",
       confirmPassword: "",
+      displayName: "",
       isLoading: false,
       isDifferent: false,
       auth: getAuth(),

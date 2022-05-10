@@ -19,8 +19,14 @@ export default {
       getAuth().onAuthStateChanged(user => {
         if ((user) && (route.path === "/login" || route.path === "/register" || route.path === "/")) {
           router.replace("/dashboard");
+          const uid = user.uid;
+          console.log(uid);
         } else {
-          router.replace("/login");
+          if ((route.path === "/")) {
+            router.replace("/");
+          } else {
+            router.replace("/login");
+          }
         }
       });
     });
