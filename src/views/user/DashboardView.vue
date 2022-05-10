@@ -1,20 +1,23 @@
 <template>
-  <p v-if="!isEmailVerified" class="verify-email">
-    <span @click="verifyEmail">Veuillez verifier votre email pour activer votre compte.</span>
-  </p>
-  <h1>{{currentUser.email}}</h1>
-  <h1>{{displayName}}</h1>
-  <h1>{{photoURL}}</h1>
-  <router-link to="/jobs">
-    JOBS
-  </router-link>
-  <button @click="Logout">Deconnexion</button>
+  <Header />
+  <div class="dashboard-body">
+    <SideBar/>
+    <div class="body-content">
+      <h1>DASHBOARD</h1>
+    </div>
+    <div class="body-options">
+
+    </div>
+  </div>
 </template>
 
 <script>
-import { getAuth, signOut, sendEmailVerification } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import SideBar from "@/components/SideBar";
+import Header from "@/components/Header";
 
 export default {
+  components: {Header, SideBar},
   data() {
     return {
       auth: getAuth(),
@@ -24,52 +27,24 @@ export default {
       photoURL : getAuth().currentUser.photoURL,
     }
   },
-  methods: {
-    verifyEmail() {
-      sendEmailVerification(this.currentUser)
-          .then(() => {
-            alert('Email verification sent!');
-          });
-    },
-    Logout() {
-      signOut(this.auth)
-          .then(() => {
-            alert('SUCCESS')
-          }).catch((error) => {
-            console.log(error);
-      });
-    },
-  },
-  // imported 'deleteUser'
-  // mounted() {
-  //   if (!this.emailVerified) {
-  //     setTimeout(() => {
-  //       deleteUser(this.currentUser).then(() => {
-  //         console.log('User deleted!');
-  //       }).catch((error) => {
-  //         console.log(error);
-  //       });
-  //       this.Logout();
-  //     }, 1000 * 60 * 60 * 24);
-  //   }
-  // }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
-.verify-email{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: $default;
-  span{
-    color: $white;
-    text-decoration: underline;
-    text-align: center;
-    padding: 5px 0;
-    font-weight: 500;
-    cursor: pointer;
-  }
+.dashboard-body{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 0px;
+}
+.body-content{
+  grid-area: 1 / 3 / 2 / 10;
+  background: crimson;
+}
+.body-options{
+  grid-area: 1 / 10 / 2 / 13;
+  background: cadetblue;
 }
 </style>

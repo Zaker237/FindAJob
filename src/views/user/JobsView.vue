@@ -1,9 +1,19 @@
 <template>
-  <h2>Aucune offre pour le moment</h2>
+  <Header/>
+  <div class="jobs-body">
+    <SideBar/>
+    <div class="body-content">
+      <h1>JOBS</h1>
+    </div>
+  </div>
 </template>
 
 <script>
+import SideBar from "@/components/SideBar";
+import Header from "@/components/Header";
+
 export default {
+  components: {Header, SideBar}
 }
 </script>
 

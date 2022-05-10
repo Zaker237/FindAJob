@@ -21,10 +21,16 @@ export default {
           if (route.path === "/" || route.path === "/login" || route.path === "/register") {
             router.push("/dashboard");
           }
+          console.log("CONNECTED");
+          if ((user.emailVerified === false ) && (route.path === "/jobs")) {
+            router.push("/dashboard")
+            console.log('pff')
+          }
         } else {
           if (route.path !== "/" && route.path !== "/login" && route.path !== "/register") {
             router.push("/");
           }
+          console.log("DECONNECTED");
         }
       });
     });
