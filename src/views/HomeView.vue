@@ -439,7 +439,7 @@ export default {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 30px;
+    padding-bottom: 30px;
     padding-top: 50px;
     background-image: repeating-linear-gradient(45deg, rgb(255, 255, 255) 0px, rgb(255, 255, 255) 10px, transparent 10px, transparent 11px), repeating-linear-gradient(135deg, rgb(255, 255, 255) 0px, rgb(255, 255, 255) 10px, transparent 10px, transparent 11px), linear-gradient(90deg, hsl(256, 7%, 84%), hsl(256, 7%, 84%));
 

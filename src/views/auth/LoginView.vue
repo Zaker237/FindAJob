@@ -8,7 +8,7 @@
     <form class="container" @submit.prevent="Login">
       <h2>Connectez vous</h2>
       <div class="container-socials">
-        <button class="button-google" @click="LoginGoogle">
+        <button class="button-google" @click.stop="LoginGoogle">
           <img src="../../assets/icons/google.svg" alt="google">
           <span>Google</span>
         </button>
