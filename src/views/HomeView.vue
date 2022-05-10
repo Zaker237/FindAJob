@@ -63,7 +63,7 @@
           <p>C' est tout ! Vous avez votre job !</p>
         </div>
       </div>
-      <router-link to="/loin">
+      <router-link to="/login">
         <button>Commencez</button>
       </router-link>
     </div>
