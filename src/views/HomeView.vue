@@ -97,6 +97,13 @@
 </template>
 
 <script>
+window.onscroll = function() {
+  if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+    document.querySelector(".arrow-up").classList.add("active");
+  } else {
+    document.querySelector(".arrow-up").classList.remove("active");
+  }
+}
 export default {
   name: "HomeView",
   methods: {
@@ -127,10 +134,15 @@ export default {
     border-radius: 50%;
     width: 35px;
     height: 35px;
+    display: none;
 
     img {
       width: 25px;
     }
+  }
+
+  .arrow-up.active {
+    display: flex;
   }
 
   .navigation {

@@ -1,10 +1,13 @@
 <template>
-  <p v-if="!emailVerified">
+  <p v-if="!isEmailVerified" class="verify-email">
     <span @click="verifyEmail">Veuillez verifier votre email pour activer votre compte.</span>
   </p>
   <h1>{{currentUser.email}}</h1>
   <h1>{{displayName}}</h1>
   <h1>{{photoURL}}</h1>
+  <router-link to="/jobs">
+    JOBS
+  </router-link>
   <button @click="Logout">Deconnexion</button>
 </template>
 
@@ -16,7 +19,7 @@ export default {
     return {
       auth: getAuth(),
       currentUser : getAuth().currentUser,
-      emailVerified : getAuth().currentUser.emailVerified,
+      isEmailVerified : getAuth().currentUser.emailVerified,
       displayName : getAuth().currentUser.displayName,
       photoURL : getAuth().currentUser.photoURL,
     }
@@ -53,6 +56,20 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+@import "../../assets/styles/settings.scss";
+.verify-email{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $default;
+  span{
+    color: $white;
+    text-decoration: underline;
+    text-align: center;
+    padding: 5px 0;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
 </style>

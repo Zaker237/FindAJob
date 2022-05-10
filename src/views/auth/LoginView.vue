@@ -8,10 +8,13 @@
     <form class="container" @submit.prevent="Login">
       <h2>Connectez vous</h2>
       <div class="container-socials">
-        <button class="button-google" @click.stop="LoginGoogle">
+        <button class="button-google" @click.stop.prevent="LoginGoogle">
           <img src="../../assets/icons/google.svg" alt="google">
           <span>Google</span>
         </button>
+      </div>
+      <div class="container-error" v-if="isNetworkRequestFailed" >
+        <span>Il semblerait que vous n' ayez pas acces a internet</span>
       </div>
       <div class="container-error" v-if="isNotUserExist">
         <span>Cet utilisateur n' existe pas !</span>
@@ -56,6 +59,7 @@ export default {
       isNotUserExist: false,
       isWrongPassword: false,
       isTooManyRequests: false,
+      isNetworkRequestFailed: false,
       auth: getAuth(),
       isLoading: false,
       provider: new GoogleAuthProvider()
@@ -67,6 +71,7 @@ export default {
       this.isNotUserExist = false;
       this.isWrongPassword = false;
       this.isTooManyRequests = false;
+      this.isNetworkRequestFailed = false;
       signInWithEmailAndPassword(this.auth, this.email, this.password)
           .then((userCredential) => {
             const user = userCredential.user;
@@ -90,6 +95,11 @@ export default {
 
             if (errorCode === "auth/too-many-requests") {
               this.isTooManyRequests = true;
+              this.isLoading = false;
+            }
+
+            if (errorCode === "auth/network-request-failed"){
+              this.isNetworkRequestFailed = true;
               this.isLoading = false;
             }
 
@@ -183,6 +193,7 @@ export default {
       font-size: 13px;
       font-weight: 500;
       color: red;
+      text-align: center;
     }
   }
 

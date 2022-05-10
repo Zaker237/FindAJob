@@ -8,10 +8,13 @@
     <form class="container" @submit.prevent="Register">
       <h2>Enregistrez vous</h2>
       <div class="container-socials">
-        <button class="button-google" @click.stop="RegisterGoogle">
+        <button class="button-google" @click.stop.prevent="RegisterGoogle">
           <img src="../../assets/icons/google.svg" alt="google">
           <span>Google</span>
         </button>
+      </div>
+      <div class="container-error" v-if="isNetworkRequestFailed" >
+        <span>Il semblerait que vous n' ayez pas acces a internet</span>
       </div>
       <div class="container-error" v-if="isAlreadyExist">
         <span>Ce compte existe deja !</span>
@@ -69,6 +72,7 @@ export default {
       isDifferent: false,
       isAlreadyExist: false,
       isWeakPassword: false,
+      isNetworkRequestFailed: false,
       auth: getAuth(),
       provider: new GoogleAuthProvider()
     }
@@ -81,6 +85,7 @@ export default {
         this.isDifferent = false;
         this.isAlreadyExist = false;
         this.isWeakPassword = false;
+        this.isNetworkRequestFailed = false;
         createUserWithEmailAndPassword(this.auth, this.email, this.password)
             .then((userCredential) => {
               const user = userCredential.user;
@@ -102,6 +107,11 @@ export default {
 
               if(errorCode === 'auth/weak-password') {
                 this.isWeakPassword = true;
+                this.isLoading = false;
+              }
+
+              if (errorCode === "auth/network-request-failed"){
+                this.isNetworkRequestFailed = true;
                 this.isLoading = false;
               }
             });
@@ -210,6 +220,7 @@ export default {
       font-size: 13px;
       font-weight: 500;
       color: red;
+      text-align: center;
     }
   }
 

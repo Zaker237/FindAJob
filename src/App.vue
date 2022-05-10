@@ -6,7 +6,7 @@
 
 <script>
 import {onBeforeMount} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import { useRouter, useRoute} from "vue-router";
 import { getAuth } from "firebase/auth";
 
 export default {
@@ -17,19 +17,13 @@ export default {
 
     onBeforeMount(() => {
       getAuth().onAuthStateChanged(user => {
-        if ((user) && (route.path === "/login" || route.path === "/register" || route.path === "/")) {
-          router.replace("/dashboard");
-          const uid = user.uid;
-          console.log(uid);
+        if (user) {
+          if (route.path === "/" || route.path === "/login" || route.path === "/register") {
+            router.push("/dashboard");
+          }
         } else {
-          if ((route.path === "/")) {
-            router.replace("/");
-          } else if ((route.path === "/login")) {
-            router.replace("/login");
-          } else if ((route.path === "/register")) {
-            router.replace("/register");
-          } else {
-            router.replace("/");
+          if (route.path !== "/" && route.path !== "/login" && route.path !== "/register") {
+            router.push("/");
           }
         }
       });

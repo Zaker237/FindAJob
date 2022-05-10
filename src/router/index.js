@@ -20,12 +20,17 @@ const routes = [
   {
     path: '/dashboard',
     name: 'DashboardView',
-    component: () => import('../views/user/DashboardView.vue')
+    component: () => import('../views/user/DashboardView.vue'),
   },
   {
-    path: '/feed',
-    name: 'FeedView',
-    component: () => import('../views/user/FeedView.vue')
+    path: '/jobs',
+    name: 'JobsView',
+    component: () => import('../views/user/JobsView.vue'),
+  },
+  {
+    path: '/job/:id',
+    name: 'JobView',
+    component: () => import('../views/user/JobView.vue'),
   }
 ]
 

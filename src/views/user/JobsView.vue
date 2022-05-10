@@ -1,5 +1,5 @@
 <template>
-  <h1>Feed</h1>
+  <h2>Aucune offre pour le moment</h2>
 </template>
 
 <script>
