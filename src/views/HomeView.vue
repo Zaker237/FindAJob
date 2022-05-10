@@ -50,25 +50,22 @@
     <div class="about" id="about">
       <h1 class="about-title"><span>C</span>omment ca fonctionne ?</h1>
       <div class="about__center">
-        <router-link to="/login">
-          <div class="about-card">
-            <img src="../assets/illustrations/step-1.svg" alt="step 1">
-            <p>Creez vous un compte en moins de 2 minutes.</p>
-          </div>
-        </router-link>
-        <router-link to="/login">
-          <div class="about-card">
-            <img src="../assets/illustrations/step-2.svg" alt="step 2">
-            <p>Creez ou postulez a une offre d' emploi.</p>
-          </div>
-        </router-link>
-        <router-link to="/login">
-          <div class="about-card">
-            <img src="../assets/illustrations/step-3.svg" alt="step 3">
-            <p>C' est tout ! Vous avez votre job !</p>
-          </div>
-        </router-link>
+        <div class="about-card">
+          <img src="../assets/illustrations/step-1.svg" alt="step 1">
+          <p>Creez vous un compte en moins de 2 minutes.</p>
+        </div>
+        <div class="about-card">
+          <img src="../assets/illustrations/step-2.svg" alt="step 2">
+          <p>Creez ou postulez a une offre d' emploi.</p>
+        </div>
+        <div class="about-card">
+          <img src="../assets/illustrations/step-3.svg" alt="step 3">
+          <p>C' est tout ! Vous avez votre job !</p>
+        </div>
       </div>
+      <router-link to="/loin">
+        <button>Commencez</button>
+      </router-link>
     </div>
     <div class="contact" id="contact">
       <form
@@ -324,6 +321,8 @@ export default {
       font-weight: 700;
       text-align: center;
       margin-bottom: 50px;
+      margin-left: 10px;
+      margin-right: 10px;
 
       span {
         font-size: 60px;
@@ -343,12 +342,15 @@ export default {
       position: relative;
       width: 80%;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      // selection son dexieme element enfant
+      flex-wrap: wrap;
     }
 
     &-card {
+      width: 350px;
+      height: 400px;
+      margin: 10px;
       position: relative;
       background: $white;
       border-radius: 5px;
@@ -359,6 +361,7 @@ export default {
       justify-content: center;
       padding: 10px;
       overflow: hidden;
+      cursor: pointer;
 
       img {
         width: 300px;
@@ -369,6 +372,8 @@ export default {
         font-style: italic;
         font-size: 16px;
         text-align: center;
+        font-weight: 400;
+        padding-bottom: 20px;
       }
 
       &::before {
@@ -383,7 +388,6 @@ export default {
         font-weight: 600;
         font-size: 30px;
         color: $white;
-        transform-origin: left bottom;
         transform: scale(0);
         transition: .5s ease-in-out;
         border-radius: 50%;
@@ -395,22 +399,36 @@ export default {
     }
 
     &__center {
-      a:nth-child(1) {
-        .about-card::before {
-          content: '1';
-        }
+      .about-card:nth-child(1)::before {
+        content: '1';
+        transform-origin: left bottom;
       }
 
-      a:nth-child(2) {
-        .about-card::before {
-          content: '2';
-        }
+      .about-card:nth-child(2)::before {
+        content: '2';
+        transform-origin: right bottom;
       }
 
-      a:nth-child(3) {
-        .about-card::before {
-          content: '3';
-        }
+      .about-card:nth-child(3)::before {
+        content: '3';
+        transform-origin: right top;
+      }
+    }
+
+    button {
+      cursor: pointer;
+      background: linear-gradient(to right, #7F3EF1, #A94DFC);
+      color: $white;
+      border: 2px solid $purple;
+      font-weight: 600;
+      border-radius: 30px;
+      padding: 13px;
+      font-size: 16px;
+      transition: .3s ease-in-out;
+      margin-top: 30px;
+
+      &:hover {
+        background: linear-gradient(to right, #A94DFC, #7F3EF1);
       }
     }
   }
