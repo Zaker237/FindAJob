@@ -18,9 +18,6 @@
           <span>Creer une offre</span>
           <img src="../assets/icons/add.svg" alt="add">
         </button>
-        <div class="options-img">
-          <img :src="photoURL !== null ? photoURL : noPhotoUrl" alt="profile image">
-        </div>
       </div>
     </div>
   </header>
