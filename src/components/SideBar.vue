@@ -8,8 +8,10 @@
   <div class="sidebar" id="sidebar">
     <div class="sidebar__container">
       <div class="content">
-        <router-link to="/jobs" v-if="isEmailVerified === true" custom v-slot="{ navigate }">
-          <li @click="navigate" @keypress.enter="navigate" role="link">
+        <router-link to="/jobs" v-if="isEmailVerified === true" custom
+                     v-slot="{ navigate, isActive, isExactActive }">
+          <li @click="navigate" @keypress.enter="navigate" role="link"
+              :class="[isActive && 'active', isExactActive && 'exactActive']">
             <img src="../assets/icons/offres.svg" alt="jobs">
             <span>Offres</span>
           </li>
@@ -19,8 +21,10 @@
           <span>Offres</span>
         </li>
 
-        <router-link to="/dashboard" custom v-slot="{ navigate }">
-          <li @click="navigate" @keypress.enter="navigate" role="link">
+        <router-link to="/dashboard" custom
+                     v-slot="{ navigate, isActive, isExactActive }">
+          <li @click="navigate" @keypress.enter="navigate" role="link"
+              :class="[isActive && 'active', isExactActive && 'exactActive']">
             <img src="../assets/icons/dashboard.svg" alt="dashboard">
             <span>Dashboard</span>
           </li>
