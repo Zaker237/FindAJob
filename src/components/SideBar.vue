@@ -72,13 +72,14 @@ export default {
 .sidebar {
   grid-area: 1 / 1 / 2 / 4;
   background: $white;
-  margin: 10px;
   padding: 10px;
-  border: 2px solid #E5E4E1;
-  border-radius: 10px;
+
+  padding-top: 70px;
 
   position: sticky;
-  height: 300px;
+  height: 100vh;
+
+  border-right: 1px solid #E5E4E1;
 }
 
 .sidebar__container {
@@ -98,7 +99,6 @@ export default {
     padding: 10px;
     margin: 10px 0;
     border-radius: 10px;
-    background: rgba($dark, 0.05);
 
     img {
       width: 30px
@@ -107,6 +107,7 @@ export default {
     span {
       font-weight: 500;
       margin-left: 10px;
+      color: #4F5B67;
     }
   }
 
@@ -123,6 +124,7 @@ export default {
     position: fixed;
     bottom: 0;
     margin: 0;
+    top: initial;
     padding: 5px;
     width: 100%;
     border-bottom-left-radius: 0;
