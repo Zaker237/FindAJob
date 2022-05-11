@@ -31,14 +31,14 @@
         </router-link>
       </div>
       <div class="content">
-        <li id="content-profile">
+        <li id="content-profile" class="content-profile">
           <img :src="photoURL !== null ? photoURL : noPhotoUrl" alt="profile image">
           <div>
             <h3>{{ email }}</h3>
             <span>{{ displayName !== null ? displayName : 'Your name' }}</span>
           </div>
         </li>
-        <li class="content-logout" @click="Logout">
+        <li id="content-logout" class="content-logout" @click="Logout">
           <img src="../assets/icons/logout.svg" alt="logout">
           <span>Deconnexion</span>
         </li>
@@ -181,8 +181,14 @@ export default {
       }
     }
 
-    &-logout {
-      background: rgba(red, 0.1);
+    #content-logout {
+      background: #f23737;
+      img{
+        width: 30px;
+      }
+      span{
+        color: $white;
+      }
     }
 
   }
