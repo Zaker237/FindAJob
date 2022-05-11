@@ -31,11 +31,11 @@
         </router-link>
       </div>
       <div class="content">
-        <li class="content-profile">
+        <li id="content-profile">
           <img :src="photoURL !== null ? photoURL : noPhotoUrl" alt="profile image">
           <div>
             <h3>{{ email }}</h3>
-            <h4>{{ displayName !== null ? displayName : 'Your name' }}</h4>
+            <span>{{ displayName !== null ? displayName : 'Your name' }}</span>
           </div>
         </li>
         <li class="content-logout" @click="Logout">
@@ -145,7 +145,7 @@ export default {
       }
     }
 
-    &-profile {
+    #content-profile {
       display: flex;
       align-items: flex-start;
       justify-content: center;
@@ -157,7 +157,6 @@ export default {
 
       img {
         border-radius: 50%;
-        width: 100px;
       }
 
       div {
@@ -171,10 +170,12 @@ export default {
           font-size: 12px;
           font-family: 'Inter', sans-serif;
           font-weight: 500;
+          overflow-wrap: anywhere;
         }
 
-        h4 {
-  font-size: 11px;
+        span {
+          font-size: 11px;
+          overflow-wrap: anywhere;
         }
       }
     }
@@ -187,8 +188,13 @@ export default {
 
 }
 
+@media screen and (max-width: 1100px) {
+  .sidebar {
+    grid-area: 1 / 1 / 2 / 4;
+  }
+}
 
-@media screen and (max-width: 930px) {
+@media screen and (max-width: 700px) {
   .sidebar {
     position: fixed;
     bottom: 0;
@@ -207,72 +213,102 @@ export default {
       align-items: center;
       justify-content: center;
 
-      a {
-        margin: 0 5px;
-      }
-
-      li {
+      .content {
         display: flex;
-        align-items: center;
         justify-content: center;
-        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        li {
+          width: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          margin: 10px;
+          border-radius: 10px;
+
+          span {
+            font-size: 12px;
+            text-align: center;
+            margin: 0;
+          }
+
+          &.exactActive {
+            &::before {
+              bottom: 0;
+              width: 100%;
+              height: 3px;
+            }
+          }
+        }
+
+        #content-profile{
+          align-items: center;
+          border: initial;
+          background: initial;
+          margin: 0;
+          div{
+            margin-left: 0;
+            h3{
+              display: none;
+            }
+            span{
+
+              font-weight: 500;
+              text-align: center;
+            }
+          }
+          &::before {
+            background: initial;
+          }
+        }
+      }
+    }
+  }
+}
+
+  .container-alert {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+
+    .card {
+      width: clamp(40%, 400px, 95%);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      background: $white;
+
+      span {
+        color: $dark;
+        text-align: left;
+        padding: 5px;
+        font-weight: 500;
 
         span {
-          font-size: 12px;
-          text-align: center;
-          margin: 0;
+          font-weight: 600;
+          text-decoration: underline;
+          padding: 0;
         }
       }
 
-      .logout {
-
+      button {
+        background: crimson;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 10px;
+        color: $white;
+        font-weight: 500;
+        align-self: flex-end;
       }
     }
   }
-}
-
-.container-alert {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-
-  .card {
-    width: clamp(40%, 400px, 95%);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    background: $white;
-
-    span {
-      color: $dark;
-      text-align: left;
-      padding: 5px;
-      font-weight: 500;
-
-      span {
-        font-weight: 600;
-        text-decoration: underline;
-        padding: 0;
-      }
-    }
-
-    button {
-      background: crimson;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      padding: 10px;
-      color: $white;
-      font-weight: 500;
-      align-self: flex-end;
-    }
-  }
-}
 </style>

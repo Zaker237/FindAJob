@@ -4,7 +4,6 @@
     <SideBar/>
     <div class="body-content">
       <JobView />
-
     </div>
   </div>
 </template>
@@ -43,5 +42,18 @@ export default {
   grid-area: 1 / 3 / 2 / 13;
   background: $gray;
   padding-top: 70px;
+}
+
+@media screen and (max-width: 1100px) {
+  .body-content{
+    grid-area: 1 / 4 / 2 / 13;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .body-content{
+    grid-area: 1 / 1 / 2 / 13;
+    min-height: 100vh;
+  }
 }
 </style>
