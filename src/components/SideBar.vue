@@ -123,6 +123,7 @@ export default {
     position: fixed;
     bottom: 0;
     margin: 0;
+    padding: 5px;
     width: 100%;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;

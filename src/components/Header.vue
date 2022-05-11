@@ -44,10 +44,9 @@ export default {
       this.isOpen = false;
     },
     verifyEmail() {
-      this.isOpen = true;
-      sendEmailVerification(this.currentUser)
+      sendEmailVerification(this.auth.currentUser)
           .then(() => {
-            alert('Email verification sent!');
+            this.isOpen = true;
           });
     },
   },
@@ -141,6 +140,7 @@ export default {
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 3;
 
   .card {
     width: clamp(40%, 400px, 95%);
