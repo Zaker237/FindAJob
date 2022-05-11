@@ -148,12 +148,12 @@ export default {
     #content-profile {
       display: flex;
       align-items: flex-start;
-      justify-content: center;
+      justify-content: flex-start;
       border: 1px solid #E5E4E1;
       border-left: none;
       border-right: none;
       background: $gray;
-      padding: 5px;
+      padding: 10px;
 
       img {
         border-radius: 50%;
@@ -176,6 +176,7 @@ export default {
         span {
           font-size: 11px;
           overflow-wrap: anywhere;
+          margin-left: 0;
         }
       }
     }
@@ -224,13 +225,14 @@ export default {
           align-items: center;
           justify-content: center;
           flex-direction: column;
-          margin: 10px;
+          margin: 5px;
           border-radius: 10px;
 
           span {
-            font-size: 12px;
+            font-size: 10px;
             text-align: center;
             margin: 0;
+            font-family: 'Inter', sans-serif;
           }
 
           &.exactActive {
@@ -247,6 +249,7 @@ export default {
           border: initial;
           background: initial;
           margin: 0;
+          padding: 5px;
           div{
             margin-left: 0;
             h3{
