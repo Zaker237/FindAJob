@@ -38,7 +38,7 @@
             <h4>{{ displayName !== null ? displayName : 'Your name' }}</h4>
           </div>
         </li>
-        <li class="logout" @click="Logout">
+        <li class="content-logout" @click="Logout">
           <img src="../assets/icons/logout.svg" alt="logout">
           <span>Deconnexion</span>
         </li>
@@ -145,10 +145,46 @@ export default {
       }
     }
 
-    .logout:hover {
-      background: rgb(red, 0.1);
+    &-profile {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      border: 1px solid #E5E4E1;
+      border-left: none;
+      border-right: none;
+      background: $gray;
+      padding: 5px;
+
+      img {
+        border-radius: 50%;
+        width: 100px;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin-left: 5px;
+
+        h3 {
+          font-size: 12px;
+          font-family: 'Inter', sans-serif;
+          font-weight: 500;
+        }
+
+        h4 {
+  font-size: 11px;
+        }
+      }
     }
+
+    &-logout {
+      background: rgba(red, 0.1);
+    }
+
   }
+
 }
 
 

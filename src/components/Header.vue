@@ -1,7 +1,7 @@
 <template>
   <div v-if="isOpen" class="container-alert">
     <div class="card">
-      <span>Un mail a ete envoye a <span>{{ email }}</span> veuillez l' ouvrir et activer compte.</span>
+      <span>Un mail a ete envoye a <span>{{ email }}</span> veuillez l' ouvrir et activer compte. <br> Ensuite reactualiser la page.</span>
       <button @click="closeModal">Compris !</button>
     </div>
   </div>
