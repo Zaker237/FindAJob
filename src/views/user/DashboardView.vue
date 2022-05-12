@@ -2,7 +2,7 @@
   <div v-if="isOpen" class="container-alert">
     <div class="card">
       <span>Votre profile a bien ete mis a jour :)</span>
-       <button @click="closeModal">Compris !</button>
+      <button @click="closeModal">Compris !</button>
     </div>
   </div>
   <Header/>
@@ -14,7 +14,7 @@
           <span>Terminer le profil</span>
           <span>Editer le profil</span>
         </button>
-        <button @click="updateProfile">Mettre a jour</button>
+        <button @click="updateProfileFunc">Mettre a jour</button>
       </div>
       <JobView/>
     </div>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import {ref} from 'vue';
 import {getAuth, updateProfile} from "firebase/auth";
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
@@ -29,31 +30,30 @@ import JobView from "@/views/user/JobView";
 
 export default {
   components: {JobView, Header, SideBar},
-  data() {
-    return {
-      isOpen: false,
-      auth: getAuth(),
-      currentUser: getAuth().currentUser,
-      isEmailVerified: getAuth().currentUser.emailVerified,
-      displayName: getAuth().currentUser.displayName,
-      photoURL: getAuth().currentUser.photoURL,
+  setup() {
+    const isOpen = ref(false);
+    const auth = getAuth();
+    const currentUser = getAuth().currentUser;
+    const isEmailVerified = ref(currentUser.emailVerified);
+    const displayName = ref(currentUser.displayName);
+    const photoURL = ref(currentUser.photoURL);
+
+    const closeModal = () => {
+      isOpen.value = false;
     }
-  },
-  methods: {
-    closeModal() {
-      this.isOpen = false;
-    },
-    updateProfile() {
-      updateProfile(this.auth.currentUser, {
-        displayName: "EXPO",
-        photoURL: "https://example.com/jane-q-user/profile.jpg"
+    const updateProfileFunc = () => {
+      updateProfile(currentUser, {
+        displayName: "L",
+        photoURL: "https://lndev.me/img/csharp.png"
       })
           .then(() => {
-            this.isOpen = true;
+            isOpen.value = true;
           }).catch((error) => {
         console.log("Error updating profile: ", error);
       });
-    },
+    }
+
+    return {isOpen, auth, isEmailVerified, displayName, photoURL, closeModal, updateProfileFunc};
   }
 }
 </script>

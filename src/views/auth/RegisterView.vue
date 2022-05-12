@@ -13,7 +13,7 @@
           <span>Google</span>
         </button>
       </div>
-      <div class="container-error" v-if="isNetworkRequestFailed" >
+      <div class="container-error" v-if="isNetworkRequestFailed">
         <span>Il semblerait que vous n' ayez pas acces a internet</span>
       </div>
       <div class="container-error" v-if="isAlreadyExist">
@@ -24,10 +24,6 @@
             Le mot de passe doit contenir au moins 6 caracteres
           </span>
       </div>
-      <!--      <div class="container-input">-->
-      <!--        <label for="name">Votre nom</label>-->
-      <!--        <input v-model="displayName" id="name" type="text" placeholder="Entrez votre nom" required>-->
-      <!--      </div>-->
       <div class="container-input">
         <label for="email">Adresse email</label>
         <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
@@ -59,39 +55,36 @@
 </template>
 
 <script>
+import {ref} from 'vue';
 import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 
 export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      displayName: "",
-      isLoading: false,
-      isDifferent: false,
-      isAlreadyExist: false,
-      isWeakPassword: false,
-      isNetworkRequestFailed: false,
-      auth: getAuth(),
-      provider: new GoogleAuthProvider()
-    }
-  },
-  methods: {
-    Register() {
-      if (this.password === this.confirmPassword) {
+  setup() {
+    const email = ref('')
+    const password = ref('')
+    const confirmPassword = ref('')
+    const isLoading = ref(false)
+    const isDifferent = ref(false)
+    const isAlreadyExist = ref(false)
+    const isWeakPassword = ref(false)
+    const isNetworkRequestFailed = ref(false)
+    const auth = getAuth()
+    const provider = new GoogleAuthProvider()
+
+    const Register = () => {
+      if (password.value === confirmPassword.value) {
         document.querySelector('#confirm-password').classList.remove('error');
-        this.isLoading = true;
-        this.isDifferent = false;
-        this.isAlreadyExist = false;
-        this.isWeakPassword = false;
-        this.isNetworkRequestFailed = false;
-        createUserWithEmailAndPassword(this.auth, this.email, this.password)
+        isLoading.value = true;
+        isDifferent.value = false;
+        isAlreadyExist.value = false;
+        isWeakPassword.value = false;
+        isNetworkRequestFailed.value = false;
+        createUserWithEmailAndPassword(auth, email.value, password.value)
             .then((userCredential) => {
               const user = userCredential.user;
               console.log(user);
-              this.email = "";
-              this.password = "";
+              email.value = "";
+              password.value = "";
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -100,40 +93,55 @@ export default {
               console.log(errorCode);
               console.log(errorMessage);
 
-              if(errorCode === 'auth/email-already-in-use') {
-                this.isAlreadyExist = true;
-                this.isLoading = false;
+              if (errorCode === 'auth/email-already-in-use') {
+                isAlreadyExist.value = true;
+                isLoading.value = false;
               }
 
-              if(errorCode === 'auth/weak-password') {
-                this.isWeakPassword = true;
-                this.isLoading = false;
+              if (errorCode === 'auth/weak-password') {
+                isWeakPassword.value = true;
+                isLoading.value = false;
               }
 
-              if (errorCode === "auth/network-request-failed"){
-                this.isNetworkRequestFailed = true;
-                this.isLoading = false;
+              if (errorCode === "auth/network-request-failed") {
+                isNetworkRequestFailed.value = true;
+                isLoading.value = false;
               }
             });
       } else {
         document.querySelector('#confirm-password').classList.add('error');
-        this.isDifferent = true;
+        isDifferent.value = true;
       }
-    },
-    RegisterGoogle() {
-      signInWithPopup(this.auth, this.provider)
+    }
+    const RegisterGoogle = () => {
+      signInWithPopup(auth, provider)
           .then((result) => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
             const user = result.user;
             console.log(token, user);
           }).catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log(errorCode, errorMessage, email, credential);
-          });
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorCode, errorMessage, email, credential);
+      });
+    }
+
+    return {
+      email,
+      password,
+      confirmPassword,
+      isLoading,
+      isDifferent,
+      isAlreadyExist,
+      isWeakPassword,
+      isNetworkRequestFailed,
+      auth,
+      provider,
+      Register,
+      RegisterGoogle
     }
   }
 }
@@ -206,7 +214,7 @@ export default {
     text-align: right;
   }
 
-  &-error{
+  &-error {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -216,7 +224,8 @@ export default {
     border: 2px solid red;
     border-radius: 5px;
     background: rgba(red, 0.05);
-    span{
+
+    span {
       font-size: 13px;
       font-weight: 500;
       color: red;

@@ -13,7 +13,7 @@
           <span>Google</span>
         </button>
       </div>
-      <div class="container-error" v-if="isNetworkRequestFailed" >
+      <div class="container-error" v-if="isNetworkRequestFailed">
         <span>Il semblerait que vous n' ayez pas acces a internet</span>
       </div>
       <div class="container-error" v-if="isNotUserExist">
@@ -49,30 +49,31 @@
 </template>
 
 <script>
+import {ref} from 'vue';
 import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithRedirect} from "firebase/auth";
 
 export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      isNotUserExist: false,
-      isWrongPassword: false,
-      isTooManyRequests: false,
-      isNetworkRequestFailed: false,
-      auth: getAuth(),
-      isLoading: false,
-      provider: new GoogleAuthProvider()
-    }
-  },
-  methods: {
-    Login() {
-      this.isLoading = true;
-      this.isNotUserExist = false;
-      this.isWrongPassword = false;
-      this.isTooManyRequests = false;
-      this.isNetworkRequestFailed = false;
-      signInWithEmailAndPassword(this.auth, this.email, this.password)
+  setup() {
+    const email = ref('');
+    const password = ref('');
+
+    const isNotUserExist = ref(false)
+    const isWrongPassword = ref(false)
+    const isTooManyRequests = ref(false)
+    const isNetworkRequestFailed = ref(false)
+    const auth = getAuth()
+    const isLoading = ref(false)
+    const provider = new GoogleAuthProvider()
+
+
+    const Login = () => {
+      isLoading.value = true;
+      isNotUserExist.value = false;
+      isWrongPassword.value = false;
+      isTooManyRequests.value = false;
+      isNetworkRequestFailed.value = false;
+      // Sigin with email and password
+      signInWithEmailAndPassword(auth, email.value, password.value)
           .then((userCredential) => {
             const user = userCredential.user;
             console.log(user);
@@ -84,29 +85,43 @@ export default {
             console.log(errorMessage);
 
             if (errorCode === "auth/user-not-found") {
-              this.isNotUserExist = true;
-              this.isLoading = false;
+              isNotUserExist.value = true;
+              isLoading.value = false;
             }
 
             if (errorCode === "auth/wrong-password") {
-              this.isWrongPassword = true;
-              this.isLoading = false;
+              isWrongPassword.value = true;
+              isLoading.value = false;
             }
 
             if (errorCode === "auth/too-many-requests") {
-              this.isTooManyRequests = true;
-              this.isLoading = false;
+              isTooManyRequests.value = true;
+              isLoading.value = false;
             }
 
-            if (errorCode === "auth/network-request-failed"){
-              this.isNetworkRequestFailed = true;
-              this.isLoading = false;
+            if (errorCode === "auth/network-request-failed") {
+              isNetworkRequestFailed.value = true;
+              isLoading.value = false;
             }
 
           });
-    },
-    LoginGoogle() {
-      signInWithRedirect(this.auth, this.provider)
+    }
+    const LoginGoogle = () => {
+      signInWithRedirect(auth, provider)
+    }
+
+    return {
+      email,
+      password,
+      isNotUserExist,
+      isWrongPassword,
+      isTooManyRequests,
+      isNetworkRequestFailed,
+      auth,
+      isLoading,
+      provider,
+      Login,
+      LoginGoogle
     }
   }
 }
@@ -179,7 +194,7 @@ export default {
     text-align: right;
   }
 
-  &-error{
+  &-error {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -189,7 +204,8 @@ export default {
     border: 2px solid red;
     border-radius: 5px;
     background: rgba(red, 0.05);
-    span{
+
+    span {
       font-size: 13px;
       font-weight: 500;
       color: red;
