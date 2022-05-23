@@ -16,7 +16,7 @@
         </button>
         <button @click="updateProfileFunc">Mettre a jour</button>
       </div>
-      <JobView/>
+      <JobCard />
     </div>
   </div>
 </template>
@@ -26,10 +26,10 @@ import {ref} from 'vue';
 import {getAuth, updateProfile} from "firebase/auth";
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
-import JobView from "@/views/user/JobView";
+import JobCard from "@/components/JobCard";
 
 export default {
-  components: {JobView, Header, SideBar},
+  components: {JobCard, Header, SideBar},
   setup() {
     const isOpen = ref(false);
     const auth = getAuth();

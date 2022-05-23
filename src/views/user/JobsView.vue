@@ -3,7 +3,7 @@
   <div class="jobs-body">
     <SideBar/>
     <div class="body-content">
-      <JobView/>
+      <JobCard />
     </div>
   </div>
 </template>
@@ -11,10 +11,10 @@
 <script>
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
-import JobView from "@/views/user/JobView";
+import JobCard from "@/components/JobCard";
 
 export default {
-  components: {JobView, Header, SideBar}
+  components: {JobCard, Header, SideBar}
 }
 </script>
 

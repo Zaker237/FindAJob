@@ -7,7 +7,8 @@
 <script>
 import {onBeforeMount} from "vue";
 import { useRouter, useRoute} from "vue-router";
-import { getAuth, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+// import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 
 export default {
   name: "App",
@@ -18,18 +19,18 @@ export default {
     onBeforeMount(() => {
       getAuth().onAuthStateChanged(user => {
         if (user) {
-          const credentials = EmailAuthProvider.credential(
-              "leonel.ngoya@yahoo.com",
-              "qwerty"
-          )
-          reauthenticateWithCredential(user,credentials)
-            .then(() => {
-              console.log('User is now authenticated');
-            })
-            .catch(() => {
-              console.log('User is not authenticated')
-              router.push("/login");
-            });
+          // const credentials = EmailAuthProvider.credential(
+          //     "leonel.ngoya@yahoo.com",
+          //     "qwerty"
+          // )
+          // reauthenticateWithCredential(user,credentials)
+          //   .then(() => {
+          //     console.log('User is now authenticated');
+          //   })
+          //   .catch(() => {
+          //     console.log('User is not authenticated')
+          //     router.push("/login");
+          //   });
           if (route.path === "/" || route.path === "/login" || route.path === "/register") {
             router.push("/dashboard");
           }
