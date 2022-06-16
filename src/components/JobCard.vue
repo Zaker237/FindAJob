@@ -8,10 +8,14 @@
         />
       </div>
       <div class="job-body">
-        <h1>FrontEnd Developer</h1>
-        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, nihil! Ullam quod quo eum. Similique laudantium corrupti cupiditate in delectus?</h2>
-        <h3>Remote</h3>
-        <h3>250.000 FCFA</h3>
+        <h1 class="job-title">FrontEnd Developer</h1>
+        <h2 class="job-description">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum,
+          nihil! Ullam quod quo eum. Similique laudantium corrupti cupiditate in
+          delectus?
+        </h2>
+        <h3 class="job-location">Remote</h3>
+        <h3 class="job-salary">250.000 FCFA</h3>
         <button>Postuler</button>
         <h3>Depuis 1h</h3>
       </div>
@@ -25,15 +29,33 @@
 </template>
 
 <script>
-// import { doc, onSnapshot } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
+// the firestore instance
+import db from "./../main.js";
 
-// const unsub = onSnapshot(doc(db, "cities", "SF"), (doc) => {
-//   console.log("Current data: ", doc.data());
-// });
 export default {
   name: "JobCard",
-  data() {
-    return {};
+  created() {
+    this.createUser();
+  },
+  methods: {
+    async createUser() {
+      // 'users' collection reference
+      const colRef = collection(db, "users");
+      // data to send
+      const dataObj = {
+        name: "John",
+        email: "Doe",
+        jobApplied: [],
+        jobCreated: [],
+      };
+
+      // create document and return reference to it
+      const docRef = await addDoc(colRef, dataObj);
+
+      // access auto-generated ID with '.id'
+      console.log("Document was created with ID:", docRef.id);
+    },
   },
 };
 </script>

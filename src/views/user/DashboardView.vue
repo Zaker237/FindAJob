@@ -5,9 +5,9 @@
       <button @click="closeModal">Compris !</button>
     </div>
   </div>
-  <Header/>
+  <Header />
   <div class="dashboard-body">
-    <SideBar/>
+    <SideBar />
     <div class="body-content">
       <div class="content-header">
         <button @click="showModal">
@@ -24,14 +24,14 @@
 </template>
 
 <script>
-import {ref} from 'vue';
-import {getAuth, updateProfile} from "firebase/auth";
+import { ref } from "vue";
+import { getAuth, updateProfile } from "firebase/auth";
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
 
 export default {
-  components: {JobCard, Header, SideBar},
+  components: { JobCard, Header, SideBar },
   setup() {
     const isOpen = ref(false);
     const auth = getAuth();
@@ -42,22 +42,31 @@ export default {
 
     const closeModal = () => {
       isOpen.value = false;
-    }
+    };
     const updateProfileFunc = () => {
       updateProfile(currentUser, {
-        displayName: "L",
-        photoURL: "https://lndev.me/img/csharp.png"
+        displayName: "",
+        photoURL: "",
       })
-          .then(() => {
-            isOpen.value = true;
-          }).catch((error) => {
-        console.log("Error updating profile: ", error);
-      });
-    }
+        .then(() => {
+          isOpen.value = true;
+        })
+        .catch((error) => {
+          console.log("Error updating profile: ", error);
+        });
+    };
 
-    return {isOpen, auth, isEmailVerified, displayName, photoURL, closeModal, updateProfileFunc};
-  }
-}
+    return {
+      isOpen,
+      auth,
+      isEmailVerified,
+      displayName,
+      photoURL,
+      closeModal,
+      updateProfileFunc,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -99,7 +108,7 @@ export default {
   }
 }
 
-.content-cards{
+.content-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   padding-top: 20px;
