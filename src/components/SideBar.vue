@@ -39,7 +39,6 @@
           </div>
         </li>
         <li id="content-logout" class="content-logout" @click="Logout">
-          <img src="../assets/icons/logout.svg" alt="logout">
           <span>Deconnexion</span>
         </li>
       </div>
@@ -165,7 +164,6 @@ export default {
       border: 1px solid #E5E4E1;
       border-left: none;
       border-right: none;
-      background: $gray;
       padding: 10px;
 
       img {
@@ -195,14 +193,14 @@ export default {
     }
 
     #content-logout {
-      background: #cc254b;
+      background: #f4f7f6;
 
       img {
         width: 30px;
       }
 
       span {
-        color: $white;
+        color: #4F5B67;
       }
     }
 

@@ -16,7 +16,9 @@
         </button>
         <button @click="updateProfileFunc">Mettre a jour</button>
       </div>
-      <JobCard />
+      <div class="content-cards">
+        <JobCard />
+      </div>
     </div>
   </div>
 </template>
@@ -67,12 +69,11 @@ export default {
   grid-template-rows: 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 0px;
-  background: $white;
+  background: $ligth;
 }
 
 .body-content {
   grid-area: 1 / 3 / 2 / 13;
-  background: $white;
   padding-top: 70px;
   margin-right: 10px;
 }
@@ -80,8 +81,9 @@ export default {
 .content-header {
   width: 100%;
   height: 100px;
-  border: 1px solid #E5E4E1;
+  // border: 1px solid #E5E4E1;
   border-radius: 10px;
+  background: $white;
 
   button {
     padding: 10px;
@@ -95,6 +97,12 @@ export default {
       font-weight: 600;
     }
   }
+}
+
+.content-cards{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  padding-top: 20px;
 }
 
 @media screen and (max-width: 1100px) {
