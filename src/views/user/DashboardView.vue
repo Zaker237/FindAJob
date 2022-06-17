@@ -12,12 +12,29 @@
       <div class="content-header">
         <h1>
           Salut, {{ displayName ? displayName : userName }} ici tu pourras
-          consulter toutes tes offres.
+          consulter toutes tes offres ( crées et postulées ).
         </h1>
       </div>
-      <div class="content-cards">
+      <div class="content-cards content-cards-created">
         <div
           v-for="job in allJobs.filter((job) => job.author === id)"
+          :key="job.id"
+        >
+          <JobCard
+            :title="job.title"
+            :description="job.description"
+            :salary="job.salary"
+            :location="job.location"
+            :enterprise="job.enterprise"
+            :picture="job.picture"
+            :status="job.status"
+          />
+        </div>
+      </div>
+      <div class="line"></div>
+      <div class="content-cards content-cards-applied">
+        <div
+          v-for="job in allJobs.filter((job) => job.postulations.includes(id))"
           :key="job.id"
         >
           <JobCard
@@ -136,17 +153,48 @@ export default {
   // border-bottom: 1px solid #E5E4E1;
   h1 {
     width: 100%;
-    font-family: "Inter", sans-serif;
+    font-family: "Ubuntu", sans-serif;
+    font-style: italic;
     font-weight: 500;
     font-size: 24px;
+    margin-bottom: 15px;
   }
 }
 
 .content-cards {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  padding-top: 20px;
+  padding-top: 30px;
+  padding-bottom: 20px;
   grid-gap: 10px;
+
+  &::before{
+    position: absolute;
+    top: 5px;
+    left: 0;
+    font-style: italic;
+    font-family: "Inter", sans-serif;
+    //color: $gray;
+    margin-bottom: 10px;
+    opacity: .6;
+  }
+}
+
+.content-cards-created {
+  &::before {
+    content: "Mes offres";
+  }
+}
+.content-cards-applied {
+  &::before {
+    content: "Mes postulations";
+  }
+}
+
+.line{
+  background: #EDEDEB;
+  height: 1px;
 }
 
 @media screen and (max-width: 1100px) {
