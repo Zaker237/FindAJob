@@ -1,13 +1,13 @@
 <template>
   <div v-if="isOpen" class="container-alert">
-    <div class="card">
+    <!-- <div class="card">
       <span>Un mail a ete envoye a <span>{{ email }}</span> veuillez l' ouvrir et activer compte. <br> Ensuite reactualiser la page.</span>
       <button @click="closeModal">Compris !</button>
-    </div>
+    </div> -->
   </div>
-  <p v-if="!isEmailVerified" class="verify-email">
+  <!-- <p v-if="!isEmailVerified" class="verify-email">
     <span @click="verifyEmail">Veuillez verifier votre email pour activer votre compte.</span>
-  </p>
+  </p> -->
   <header class="header" id="header">
     <div class="header__center">
       <div class="header-logo">

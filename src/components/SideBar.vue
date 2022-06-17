@@ -1,14 +1,14 @@
 <template>
   <div v-if="isOpen" class="container-alert">
-    <div class="card">
+    <!-- <div class="card">
       <span>Vous ne pouvez pas voir les offres d' emplois car vous n' avez pas activer votre compte !</span>
       <button @click="closeModal">Compris !</button>
-    </div>
+    </div> -->
   </div>
   <div class="sidebar" id="sidebar">
     <div class="sidebar__container">
       <div class="content">
-        <router-link to="/jobs" v-if="isEmailVerified === true" custom
+        <router-link to="/jobs" v-if="true === true" custom
                      v-slot="{ navigate, isActive, isExactActive }">
           <li @click="navigate" @keypress.enter="navigate" role="link"
               :class="[isActive && 'active', isExactActive && 'exactActive']">
@@ -16,10 +16,10 @@
             <span>Offres</span>
           </li>
         </router-link>
-        <li v-if="isEmailVerified === false" @click="openModal">
+        <!-- <li v-if="isEmailVerified === false" @click="openModal">
           <img src="../assets/icons/offres.svg" alt="jobs">
           <span>Offres</span>
-        </li>
+        </li> -->
 
         <router-link to="/dashboard" custom
                      v-slot="{ navigate, isActive, isExactActive }">
