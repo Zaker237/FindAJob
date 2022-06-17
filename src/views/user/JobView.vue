@@ -10,13 +10,17 @@
           <h1>{{ jobInfo[0].title }}</h1>
           <div>
             <h3>
-              <img src="./../../assets/icons/location-white.svg" alt="location" />
+              <img
+                src="./../../assets/icons/location-white.svg"
+                alt="location"
+              />
               <span>{{ jobInfo[0].location }}</span>
             </h3>
             <h3>
-              <img src="./../../assets/icons/salary-white.svg" alt="salary" /><span
-                >{{ jobInfo[0].salary }} / mois</span
-              >
+              <img
+                src="./../../assets/icons/salary-white.svg"
+                alt="salary"
+              /><span>{{ jobInfo[0].salary }} / mois</span>
             </h3>
             <h3>
               <img
@@ -28,11 +32,29 @@
               <img
                 src="./../../assets/icons/time-white.svg"
                 alt="enterprise"
-              /><span>Début : {{ new Date(jobInfo[0].init).getDate() }} / {{ new Date(jobInfo[0].init).getMonth() + 1 }} / {{ new Date(jobInfo[0].init).getFullYear() }}</span>
+              /><span
+                >Début : {{ new Date(jobInfo[0].init).getDate() }} /
+                {{ new Date(jobInfo[0].init).getMonth() + 1 }} /
+                {{ new Date(jobInfo[0].init).getFullYear() }}</span
+              >
             </h3>
           </div>
           <div>
             <button v-for="statu in jobInfo[0].status">{{ statu }}</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2>Description</h2>
+          <p>{{ jobInfo[0].description }}</p>
+          <div>
+            <h3>
+              <img
+                src="./../../assets/icons/enterprise.svg"
+                alt="enterprise"
+              /><span>{{ jobInfo[0].enterprise }}</span>
+            </h3>
+            <h4>Vous êtes intéressé ?</h4>
+            <button>Postuler</button>
           </div>
         </div>
       </div>
@@ -106,7 +128,7 @@ export default {
         top: 0px;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.5);
         content: " ";
         z-index: 2;
       }
@@ -131,6 +153,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-wrap: wrap;
         gap: 0.75rem;
         z-index: 2;
         h3 {
@@ -145,6 +168,81 @@ export default {
             margin-left: 5px;
             font-weight: 400;
             font-size: 1rem;
+          }
+        }
+        button {
+          padding: 0.25rem 0.75rem;
+          font-size: 16px;
+          border: 2px solid $white;
+          border-radius: 30px;
+          font-weight: 500;
+          text-transform: uppercase;
+          background: rgba($color: $white, $alpha: 0.1);
+          color: #fff;
+        }
+      }
+    }
+
+    .card-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h2 {
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 2rem;
+        align-self: flex-start;
+      }
+      p {
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        opacity: 0.8;
+        padding: 0.5rem 1rem 2rem 1rem;
+        line-height: 1.5rem;
+      }
+      div {
+        width: 400px;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 1rem;
+        border: 1px solid rgb(229, 229, 229);
+        h3 {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          img {
+            width: 20px;
+          }
+          span {
+            margin-left: 10px;
+            font-weight: 600;
+            font-size: 1.2rem;
+          }
+        }
+        h4 {
+          margin: 10px 0;
+          font-weight: 400;
+          font-size: 1rem;
+        }
+        button {
+          //width: 100%;
+          cursor: pointer;
+          padding: 0.5rem 0.75rem;
+          font-size: 14px;
+          border: none;
+          font-weight: 400;
+          text-transform: uppercase;
+          background: $default;
+          color: #fff;
+          margin-top: 10px;
+          &:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, .3);
           }
         }
       }

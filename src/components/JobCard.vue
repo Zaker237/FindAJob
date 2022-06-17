@@ -12,7 +12,7 @@
         <h2 class="job-description">
           {{
             description.length > 200
-              ? description.split('').substring(0, 150) + " ..."
+              ? description.substring(0, 150) + " ..."
               : description
           }}
         </h2>
