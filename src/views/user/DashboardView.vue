@@ -10,14 +10,23 @@
     <SideBar />
     <div class="body-content">
       <div class="content-header">
-        <button @click="showModal">
-          <span>Terminer le profil</span>
-          <span>Editer le profil</span>
-        </button>
-        <button @click="updateProfileFunc">Mettre a jour</button>
+        <h1>Salut, {{ id }} ici tu pourras consulter toutes tes offres.</h1>
       </div>
       <div class="content-cards">
-        <JobCard />
+        <div
+          v-for="job in allJobs.filter((job) => job.author === id)"
+          :key="job.id"
+        >
+          <JobCard
+            :title="job.title"
+            :description="job.description"
+            :salary="job.salary"
+            :location="job.location"
+            :enterprise="job.enterprise"
+            :picture="job.picture"
+            :status="job.status"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -29,6 +38,8 @@ import { getAuth, updateProfile } from "firebase/auth";
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
+import { query, collection, getDocs } from "firebase/firestore";
+import db from "./../../main.js";
 
 export default {
   components: { JobCard, Header, SideBar },
@@ -38,6 +49,7 @@ export default {
     const currentUser = getAuth().currentUser;
     const isEmailVerified = ref(currentUser.emailVerified);
     const displayName = ref(currentUser.displayName);
+    const id = ref(currentUser.uid);
     const photoURL = ref(currentUser.photoURL);
 
     const closeModal = () => {
@@ -64,7 +76,25 @@ export default {
       photoURL,
       closeModal,
       updateProfileFunc,
+      id,
     };
+  },
+  data() {
+    return {
+      allJobs: [],
+    };
+  },
+  created() {
+    this.getJobs();
+  },
+  methods: {
+    async getJobs() {
+      const querySnap = await getDocs(query(collection(db, "jobs")));
+
+      querySnap.forEach((doc) => {
+        this.allJobs.push(doc.data());
+      });
+    },
   },
 };
 </script>
@@ -89,22 +119,10 @@ export default {
 
 .content-header {
   width: 100%;
-  height: 100px;
-  // border: 1px solid #E5E4E1;
-  border-radius: 10px;
-  background: $white;
-
-  button {
-    padding: 10px;
-    background: $success;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-
-    span {
-      color: $white;
-      font-weight: 600;
-    }
+  h1 {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
   }
 }
 

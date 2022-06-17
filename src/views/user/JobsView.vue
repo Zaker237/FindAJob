@@ -4,8 +4,19 @@
     <SideBar />
     <div class="body-content">
       <div class="content-cards">
-        <div v-for="job in allJobs" :key="job.id">
-          <JobCard :title="job.title" :description="job.description" :salary="job.salary" :location="job.location" :enterprise="job.enterprise" :picture="job.picture" :status="job.status" />
+        <div
+          v-for="job in allJobs.filter((job) => job.author !== id)"
+          :key="job.id"
+        >
+          <JobCard
+            :title="job.title"
+            :description="job.description"
+            :salary="job.salary"
+            :location="job.location"
+            :enterprise="job.enterprise"
+            :picture="job.picture"
+            :status="job.status"
+          />
         </div>
       </div>
     </div>
@@ -13,6 +24,8 @@
 </template>
 
 <script>
+import { ref } from "vue";
+import { getAuth } from "firebase/auth";
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
@@ -21,16 +34,25 @@ import db from "./../../main.js";
 
 export default {
   components: { JobCard, Header, SideBar },
+  setup() {
+    const auth = getAuth();
+    const currentUser = getAuth().currentUser;
+    const id = ref(currentUser.uid);
+    return {
+      auth,
+      id,
+    };
+  },
   data() {
     return {
       allJobs: [],
     };
   },
   created() {
-    this.getCountry();
+    this.getJobs();
   },
   methods: {
-    async getCountry() {
+    async getJobs() {
       const querySnap = await getDocs(query(collection(db, "jobs")));
 
       querySnap.forEach((doc) => {

@@ -25,6 +25,10 @@
           </span>
       </div>
       <div class="container-input">
+        <label for="name">Nom</label>
+        <input v-model="name" id="name" type="texte" placeholder="Entrez votre nom" required>
+      </div>
+      <div class="container-input">
         <label for="email">Adresse email</label>
         <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
       </div>
@@ -60,6 +64,7 @@ import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProv
 
 export default {
   setup() {
+    // const name = ref('')
     const email = ref('')
     const password = ref('')
     const confirmPassword = ref('')

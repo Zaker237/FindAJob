@@ -35,7 +35,7 @@
           <img :src="photoURL !== null ? photoURL : noPhotoUrl" alt="profile image">
           <div>
             <h3>{{ email }}</h3>
-            <span>{{ displayName !== null ? displayName : 'Nom' }}</span>
+            <span>{{ displayName !== null ? displayName : '' }}</span>
           </div>
         </li>
         <li id="content-logout" class="content-logout" @click="Logout">
