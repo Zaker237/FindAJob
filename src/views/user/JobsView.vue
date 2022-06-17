@@ -62,7 +62,7 @@ export default {
         const idDocument = { id: doc.id };
 
         const finalResult = Object.assign(data, idDocument);
-        console.log(finalResult);
+        // console.log(finalResult);
 
         this.allJobs.push(finalResult);
       });

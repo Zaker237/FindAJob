@@ -4,7 +4,7 @@
   <div class="job-body">
     <SideBar />
     <div class="body-content">
-
+      <img :src="jobInfo[0].picture" alt="picture">
     </div>
   </div>
 </template>
@@ -12,8 +12,29 @@
 <script>
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
+import { doc, getDoc } from "firebase/firestore";
+import db from "./../../main.js";
 export default {
   components: { Header, SideBar },
+  data() {
+    return {
+      jobInfo: [], // jobInfo[0]
+    };
+  },
+  created() {
+    this.getJob();
+  },
+  methods: {
+    async getJob() {
+      const docSnap = await getDoc(doc(db, "jobs", this.$route.params.id));
+      if (docSnap.exists()) {
+        // console.log(docSnap.data());
+        this.jobInfo.push(docSnap.data());
+      } else {
+        console.log("Document does not exist");
+      }
+    },
+  },
 };
 </script>
 
