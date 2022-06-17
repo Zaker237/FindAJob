@@ -31,7 +31,7 @@ const routes = [
     path: '/job/:id',
     name: 'JobView',
     component: () => import('../views/user/JobView.vue'),
-  }
+  },
 ]
 
 const router = createRouter({

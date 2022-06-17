@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/Job/uid" custom v-slot="{ navigate }">
+  <router-link :to="'/job/' + id"  custom v-slot="{ navigate }">
     <div
       :class="['job', { applied: this.postulations.includes(id) }]"
       @click="navigate"
@@ -10,7 +10,11 @@
       <div class="job-body">
         <h1 class="job-title">{{ title }}</h1>
         <h2 class="job-description">
-          {{ description }}
+          {{
+            description.length > 200
+              ? description.split('').substring(0, 150) + " ..."
+              : description
+          }}
         </h2>
         <h3 class="job-location">
           <img src="./../assets/icons/location.svg" alt="location" />
@@ -130,7 +134,7 @@ export default {
   transition: 0.3s ease-out;
   border: 1px solid #e6eaea;
   &.applied {
-    background: #F5FBFB;
+    background: #f5fbfb;
   }
   &:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
