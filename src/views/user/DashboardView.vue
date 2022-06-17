@@ -29,6 +29,7 @@
             :picture="job.picture"
             :status="job.status"
             :postulations="job.postulations"
+            :id = "job.id"
           />
         </div>
       </div>
@@ -47,6 +48,7 @@
             :picture="job.picture"
             :status="job.status"
             :postulations="job.postulations"
+            :id = "job.id"
           />
         </div>
       </div>
@@ -117,7 +119,13 @@ export default {
       const querySnap = await getDocs(query(collection(db, "jobs")));
 
       querySnap.forEach((doc) => {
-        this.allJobs.push(doc.data());
+        const data = doc.data();
+        const idDocument = { id: doc.id };
+
+        const finalResult = Object.assign(data, idDocument);
+        console.log(finalResult);
+
+        this.allJobs.push(finalResult);
       });
     },
     async getUser() {
@@ -171,7 +179,7 @@ export default {
   padding-bottom: 20px;
   grid-gap: 10px;
 
-  &::before{
+  &::before {
     position: absolute;
     top: 5px;
     left: 0;
@@ -179,7 +187,7 @@ export default {
     font-family: "Inter", sans-serif;
     //color: $gray;
     margin-bottom: 10px;
-    opacity: .6;
+    opacity: 0.6;
   }
 }
 
@@ -194,8 +202,8 @@ export default {
   }
 }
 
-.line{
-  background: #EDEDEB;
+.line {
+  background: #ededeb;
   height: 1px;
 }
 

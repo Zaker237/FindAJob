@@ -17,6 +17,7 @@
             :picture="job.picture"
             :status="job.status"
             :postulations="job.postulations"
+            :id = "job.id"
           />
         </div>
       </div>
@@ -57,7 +58,13 @@ export default {
       const querySnap = await getDocs(query(collection(db, "jobs")));
 
       querySnap.forEach((doc) => {
-        this.allJobs.push(doc.data());
+        const data = doc.data();
+        const idDocument = { id: doc.id };
+
+        const finalResult = Object.assign(data, idDocument);
+        console.log(finalResult);
+
+        this.allJobs.push(finalResult);
       });
     },
   },

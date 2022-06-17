@@ -1,7 +1,7 @@
 <template>
   <router-link :to="'/job/' + id"  custom v-slot="{ navigate }">
     <div
-      :class="['job', { applied: this.postulations.includes(id) }]"
+      :class="['job', { applied: this.postulations.includes(idUser) }]"
       @click="navigate"
     >
       <div class="job-image">
@@ -90,14 +90,18 @@ export default {
       type: Array,
       required: true,
     },
+    id: {
+      type: String,
+      required: true,
+    },
   },
   setup() {
     const auth = getAuth();
     const currentUser = getAuth().currentUser;
-    const id = ref(currentUser.uid);
+    const idUser = ref(currentUser.uid);
     return {
       auth,
-      id,
+      idUser,
     };
   },
   data() {
@@ -110,7 +114,7 @@ export default {
   },
   methods: {
     async getUser() {
-      const docSnap = await getDoc(doc(db, "users", this.id));
+      const docSnap = await getDoc(doc(db, "users", this.idUser));
       if (docSnap.exists()) {
         //
       } else {
