@@ -77,7 +77,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 1fr;
-  grid-column-gap: 20px;
+  grid-column-gap: 10px;
   grid-row-gap: 0px;
   background: $ligth;
 }

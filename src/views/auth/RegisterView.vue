@@ -2,14 +2,14 @@
   <div id="register">
     <router-link to="/">
       <div class="back-home">
-        <img src="../../assets/icons/arrow-up.svg" alt="back to home">
+        <img src="../../assets/icons/arrow-up.svg" alt="back to home" />
       </div>
     </router-link>
     <form class="container" @submit.prevent="Register">
       <h2>Enregistrez vous</h2>
       <div class="container-socials">
         <button class="button-google" @click.stop.prevent="RegisterGoogle">
-          <img src="../../assets/icons/google.svg" alt="google">
+          <img src="../../assets/icons/google.svg" alt="google" />
           <span>Google</span>
         </button>
       </div>
@@ -20,121 +20,167 @@
         <span>Ce compte existe deja !</span>
       </div>
       <div class="container-error" v-if="isWeakPassword">
-          <span>
-            Le mot de passe doit contenir au moins 6 caracteres
-          </span>
+        <span> Le mot de passe doit contenir au moins 6 caracteres </span>
       </div>
       <div class="container-input">
         <label for="name">Nom</label>
-        <input v-model="name" id="name" type="texte" placeholder="Entrez votre nom" required>
+        <input
+          v-model="name"
+          id="name"
+          type="texte"
+          placeholder="Entrez votre nom"
+          required
+        />
       </div>
       <div class="container-input">
         <label for="email">Adresse email</label>
-        <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
+        <input
+          v-model="email"
+          id="email"
+          type="email"
+          placeholder="Entrez votre adresse email"
+          required
+        />
       </div>
       <div class="container-input">
         <label for="password">Mot de passe</label>
-        <input v-model="password" id="password" type="password" placeholder="Entrez votre mot de passe" required>
+        <input
+          v-model="password"
+          id="password"
+          type="password"
+          placeholder="Entrez votre mot de passe"
+          required
+        />
       </div>
       <div class="container-input">
-        <input v-model="confirmPassword" id="confirm-password" type="password"
-               placeholder="Confirmez votre mot de passe" required>
-        <span v-show="isDifferent"
-              style="color: red; font-style: italic; font-size: 13px; font-weight: 500; margin-top: 10px">Les mots de passe sont differents</span>
+        <input
+          v-model="confirmPassword"
+          id="confirm-password"
+          type="password"
+          placeholder="Confirmez votre mot de passe"
+          required
+        />
+        <span
+          v-show="isDifferent"
+          style="
+            color: red;
+            font-style: italic;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 10px;
+          "
+          >Les mots de passe sont differents</span
+        >
       </div>
-      <h3 class="container-options">Deja un compte ?
+      <h3 class="container-options">
+        Deja un compte ?
         <router-link to="/login">Connectez vous</router-link>
       </h3>
-
 
       <button type="submit" class="container-button" v-if="!isLoading">
         S'enregistrer
       </button>
-      <button class="container-button" v-else style="cursor: not-allowed;">
+      <button class="container-button" v-else style="cursor: not-allowed">
         Traitement ...
       </button>
-
     </form>
   </div>
 </template>
 
 <script>
-import {ref} from 'vue';
-import {getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import { ref } from "vue";
+import { setDoc, doc } from "firebase/firestore";
+import db from "./../../main.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 
 export default {
   setup() {
-    // const name = ref('')
-    const email = ref('')
-    const password = ref('')
-    const confirmPassword = ref('')
-    const isLoading = ref(false)
-    const isDifferent = ref(false)
-    const isAlreadyExist = ref(false)
-    const isWeakPassword = ref(false)
-    const isNetworkRequestFailed = ref(false)
-    const auth = getAuth()
-    const provider = new GoogleAuthProvider()
+    const name = ref("");
+    const email = ref("");
+    const password = ref("");
+    const confirmPassword = ref("");
+    const isLoading = ref(false);
+    const isDifferent = ref(false);
+    const isAlreadyExist = ref(false);
+    const isWeakPassword = ref(false);
+    const isNetworkRequestFailed = ref(false);
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
 
     const Register = () => {
       if (password.value === confirmPassword.value) {
-        document.querySelector('#confirm-password').classList.remove('error');
+        document.querySelector("#confirm-password").classList.remove("error");
         isLoading.value = true;
         isDifferent.value = false;
         isAlreadyExist.value = false;
         isWeakPassword.value = false;
         isNetworkRequestFailed.value = false;
         createUserWithEmailAndPassword(auth, email.value, password.value)
-            .then((userCredential) => {
-              const user = userCredential.user;
-              console.log(user);
-              email.value = "";
-              password.value = "";
-            })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
+          .then((userCredential) => {
+            const user = userCredential.user;
+            // console.log(user);
 
-              console.log(errorCode);
-              console.log(errorMessage);
-
-              if (errorCode === 'auth/email-already-in-use') {
-                isAlreadyExist.value = true;
-                isLoading.value = false;
-              }
-
-              if (errorCode === 'auth/weak-password') {
-                isWeakPassword.value = true;
-                isLoading.value = false;
-              }
-
-              if (errorCode === "auth/network-request-failed") {
-                isNetworkRequestFailed.value = true;
-                isLoading.value = false;
-              }
+            setDoc(doc(db, "users", user.uid), {
+              name: name.value,
+              jobApplied: [],
+              jobCreated: [],
+              email: email.value,
             });
+
+            email.value = "";
+            password.value = "";
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+
+            console.log(errorCode);
+            console.log(errorMessage);
+
+            if (errorCode === "auth/email-already-in-use") {
+              isAlreadyExist.value = true;
+              isLoading.value = false;
+            }
+
+            if (errorCode === "auth/weak-password") {
+              isWeakPassword.value = true;
+              isLoading.value = false;
+            }
+
+            if (errorCode === "auth/network-request-failed") {
+              isNetworkRequestFailed.value = true;
+              isLoading.value = false;
+            }
+          });
       } else {
-        document.querySelector('#confirm-password').classList.add('error');
+        document.querySelector("#confirm-password").classList.add("error");
         isDifferent.value = true;
       }
-    }
+    };
     const RegisterGoogle = () => {
       signInWithPopup(auth, provider)
-          .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            const user = result.user;
-            console.log(token, user);
-          }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage, email, credential);
-      });
-    }
+        .then((result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          const user = result.user;
+          console.log(token, user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          const email = error.email;
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          console.log(errorCode, errorMessage, email, credential);
+        });
+    };
 
     return {
+      name,
       email,
       password,
       confirmPassword,
@@ -146,10 +192,10 @@ export default {
       auth,
       provider,
       Register,
-      RegisterGoogle
-    }
-  }
-}
+      RegisterGoogle,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -183,7 +229,7 @@ export default {
   h2 {
     font-size: 36px;
     font-weight: 700;
-    color: #252F3F;
+    color: #252f3f;
   }
 
   &-input {
@@ -200,7 +246,7 @@ export default {
 
     input {
       width: 100%;
-      border: 1px solid #E5E7EB;
+      border: 1px solid #e5e7eb;
       border-radius: 4px;
       padding: 10px;
       outline: none;
@@ -215,7 +261,7 @@ export default {
     margin: 10px 0 15px 0;
     font-size: 14px;
     font-weight: 500;
-    color: #252F3F;
+    color: #252f3f;
     text-align: right;
   }
 
@@ -271,7 +317,7 @@ export default {
     background: rgb($dark, 0.05);
     border-width: 2px;
     border-color: transparent;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
 
     span {
       font-weight: 600;
