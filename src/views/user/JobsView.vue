@@ -1,10 +1,12 @@
 <template>
   <Header />
   <div class="jobs-body">
-    <SideBar/>
+    <SideBar />
     <div class="body-content">
       <div class="content-cards">
-<JobCard />
+        <div v-for="job in allJobs" :key="job.id">
+          <JobCard :title="job.title" :description="job.description" :salary="job.salary" :location="job.location" :enterprise="job.enterprise" :picture="job.picture" :status="job.status" />
+        </div>
       </div>
     </div>
   </div>
@@ -14,15 +16,34 @@
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
+import { query, collection, getDocs } from "firebase/firestore";
+import db from "./../../main.js";
 
 export default {
-  components: {JobCard, Header, SideBar}
-}
+  components: { JobCard, Header, SideBar },
+  data() {
+    return {
+      allJobs: [],
+    };
+  },
+  created() {
+    this.getCountry();
+  },
+  methods: {
+    async getCountry() {
+      const querySnap = await getDocs(query(collection(db, "jobs")));
+
+      querySnap.forEach((doc) => {
+        this.allJobs.push(doc.data());
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
-.jobs-body{
+.jobs-body {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 1fr;
@@ -30,27 +51,29 @@ export default {
   grid-row-gap: 0px;
   background: $ligth;
 }
-.body-content{
+.body-content {
   grid-area: 1 / 3 / 2 / 13;
   padding-top: 70px;
   margin-right: 10px;
 }
 
-.content-cards{
+.content-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 10px;
 }
 
 @media screen and (max-width: 1100px) {
-  .body-content{
+  .body-content {
     grid-area: 1 / 4 / 2 / 13;
   }
 }
 
 @media screen and (max-width: 700px) {
-  .body-content{
+  .body-content {
     grid-area: 1 / 1 / 2 / 13;
     min-height: 100vh;
+    margin: 0 5px 90px 5px;
   }
 }
 </style>

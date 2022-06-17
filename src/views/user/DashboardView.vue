@@ -112,6 +112,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   padding-top: 20px;
+  grid-gap: 10px;
 }
 
 @media screen and (max-width: 1100px) {
