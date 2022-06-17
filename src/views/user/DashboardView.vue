@@ -28,6 +28,7 @@
             :enterprise="job.enterprise"
             :picture="job.picture"
             :status="job.status"
+            :postulations="job.postulations"
           />
         </div>
       </div>
@@ -45,6 +46,7 @@
             :enterprise="job.enterprise"
             :picture="job.picture"
             :status="job.status"
+            :postulations="job.postulations"
           />
         </div>
       </div>

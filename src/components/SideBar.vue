@@ -259,6 +259,7 @@ export default {
     border-top-right-radius: 20px;
     border: 1px solid #E5E4E1;
     height: auto;
+    z-index: 3;
 
     &__container {
       display: flex;
@@ -297,14 +298,14 @@ export default {
           }
         }
 
-        #content-profile {
+        .content-profile {
           align-items: center;
           border: initial;
           background: initial;
           margin: 0;
           padding: 5px;
 
-          div {
+          &-infos {
             margin-left: 0;
 
             h3 {
