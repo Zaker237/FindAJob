@@ -31,14 +31,15 @@
         </router-link>
       </div>
       <div class="content">
-        <li id="content-profile" class="content-profile">
-          <img :src="photoURL !== null ? photoURL : noPhotoUrl" alt="profile image">
-          <div>
+        <li class="content-profile">
+          <img v-show="photoURL" :src="photoURL" alt="profile image">
+          <div v-show="!photoURL" class="content-profile-default">{{userName.split('')[0]}}</div>
+          <div class="content-profile-infos">
             <h3>{{ email }}</h3>
-            <span>{{ displayName !== null ? displayName : '' }}</span>
+            <span>{{ displayName ? displayName : userName }}</span>
           </div>
         </li>
-        <li id="content-logout" class="content-logout" @click="Logout">
+        <li class="content-logout" @click="Logout">
           <span>Deconnexion</span>
         </li>
       </div>
@@ -49,6 +50,8 @@
 <script>
 import {ref} from 'vue';
 import {getAuth, signOut} from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import db from "./../main.js";
 
 export default {
   name: "SideBar",
@@ -60,7 +63,7 @@ export default {
     const photoURL = ref(currentUser.photoURL)
     const email = ref(currentUser.email)
     const displayName = ref(currentUser.displayName)
-    const noPhotoUrl = 'https://cinbiose.uqam.ca/wp-content/uploads/sites/24/blank-profile-picture-g91ef0370b_1280.png'
+    const id = ref(currentUser.uid);
 
     const openModal = () => {
       isOpen.value = true;
@@ -85,11 +88,29 @@ export default {
       photoURL,
       email,
       displayName,
-      noPhotoUrl,
       openModal,
       closeModal,
-      Logout
+      Logout,
+      id
     }
+  },
+  data() {
+    return {
+      userName: "",
+    };
+  },
+  created() {
+    this.getUser();
+  },
+  methods: {
+    async getUser() {
+      const docSnap = await getDoc(doc(db, "users", this.id));
+      if (docSnap.exists()) {
+        this.userName = docSnap.data().name;
+      } else {
+        console.log("Document does not exist");
+      }
+    },
   },
 }
 </script>
@@ -157,7 +178,7 @@ export default {
       }
     }
 
-    #content-profile {
+    .content-profile {
       display: flex;
       align-items: flex-start;
       justify-content: flex-start;
@@ -166,11 +187,7 @@ export default {
       border-right: none;
       padding: 10px;
 
-      img {
-        border-radius: 50%;
-      }
-
-      div {
+      &-infos {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -190,9 +207,25 @@ export default {
           margin-left: 0;
         }
       }
+
+      img {
+        border-radius: 50%;
+      }
+
+      &-default{
+        color: $white;
+        background: $default;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        width: 30px;
+        height: 30px;
+      }
     }
 
-    #content-logout {
+    .content-logout {
       background: #f4f7f6;
 
       img {

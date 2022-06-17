@@ -10,7 +10,10 @@
     <SideBar />
     <div class="body-content">
       <div class="content-header">
-        <h1>Salut, {{ id }} ici tu pourras consulter toutes tes offres.</h1>
+        <h1>
+          Salut, {{ displayName ? displayName : userName }} ici tu pourras
+          consulter toutes tes offres.
+        </h1>
       </div>
       <div class="content-cards">
         <div
@@ -38,7 +41,7 @@ import { getAuth, updateProfile } from "firebase/auth";
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
-import { query, collection, getDocs } from "firebase/firestore";
+import { query, collection, doc, getDocs, getDoc } from "firebase/firestore";
 import db from "./../../main.js";
 
 export default {
@@ -82,10 +85,13 @@ export default {
   data() {
     return {
       allJobs: [],
+      allUsers: [],
+      userName: "",
     };
   },
   created() {
     this.getJobs();
+    this.getUser();
   },
   methods: {
     async getJobs() {
@@ -94,6 +100,14 @@ export default {
       querySnap.forEach((doc) => {
         this.allJobs.push(doc.data());
       });
+    },
+    async getUser() {
+      const docSnap = await getDoc(doc(db, "users", this.id));
+      if (docSnap.exists()) {
+        this.userName = docSnap.data().name;
+      } else {
+        console.log("Document does not exist");
+      }
     },
   },
 };
@@ -119,7 +133,9 @@ export default {
 
 .content-header {
   width: 100%;
+  // border-bottom: 1px solid #E5E4E1;
   h1 {
+    width: 100%;
     font-family: "Inter", sans-serif;
     font-weight: 500;
     font-size: 24px;
