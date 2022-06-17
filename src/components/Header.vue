@@ -14,9 +14,9 @@
         <h2>Find A Job<span>.</span></h2>
       </div>
       <div class="header-options">
-        <button>
+        <button @click="openNewJob">
           <span>Creer une offre</span>
-          <img src="../assets/icons/add.svg" alt="add">
+          <img src="../assets/icons/add.svg" alt="add" />
         </button>
       </div>
     </div>
@@ -24,28 +24,41 @@
 </template>
 
 <script>
-import {ref} from 'vue';
-import {getAuth, sendEmailVerification} from "firebase/auth";
+import { ref } from "vue";
+import { getAuth, sendEmailVerification } from "firebase/auth";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Header",
+  methods: {
+    openNewJob() {
+      //
+    },
+    createJob() {
+      // program to convert date to number
+      // create date
+      // const d1 = new Date();
+      // console.log(d1);
+      // // converting to number
+      // const result = d1.getTime();
+      // console.log(result);
+    },
+  },
   setup() {
-    const isOpen = ref(false)
-    const auth = getAuth()
-    const currentUser = getAuth().currentUser
-    const isEmailVerified = ref(currentUser.emailVerified)
-    const email = ref(currentUser.email)
+    const isOpen = ref(false);
+    const auth = getAuth();
+    const currentUser = getAuth().currentUser;
+    const isEmailVerified = ref(currentUser.emailVerified);
+    const email = ref(currentUser.email);
 
     const closeModal = () => {
       isOpen.value = false;
-    }
+    };
     const verifyEmail = () => {
-      sendEmailVerification(this.auth.currentUser)
-          .then(() => {
-            isOpen.value = true;
-          });
-    }
+      sendEmailVerification(this.auth.currentUser).then(() => {
+        isOpen.value = true;
+      });
+    };
 
     return {
       isEmailVerified,
@@ -54,14 +67,13 @@ export default {
       currentUser,
       email,
       closeModal,
-      verifyEmail
-    }
+      verifyEmail,
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-
 @import "../assets/styles/settings.scss";
 
 .verify-email {
@@ -90,7 +102,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #E5E4E1;
+  border-bottom: 1px solid #e5e4e1;
   background: $white;
   position: fixed;
   left: 0;
@@ -110,7 +122,7 @@ export default {
 
   &-logo {
     h2 {
-      color: #0D0D54;
+      color: #0d0d54;
       font-weight: 700;
 
       span {
@@ -205,5 +217,4 @@ export default {
     }
   }
 }
-
 </style>

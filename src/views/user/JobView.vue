@@ -24,6 +24,12 @@
                 alt="enterprise"
               /><span>{{ jobInfo[0].enterprise }}</span>
             </h3>
+            <h3>
+              <img
+                src="./../../assets/icons/time-white.svg"
+                alt="enterprise"
+              /><span>Début : {{ new Date(jobInfo[0].init).getDate() }} / {{ new Date(jobInfo[0].init).getMonth() + 1 }} / {{ new Date(jobInfo[0].init).getFullYear() }}</span>
+            </h3>
           </div>
           <div>
             <button v-for="statu in jobInfo[0].status">{{ statu }}</button>
