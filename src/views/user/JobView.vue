@@ -40,10 +40,13 @@
             </h3>
           </div>
           <div>
-            <button v-for="statu in jobInfo[0].status">{{ statu }}</button>
+            <button v-for="statu in jobInfo[0].status" :key="statu">{{ statu }}</button>
           </div>
         </div>
-        <div class="card-body">
+        <div
+          class="card-post"
+          v-show="jobInfo[0].author !== idUser ? true : false"
+        >
           <h2>Description</h2>
           <p>{{ jobInfo[0].description }}</p>
           <div>
@@ -57,18 +60,35 @@
             <button>Postuler</button>
           </div>
         </div>
+        <div class="card-postulations" v-show="jobInfo[0].author === idUser ? true : false">
+          <div class="card-postulation">
+            <h2>{{}}</h2>
+            <a :href="'mailto:'">CONTACTER</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
+import { getAuth } from "firebase/auth";
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
 import { doc, getDoc } from "firebase/firestore";
 import db from "./../../main.js";
 export default {
   components: { Header, SideBar },
+  setup() {
+    const auth = getAuth();
+    const currentUser = getAuth().currentUser;
+    const idUser = ref(currentUser.uid);
+    return {
+      auth,
+      idUser,
+    };
+  },
   data() {
     return {
       jobInfo: [], // jobInfo[0]
@@ -87,6 +107,15 @@ export default {
         console.log("Document does not exist");
       }
     },
+    // async getPostulations() {
+    //   const docSnap = await getDoc(doc(db, "users", this.$route.params.id));
+    //   if (docSnap.exists()) {
+    //     // console.log(docSnap.data());
+    //     this.jobInfo.push(docSnap.data());
+    //   } else {
+    //     console.log("Document does not exist");
+    //   }
+    // },
   },
 };
 </script>
@@ -183,7 +212,7 @@ export default {
       }
     }
 
-    .card-body {
+    .card-post {
       padding: 1rem;
       display: flex;
       flex-direction: column;
@@ -242,9 +271,29 @@ export default {
           color: #fff;
           margin-top: 10px;
           &:hover {
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, .3);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
           }
         }
+      }
+    }
+
+    .card-postulations {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      padding-top: 30px;
+      padding-bottom: 20px;
+      grid-gap: 10px;
+
+      &::before {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        font-style: italic;
+        font-family: "Inter", sans-serif;
+        content: "Les candidatures";
+        margin-bottom: 10px;
+        opacity: 1;
       }
     }
   }

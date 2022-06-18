@@ -39,7 +39,7 @@
           >
         </h3> -->
         <div class="job-footer__tags">
-          <button v-for="statu in status">{{ statu }}</button>
+          <button v-for="statu in status" :key="statu">{{ statu }}</button>
         </div>
       </div>
     </div>
