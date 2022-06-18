@@ -8,11 +8,19 @@
   <div class="sidebar" id="sidebar">
     <div class="sidebar__container">
       <div class="content">
-        <router-link to="/jobs" v-if="true === true" custom
-                     v-slot="{ navigate, isActive, isExactActive }">
-          <li @click="navigate" @keypress.enter="navigate" role="link"
-              :class="[isActive && 'active', isExactActive && 'exactActive']">
-            <img src="../assets/icons/offres.svg" alt="jobs">
+        <router-link
+          to="/jobs"
+          v-if="true === true"
+          custom
+          v-slot="{ navigate, isActive, isExactActive }"
+        >
+          <li
+            @click="navigate"
+            @keypress.enter="navigate"
+            role="link"
+            :class="[isActive && 'active', isExactActive && 'exactActive']"
+          >
+            <img src="../assets/icons/offres.svg" alt="jobs" />
             <span>Offres</span>
           </li>
         </router-link>
@@ -21,25 +29,35 @@
           <span>Offres</span>
         </li> -->
 
-        <router-link to="/dashboard" custom
-                     v-slot="{ navigate, isActive, isExactActive }">
-          <li @click="navigate" @keypress.enter="navigate" role="link"
-              :class="[isActive && 'active', isExactActive && 'exactActive']">
-            <img src="../assets/icons/dashboard.svg" alt="dashboard">
+        <router-link
+          to="/dashboard"
+          custom
+          v-slot="{ navigate, isActive, isExactActive }"
+        >
+          <li
+            @click="navigate"
+            @keypress.enter="navigate"
+            role="link"
+            :class="[isActive && 'active', isExactActive && 'exactActive']"
+          >
+            <img src="../assets/icons/dashboard.svg" alt="dashboard" />
             <span>Dashboard</span>
           </li>
         </router-link>
       </div>
       <div class="content">
         <li class="content-profile">
-          <img v-show="photoURL" :src="photoURL" alt="profile image">
-          <div v-show="!photoURL" class="content-profile-default">{{userName.split('')[0]}}</div>
+          <img v-show="photoURL" :src="photoURL" alt="profile image" />
+          <div v-show="!photoURL" class="content-profile-default">
+            {{ userName.split("")[0] }}
+          </div>
           <div class="content-profile-infos">
             <h3>{{ email }}</h3>
             <span>{{ displayName ? displayName : userName }}</span>
           </div>
         </li>
         <li class="content-logout" @click="Logout">
+          <img src="../assets/icons/logout.svg" alt="logout" />
           <span>Deconnexion</span>
         </li>
       </div>
@@ -48,39 +66,40 @@
 </template>
 
 <script>
-import {ref} from 'vue';
-import {getAuth, signOut} from "firebase/auth";
+import { ref } from "vue";
+import { getAuth, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import db from "./../main.js";
 
 export default {
   name: "SideBar",
   setup() {
-    const isOpen = ref(false)
-    const auth = getAuth()
-    const currentUser = auth.currentUser
-    const isEmailVerified = ref(currentUser.emailVerified)
-    const photoURL = ref(currentUser.photoURL)
-    const email = ref(currentUser.email)
-    const displayName = ref(currentUser.displayName)
+    const isOpen = ref(false);
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+    const isEmailVerified = ref(currentUser.emailVerified);
+    const photoURL = ref(currentUser.photoURL);
+    const email = ref(currentUser.email);
+    const displayName = ref(currentUser.displayName);
     const id = ref(currentUser.uid);
 
     const openModal = () => {
       isOpen.value = true;
-    }
+    };
     const closeModal = () => {
-    isOpen.value = false;
-    }
+      isOpen.value = false;
+    };
     const Logout = () => {
       signOut(auth)
-          .then(() => {
-            alert('SUCCESS')
-          }).catch((error) => {
-        console.log(error);
-      });
-    }
+        .then(() => {
+          alert("SUCCESS");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
-    return{
+    return {
       isOpen,
       auth,
       currentUser,
@@ -91,8 +110,8 @@ export default {
       openModal,
       closeModal,
       Logout,
-      id
-    }
+      id,
+    };
   },
   data() {
     return {
@@ -112,7 +131,7 @@ export default {
       }
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -128,7 +147,7 @@ export default {
   top: 0;
   height: 100vh;
 
-  border-right: 1px solid #E5E4E1;
+  border-right: 1px solid #e5e4e1;
 }
 
 .sidebar__container {
@@ -150,25 +169,25 @@ export default {
       margin: 10px 0;
 
       img {
-        width: 30px
+        width: 30px;
       }
 
       span {
         font-weight: 500;
         margin-left: 10px;
-        color: #4F5B67;
+        color: #4f5b67;
       }
 
       &:hover {
-        background: #F7F7FB;
+        background: #f7f7fb;
       }
 
       &.exactActive {
         position: relative;
-        background: #F7F7FB;
+        background: #f7f7fb;
 
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           background: $primary;
           width: 3px;
@@ -182,7 +201,7 @@ export default {
       display: flex;
       align-items: flex-start;
       justify-content: flex-start;
-      border: 1px solid #E5E4E1;
+      border: 1px solid #e5e4e1;
       border-left: none;
       border-right: none;
       padding: 10px;
@@ -196,7 +215,7 @@ export default {
 
         h3 {
           font-size: 12px;
-          font-family: 'Inter', sans-serif;
+          font-family: "Inter", sans-serif;
           font-weight: 500;
           overflow-wrap: anywhere;
         }
@@ -212,7 +231,7 @@ export default {
         border-radius: 50%;
       }
 
-      &-default{
+      &-default {
         color: $white;
         background: $default;
         border-radius: 50%;
@@ -226,19 +245,17 @@ export default {
     }
 
     .content-logout {
-      background: #f4f7f6;
+      background: $ligth;
 
       img {
         width: 30px;
       }
 
       span {
-        color: #4F5B67;
+        color: #4f5b67;
       }
     }
-
   }
-
 }
 
 @media screen and (max-width: 1100px) {
@@ -257,7 +274,7 @@ export default {
     width: 100%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    border: 1px solid #E5E4E1;
+    border: 1px solid #e5e4e1;
     height: auto;
     z-index: 3;
 
@@ -286,7 +303,8 @@ export default {
             font-size: 10px;
             text-align: center;
             margin: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: "Inter", sans-serif;
+            display: none;
           }
 
           &.exactActive {
@@ -313,7 +331,7 @@ export default {
             }
 
             span {
-
+              display: none;
               font-weight: 500;
               text-align: center;
             }

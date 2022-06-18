@@ -22,7 +22,10 @@
     <SideBar />
     <div class="body-content">
       <div class="body-content-card">
-        <div class="card-header">
+        <div
+          class="card-header"
+          v-show="jobInfo[0].author !== idUser ? true : false"
+        >
           <img :src="jobInfo[0].picture" alt="picture" class="job-picture" />
           <h1>{{ jobInfo[0].title }}</h1>
           <div>
@@ -60,6 +63,28 @@
             <button v-for="statu in jobInfo[0].status" :key="statu">
               {{ statu }}
             </button>
+          </div>
+        </div>
+        <div
+          class="card-header"
+          v-show="jobInfo[0].author === idUser ? true : false"
+        >
+          <img :src="jobInfo[0].picture" alt="picture" class="job-picture" />
+          <h1>Liste des candidatures</h1>
+          <div>
+            <h2>{{ jobInfo[0].title }}</h2>
+          </div>
+          <div>
+            <h3>
+              <img
+                src="./../../assets/icons/time-white.svg"
+                alt="enterprise"
+              /><span
+                >Début : {{ new Date(jobInfo[0].init).getDate() }} /
+                {{ new Date(jobInfo[0].init).getMonth() + 1 }} /
+                {{ new Date(jobInfo[0].init).getFullYear() }}</span
+              >
+            </h3>
           </div>
         </div>
         <div
@@ -237,7 +262,7 @@ export default {
           border: none;
           padding: 4px;
           color: $dark;
-          background: rgba($color: #bcbec3, $alpha: .4);
+          background: rgba($color: #bcbec3, $alpha: 0.4);
           border: 1px solid #bcbec3;
           border-radius: 15px;
         }
@@ -268,7 +293,7 @@ export default {
           box-shadow: 2px 2px 10px #dfdfdf;
         }
 
-        &:nth-child(1){
+        &:nth-child(1) {
           background: $gray;
           border: 1px solid $gray;
           color: $dark;
@@ -332,6 +357,15 @@ export default {
         @media (max-width: 768px) {
           font-size: 2.125rem;
         }
+      }
+      h2 {
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        line-height: 1.2;
+        text-align: center;
+        color: $white;
+        z-index: 2;
       }
       div {
         display: flex;
@@ -436,19 +470,8 @@ export default {
       position: relative;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      padding: 2.5rem 1rem 1rem 2rem;
+      padding: 1rem;
       grid-gap: 10px;
-
-      &::before {
-        position: absolute;
-        top: 7px;
-        left: 1rem;
-        font-style: italic;
-        font-family: "Inter", sans-serif;
-        content: "Les candidatures";
-        margin-bottom: 10px;
-        opacity: 1;
-      }
 
       .card-postulation {
         display: flex;
