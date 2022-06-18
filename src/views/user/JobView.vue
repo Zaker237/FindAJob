@@ -123,6 +123,7 @@
             v-for="postulation in postulationsUser"
             :key="postulation"
           >
+            <!-- <h1>{{postulation.cvs[`${this.$route.params.id}`]}}</h1> -->
             <h2>{{ postulation.name }}</h2>
             <a
               :href="postulation.cv"
@@ -185,7 +186,7 @@ export default {
       this.jobInfo[0].postulations.forEach((element) => {
         this.getPostulations(element);
       });
-    }, 100);
+    }, 1000);
   },
   methods: {
     async getJob() {
@@ -438,6 +439,7 @@ export default {
         align-items: center;
         padding: 1.5rem 1rem;
         border: 1px solid rgb(229, 229, 229);
+        background: $white;
         h3 {
           display: flex;
           justify-content: center;

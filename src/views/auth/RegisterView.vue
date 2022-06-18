@@ -127,8 +127,6 @@ export default {
 
             setDoc(doc(db, "users", user.uid), {
               name: name.value,
-              jobApplied: [],
-              jobCreated: [],
               email: email.value,
               cv: "",
             });
