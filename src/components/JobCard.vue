@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/job/' + id"  custom v-slot="{ navigate }">
+  <router-link :to="'/job/' + id" custom v-slot="{ navigate }">
     <div
       :class="['job', { applied: this.postulations.includes(idUser) }]"
       @click="navigate"
@@ -138,7 +138,8 @@ export default {
   transition: 0.3s ease-out;
   border: 1px solid #e6eaea;
   &.applied {
-    background: #f5fbfb;
+    // background: #f5fbfb;
+    opacity: 0.6;
   }
   &:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);

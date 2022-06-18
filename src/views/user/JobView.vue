@@ -61,9 +61,11 @@
           </div>
         </div>
         <div class="card-postulations" v-show="jobInfo[0].author === idUser ? true : false">
-          <div class="card-postulation">
-            <h2>{{}}</h2>
-            <a :href="'mailto:'">CONTACTER</a>
+          <div class="card-postulation" v-for="postulation in postulationsUser" :key="postulation">
+            <h2>{{postulation.name}}</h2>
+            <h3>{{postulation.email}}</h3>
+            <a :href="postulation.emailMailto">CONTACTER</a>
+            <!-- <a :href="'mailto:'{{postulation.email}}">CONTACTER</a> -->
           </div>
         </div>
       </div>
@@ -92,10 +94,16 @@ export default {
   data() {
     return {
       jobInfo: [], // jobInfo[0]
+      postulationsUser: [],
     };
   },
   created() {
     this.getJob();
+  },
+  mounted() {
+    this.jobInfo[0].postulations.forEach(element => {
+      this.getPostulations(element);
+    });
   },
   methods: {
     async getJob() {
@@ -107,15 +115,20 @@ export default {
         console.log("Document does not exist");
       }
     },
-    // async getPostulations() {
-    //   const docSnap = await getDoc(doc(db, "users", this.$route.params.id));
-    //   if (docSnap.exists()) {
-    //     // console.log(docSnap.data());
-    //     this.jobInfo.push(docSnap.data());
-    //   } else {
-    //     console.log("Document does not exist");
-    //   }
-    // },
+    async getPostulations(element) {
+      const docSnap = await getDoc(doc(db, "users", element));
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const emailMailto = { emailMailto: `mailto:${docSnap.data().email}` };
+
+        const finalResult = Object.assign(data, emailMailto);
+        //console.log(finalResult);
+
+        this.postulationsUser.push(finalResult);
+      } else {
+        console.log("Document does not exist");
+      }
+    },
   },
 };
 </script>

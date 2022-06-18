@@ -130,6 +130,7 @@ export default {
               jobApplied: [],
               jobCreated: [],
               email: email.value,
+              cv: "",
             });
 
             email.value = "";
