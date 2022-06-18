@@ -121,7 +121,7 @@
           <div
             class="card-postulation"
             v-for="postulation in postulationsUser"
-            :key="postulation.email"
+            :key="postulation"
           >
             <h2>{{ postulation.name }}</h2>
             <a
@@ -161,7 +161,7 @@ export default {
 
     const submitPostulation = () => {
       const cv = document.getElementById("cv").value;
-      console.log(cv)
+      console.log(cv);
     };
     return {
       auth,
@@ -181,9 +181,11 @@ export default {
     this.getJob();
   },
   mounted() {
-    this.jobInfo[0].postulations.forEach((element) => {
-      this.getPostulations(element);
-    });
+    setTimeout(() => {
+      this.jobInfo[0].postulations.forEach((element) => {
+        this.getPostulations(element);
+      });
+    }, 1000);
   },
   methods: {
     async getJob() {
