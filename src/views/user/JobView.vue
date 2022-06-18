@@ -1,5 +1,22 @@
 <template>
   <!-- <h1>{{ this.$route.params.id }}</h1> -->
+  <div class="card-fixed" v-if="modalPostulation">
+    <form class="postulation-form">
+      <div class="form-input">
+        <label for="cv">Charger votre CV (en pdf)</label>
+        <input
+          id="cv"
+          type="file"
+          accept="application/pdf,application/vnd.ms-excel"
+          required
+        />
+      </div>
+      <div class="form-button">
+        <button @click="openPostulation">Annuler</button>
+        <button>Soumettre</button>
+      </div>
+    </form>
+  </div>
   <Header />
   <div class="job-body">
     <SideBar />
@@ -82,7 +99,10 @@
             :key="postulation"
           >
             <h2>{{ postulation.name }}</h2>
-            <a :href="postulation.cv" target="_blank" class="card-postulation-cv"
+            <a
+              :href="postulation.cv"
+              target="_blank"
+              class="card-postulation-cv"
               >Téléchargez son CV</a
             >
             <a :href="postulation.emailMailto" class="card-postulation-contact"
@@ -105,12 +125,19 @@ import db from "./../../main.js";
 export default {
   components: { Header, SideBar },
   setup() {
+    const modalPostulation = ref(false);
     const auth = getAuth();
     const currentUser = getAuth().currentUser;
     const idUser = ref(currentUser.uid);
+
+    const openPostulation = () => {
+      modalPostulation.value = !modalPostulation.value;
+    };
     return {
       auth,
       idUser,
+      modalPostulation,
+      openPostulation,
     };
   },
   data() {
@@ -128,7 +155,6 @@ export default {
     });
   },
   methods: {
-    openPostulation() {},
     async getJob() {
       const docSnap = await getDoc(doc(db, "jobs", this.$route.params.id));
       if (docSnap.exists()) {
@@ -158,6 +184,99 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/styles/settings.scss";
+
+.card-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 4;
+
+  .postulation-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 90%;
+    background-color: #fff;
+    z-index: 5;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .form-input {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 20px;
+
+      label {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+
+      input {
+        width: 100%;
+        border: 1px solid $dark;
+        border-radius: 4px;
+        padding: 10px;
+        outline: none;
+
+        &:focus {
+          border-color: #bcbec3;
+        }
+
+        &::-webkit-file-upload-button {
+          border: none;
+          padding: 4px;
+          color: $dark;
+          background: rgba($color: #bcbec3, $alpha: .4);
+          border: 1px solid #bcbec3;
+          border-radius: 15px;
+        }
+      }
+    }
+
+    .form-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $dark;
+        border: 1px solid $dark;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        color: $white;
+        cursor: pointer;
+        transition: box-shadow 0.2s ease-in-out;
+
+        &:hover {
+          box-shadow: 2px 2px 10px #dfdfdf;
+        }
+
+        &:nth-child(1){
+          background: $gray;
+          border: 1px solid $gray;
+          color: $dark;
+        }
+      }
+    }
+  }
+}
 .job-body {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
