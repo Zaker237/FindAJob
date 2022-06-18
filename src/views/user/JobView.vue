@@ -40,7 +40,9 @@
             </h3>
           </div>
           <div>
-            <button v-for="statu in jobInfo[0].status" :key="statu">{{ statu }}</button>
+            <button v-for="statu in jobInfo[0].status" :key="statu">
+              {{ statu }}
+            </button>
           </div>
         </div>
         <div
@@ -56,16 +58,36 @@
                 alt="enterprise"
               /><span>{{ jobInfo[0].enterprise }}</span>
             </h3>
-            <h4>Vous êtes intéressé ?</h4>
-            <button>Postuler</button>
+            <h4
+              v-show="!jobInfo[0].postulations.includes(idUser) ? true : false"
+            >
+              Vous êtes intéressé ?
+            </h4>
+            <button
+              v-if="!jobInfo[0].postulations.includes(idUser)"
+              @click="openPostulation"
+            >
+              Postuler
+            </button>
+            <button v-else>Déjà postulé</button>
           </div>
         </div>
-        <div class="card-postulations" v-show="jobInfo[0].author === idUser ? true : false">
-          <div class="card-postulation" v-for="postulation in postulationsUser" :key="postulation">
-            <h2>{{postulation.name}}</h2>
-            <h3>{{postulation.email}}</h3>
-            <a :href="postulation.emailMailto">CONTACTER</a>
-            <!-- <a :href="'mailto:'{{postulation.email}}">CONTACTER</a> -->
+        <div
+          class="card-postulations"
+          v-show="jobInfo[0].author === idUser ? true : false"
+        >
+          <div
+            class="card-postulation"
+            v-for="postulation in postulationsUser"
+            :key="postulation"
+          >
+            <h2>{{ postulation.name }}</h2>
+            <a :href="postulation.cv" target="_blank" class="card-postulation-cv"
+              >Téléchargez son CV</a
+            >
+            <a :href="postulation.emailMailto" class="card-postulation-contact"
+              >CONTACTER</a
+            >
           </div>
         </div>
       </div>
@@ -101,11 +123,12 @@ export default {
     this.getJob();
   },
   mounted() {
-    this.jobInfo[0].postulations.forEach(element => {
+    this.jobInfo[0].postulations.forEach((element) => {
       this.getPostulations(element);
     });
   },
   methods: {
+    openPostulation() {},
     async getJob() {
       const docSnap = await getDoc(doc(db, "jobs", this.$route.params.id));
       if (docSnap.exists()) {
@@ -294,19 +317,51 @@ export default {
       position: relative;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      padding-top: 30px;
-      padding-bottom: 20px;
+      padding: 2.5rem 1rem 1rem 2rem;
       grid-gap: 10px;
 
       &::before {
         position: absolute;
-        top: 5px;
-        left: 0;
+        top: 7px;
+        left: 1rem;
         font-style: italic;
         font-family: "Inter", sans-serif;
         content: "Les candidatures";
         margin-bottom: 10px;
         opacity: 1;
+      }
+
+      .card-postulation {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem 1rem;
+        border: 1px solid rgb(229, 229, 229);
+        h2 {
+          font-weight: 600;
+          font-size: 1.2rem;
+        }
+        &-cv {
+          margin: 10px 0;
+          font-weight: 400;
+          font-size: 1rem;
+          text-decoration: underline;
+        }
+        &-contact {
+          cursor: pointer;
+          padding: 0.5rem 0.75rem;
+          font-size: 14px;
+          border: none;
+          font-weight: 400;
+          text-transform: uppercase;
+          background: $default;
+          color: #fff;
+          margin-top: 10px;
+          &:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+          }
+        }
       }
     }
   }
