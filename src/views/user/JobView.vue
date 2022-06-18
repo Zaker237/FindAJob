@@ -185,7 +185,7 @@ export default {
       this.jobInfo[0].postulations.forEach((element) => {
         this.getPostulations(element);
       });
-    }, 1000);
+    }, 100);
   },
   methods: {
     async getJob() {
@@ -329,7 +329,7 @@ export default {
 
   &-card {
     width: 100%;
-    background: $white;
+    // background: $white;
     .card-header {
       position: relative;
       height: 25rem;
@@ -488,6 +488,7 @@ export default {
         align-items: center;
         padding: 1.5rem 1rem;
         border: 1px solid rgb(229, 229, 229);
+        background: $white;
         h2 {
           font-weight: 600;
           font-size: 1.2rem;
