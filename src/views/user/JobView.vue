@@ -13,7 +13,7 @@
       </div>
       <div class="form-button">
         <button @click="openPostulation">Annuler</button>
-        <button>Soumettre</button>
+        <button @click.prevent="submitPostulation">Soumettre</button>
       </div>
     </form>
   </div>
@@ -121,7 +121,7 @@
           <div
             class="card-postulation"
             v-for="postulation in postulationsUser"
-            :key="postulation"
+            :key="postulation.email"
           >
             <h2>{{ postulation.name }}</h2>
             <a
@@ -158,11 +158,17 @@ export default {
     const openPostulation = () => {
       modalPostulation.value = !modalPostulation.value;
     };
+
+    const submitPostulation = () => {
+      const cv = document.getElementById("cv").value;
+      console.log(cv)
+    };
     return {
       auth,
       idUser,
       modalPostulation,
       openPostulation,
+      submitPostulation,
     };
   },
   data() {
