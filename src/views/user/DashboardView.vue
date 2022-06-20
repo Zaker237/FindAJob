@@ -25,7 +25,7 @@
         >
           <JobCard
             :title="job.title"
-            :description="job.description"
+            :init="job.init"
             :salary="job.salary"
             :location="job.location"
             :enterprise="job.enterprise"
@@ -47,7 +47,7 @@
         >
           <JobCard
             :title="job.title"
-            :description="job.description"
+            :init="job.init"
             :salary="job.salary"
             :location="job.location"
             :enterprise="job.enterprise"

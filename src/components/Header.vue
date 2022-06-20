@@ -25,14 +25,24 @@
       </div>
       <div class="form-input">
         <label for="description">Description</label>
-        <textarea
-          id="description"
-          cols="30"
-          rows="5"
-          placeholder="Faites une description la plus détaillé possible de l'offre ..."
+        <editor
+          api-key="uz5nscj96ldxmdwjuelhavjby49db6rfbr3e5jrdb886w0of"
+          :init="{
+            height: 300,
+            menubar: false,
+            plugins: [
+              'advlist autolink lists link image charmap print preview anchor',
+              'searchreplace visualblocks code fullscreen',
+              'insertdatetime media table paste code help wordcount',
+            ],
+            toolbar:
+              'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent | removeformat | help',
+          }"
           v-model="description"
-          required
-        ></textarea>
+          style="width: 100%; height: 300px;"
+        />
       </div>
       <div class="form-input">
         <label for="salary">Salaire du poste</label>
@@ -137,6 +147,7 @@
 import { ref } from "vue";
 import { getAuth, sendEmailVerification } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
+import Editor from "@tinymce/tinymce-vue";
 import {
   getStorage,
   uploadBytes,
@@ -148,6 +159,9 @@ import db from "./../main.js";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Header",
+  components: {
+    editor: Editor,
+  },
   data() {
     return {
       isLoading: false,
@@ -324,7 +338,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 450px;
+    width: 500px;
     max-width: 90%;
     max-height: 80%;
     background-color: #fff;
@@ -389,7 +403,7 @@ export default {
         }
       }
       textarea {
-        resize: none;
+        // resize: none;
       }
       div {
         display: flex;
