@@ -234,6 +234,7 @@ export default {
       });
       this.openPostulation();
       this.isLoading = false; 
+      this.$router.push("/jobs");
     },
 
     async getPostulations(element) {
