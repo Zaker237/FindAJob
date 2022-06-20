@@ -7,12 +7,12 @@
     </router-link>
     <form class="container" @submit.prevent="Login">
       <h2>Connectez vous</h2>
-      <div class="container-socials">
+      <!-- <div class="container-socials">
         <button class="button-google" @click.stop.prevent="LoginGoogle">
           <img src="../../assets/icons/google.svg" alt="google" />
           <span>Google</span>
         </button>
-      </div>
+      </div> -->
       <div class="container-error" v-if="isNetworkRequestFailed">
         <span>Il semblerait que vous n' ayez pas acces a internet</span>
       </div>
@@ -62,13 +62,17 @@
 </template>
 
 <script>
-import { ref } from "vue";
+
 import {
-  getAuth,
-  GoogleAuthProvider,
   signInWithEmailAndPassword,
-  signInWithRedirect,
+  getAuth
 } from "firebase/auth";
+
+import { ref } from "vue";
+// import {
+//   signInWithRedirect,
+//   GoogleAuthProvider
+// } from "firebase/auth";
 
 export default {
   setup() {
@@ -81,7 +85,7 @@ export default {
     const isNetworkRequestFailed = ref(false);
     const auth = getAuth();
     const isLoading = ref(false);
-    const provider = new GoogleAuthProvider();
+    // const provider = new GoogleAuthProvider();
 
     const Login = () => {
       isLoading.value = true;
@@ -122,18 +126,18 @@ export default {
           }
         });
     };
-    const LoginGoogle = () => {
-      isLoading.value = true;
-      signInWithRedirect(auth, provider)
-        .then(() => {
-          console.log("redirected");
-          isLoading.value = false;
-        })
-        .catch((error) => {
-          console.log(error);
-          isLoading.value = false;
-        });
-    };
+    // const LoginGoogle = () => {
+    //   isLoading.value = true;
+    //   signInWithRedirect(auth, provider)
+    //     .then(() => {
+    //       console.log("redirected");
+    //       isLoading.value = false;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       isLoading.value = false;
+    //     });
+    // };
 
     return {
       email,
@@ -144,9 +148,9 @@ export default {
       isNetworkRequestFailed,
       auth,
       isLoading,
-      provider,
+      // provider,
       Login,
-      LoginGoogle,
+      // LoginGoogle,
     };
   },
 };

@@ -7,12 +7,12 @@
     </router-link>
     <form class="container" @submit.prevent="Register">
       <h2>Enregistrez vous</h2>
-      <div class="container-socials">
+      <!-- <div class="container-socials">
         <button class="button-google" @click.stop.prevent="RegisterGoogle">
           <img src="../../assets/icons/google.svg" alt="google" />
           <span>Google</span>
         </button>
-      </div>
+      </div> -->
       <div class="container-error" v-if="isNetworkRequestFailed">
         <span>Il semblerait que vous n' ayez pas acces a internet</span>
       </div>
@@ -91,12 +91,12 @@
 import { ref } from "vue";
 import { setDoc, doc } from "firebase/firestore";
 import db from "./../../main.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+// import {
+//   signInWithPopup,
+//   GoogleAuthProvider,
+// } from "firebase/auth";
 
 export default {
   setup() {
@@ -110,7 +110,7 @@ export default {
     const isWeakPassword = ref(false);
     const isNetworkRequestFailed = ref(false);
     const auth = getAuth();
-    const provider = new GoogleAuthProvider();
+    // const provider = new GoogleAuthProvider();
 
     const Register = () => {
       if (password.value === confirmPassword.value) {
@@ -161,22 +161,22 @@ export default {
         isDifferent.value = true;
       }
     };
-    const RegisterGoogle = () => {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          const user = result.user;
-          console.log(token, user);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          const email = error.email;
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          console.log(errorCode, errorMessage, email, credential);
-        });
-    };
+    // const RegisterGoogle = () => {
+    //   signInWithPopup(auth, provider)
+    //     .then((result) => {
+    //       const credential = GoogleAuthProvider.credentialFromResult(result);
+    //       const token = credential.accessToken;
+    //       const user = result.user;
+    //       console.log(token, user);
+    //     })
+    //     .catch((error) => {
+    //       const errorCode = error.code;
+    //       const errorMessage = error.message;
+    //       const email = error.email;
+    //       const credential = GoogleAuthProvider.credentialFromError(error);
+    //       console.log(errorCode, errorMessage, email, credential);
+    //     });
+    // };
 
     return {
       name,
@@ -189,9 +189,9 @@ export default {
       isWeakPassword,
       isNetworkRequestFailed,
       auth,
-      provider,
+      // provider,
       Register,
-      RegisterGoogle,
+      // RegisterGoogle,
     };
   },
 };
