@@ -17,8 +17,7 @@
       </div>
       <div class="form-button">
         <button @click="openPostulation">Annuler</button>
-        <!-- <button @click.prevent="submitPostulation">Soumettre</button> -->
-        <button @click.prevent="onUpload">Soumettre</button>
+        <button @click.prevent="submitPostulation">Soumettre</button>
       </div>
     </form>
   </div>
@@ -153,7 +152,7 @@ import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
 import "firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { getStorage, uploadBytes, ref as stRef } from "firebase/storage";
+import { getStorage, uploadBytes, ref as stRef, getDownloadURL } from "firebase/storage";
 import db from "./../../main.js";
 export default {
   components: { Header, SideBar },
@@ -179,6 +178,7 @@ export default {
       jobInfo: [], // jobInfo[0]
       postulationsUser: [],
       isLoading: false,
+      cv: "",
     };
   },
   created() {
@@ -210,21 +210,24 @@ export default {
       const file = e.target.files[0];
       const storage = getStorage();
       const storageRef = stRef(storage, `cvs/${file.name}`);
-      await uploadBytes(storageRef, file).then((snapshot) => {
-        console.log("Uploaded a blob or file!");
-        console.log(snapshot)
+      await uploadBytes(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then((url) => {
+          this.cv = url;
+          console.log(this.cv);
+        });
         this.isLoading = false;
       });
     },
 
     async submitPostulation() {
+      // if file is empty => error
+      if (this.cv === "") {
+        alert("Veuillez choisir un CV");
+        return;
+      }
       this.isLoading = true; 
-      const cv = this.$refs.cv.files[0];
-      console.log(cv);
-
-      console.log(cv);
       await updateDoc(doc(db, "users", this.idUser), {
-        cv: cv,
+        cv: this.cv,
       });
       this.openPostulation();
       this.isLoading = false; 
