@@ -190,12 +190,11 @@ export default {
     this.getJob();
   },
   mounted() {
+    this.isLoading = true;
     setTimeout(() => {
-      this.jobInfo[0].postulations.forEach((element) => {
-        this.getPostulations(element);
-      });
       const descriptionHtml = document.querySelector(".descriptionHtml");
       descriptionHtml.innerHTML = this.jobInfo[0].description;
+      this.isLoading = false;
     }, 1000);
   },
   methods: {
@@ -205,6 +204,9 @@ export default {
       if (docSnap.exists()) {
         // console.log(docSnap.data());
         this.jobInfo.push(docSnap.data());
+        this.jobInfo[0].postulations.forEach((element) => {
+          this.getPostulations(element);
+        });
         this.isLoading = false;
       } else {
         console.log("Document does not exist");
