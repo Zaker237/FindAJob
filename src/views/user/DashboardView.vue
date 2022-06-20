@@ -157,6 +157,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
+li {
+  list-style: none;
+}
 
 .loading {
   position: fixed;

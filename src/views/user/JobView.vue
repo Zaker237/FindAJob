@@ -44,7 +44,10 @@
               <img
                 src="./../../assets/icons/salary-white.svg"
                 alt="salary"
-              /><span>{{ jobInfo[0].salary }} {{jobInfo[0].salaryDevise}} / {{jobInfo[0].salaryFrequency}}</span>
+              /><span
+                >{{ jobInfo[0].salary }} {{ jobInfo[0].salaryDevise }} /
+                {{ jobInfo[0].salaryFrequency }}</span
+              >
             </h3>
             <h3>
               <img
@@ -80,10 +83,7 @@
           </div>
           <div>
             <h3>
-              <img
-                src="./../../assets/icons/time-white.svg"
-                alt="init"
-              /><span
+              <img src="./../../assets/icons/time-white.svg" alt="init" /><span
                 >Début : {{ new Date(jobInfo[0].init).getDate() }} /
                 {{ new Date(jobInfo[0].init).getMonth() + 1 }} /
                 {{ new Date(jobInfo[0].init).getFullYear() }}</span
@@ -152,7 +152,12 @@ import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
 import "firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { getStorage, uploadBytes, ref as stRef, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  uploadBytes,
+  ref as stRef,
+  getDownloadURL,
+} from "firebase/storage";
 import db from "./../../main.js";
 export default {
   components: { Header, SideBar },
@@ -189,26 +194,26 @@ export default {
       this.jobInfo[0].postulations.forEach((element) => {
         this.getPostulations(element);
       });
-      const descriptionHtml = document.querySelector('.descriptionHtml')
-      descriptionHtml.innerHTML = this.jobInfo[0].description
+      const descriptionHtml = document.querySelector(".descriptionHtml");
+      descriptionHtml.innerHTML = this.jobInfo[0].description;
     }, 1000);
   },
   methods: {
     async getJob() {
-      this.isLoading = true; 
+      this.isLoading = true;
       const docSnap = await getDoc(doc(db, "jobs", this.$route.params.id));
       if (docSnap.exists()) {
         // console.log(docSnap.data());
         this.jobInfo.push(docSnap.data());
-        this.isLoading = false; 
+        this.isLoading = false;
       } else {
         console.log("Document does not exist");
-        this.isLoading = false; 
+        this.isLoading = false;
       }
     },
 
     async onFileChange(e) {
-      this.isLoading = true; 
+      this.isLoading = true;
       const file = e.target.files[0];
       const storage = getStorage();
       const storageRef = stRef(storage, `CV/${file.name}`);
@@ -227,7 +232,7 @@ export default {
         alert("Veuillez choisir un CV");
         return;
       }
-      this.isLoading = true; 
+      this.isLoading = true;
       await updateDoc(doc(db, "users", this.idUser), {
         cv: this.cv,
       });
@@ -235,12 +240,12 @@ export default {
         postulations: [...this.jobInfo[0].postulations, this.idUser],
       });
       this.openPostulation();
-      this.isLoading = false; 
+      this.isLoading = false;
       this.$router.push("/jobs");
     },
 
     async getPostulations(element) {
-      this.isLoading = true; 
+      this.isLoading = true;
       const docSnap = await getDoc(doc(db, "users", element));
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -250,10 +255,10 @@ export default {
         //console.log(finalResult);
 
         this.postulationsUser.push(finalResult);
-        this.isLoading = false; 
+        this.isLoading = false;
       } else {
         console.log("Document does not exist");
-        this.isLoading = false; 
+        this.isLoading = false;
       }
     },
   },
@@ -262,6 +267,10 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/styles/settings.scss";
+
+li {
+  list-style: disc;
+}
 
 .loading {
   position: fixed;
@@ -275,7 +284,7 @@ export default {
   align-items: center;
   z-index: 5;
 
-  div{
+  div {
     background: transparent;
     border: 10px solid transparent;
     border-top-color: $white;
@@ -286,10 +295,10 @@ export default {
   }
 
   @keyframes rotation {
-    0%{
+    0% {
       transform: rotate(0);
     }
-    100%{
+    100% {
       transform: rotate(359deg);
     }
   }
@@ -506,9 +515,6 @@ export default {
         opacity: 0.8;
         padding: 0.5rem 1rem 2rem 1rem;
         line-height: 1.5rem;
-        li{
-          list-style: disc;
-        }
       }
       div {
         width: 400px;

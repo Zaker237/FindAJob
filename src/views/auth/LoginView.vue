@@ -155,6 +155,10 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
 
+li {
+  list-style: none;
+}
+
 #login {
   min-height: 100vh;
   display: flex;

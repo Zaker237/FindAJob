@@ -175,6 +175,10 @@ export default {
   font-weight: 300;
   color: #202121;
 }
+
+li {
+  list-style: none;
+}
 .card-fixed {
   position: fixed;
   top: 0;

@@ -136,6 +136,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/styles/settings.scss";
+li {
+  list-style: none;
+}
 
 .sidebar {
   grid-area: 1 / 1 / 2 / 3;
