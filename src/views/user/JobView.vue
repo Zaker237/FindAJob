@@ -1,5 +1,8 @@
 <template>
   <!-- <h1>{{ this.$route.params.id }}</h1> -->
+  <div class="loading" v-if="isLoading">
+    <div></div>
+  </div>
   <div class="card-fixed" v-if="modalPostulation">
     <form class="postulation-form">
       <div class="form-input">
@@ -7,13 +10,15 @@
         <input
           id="cv"
           type="file"
+          @change="onFileChange"
           accept="application/pdf,application/vnd.ms-excel"
           required
         />
       </div>
       <div class="form-button">
         <button @click="openPostulation">Annuler</button>
-        <button @click.prevent="submitPostulation">Soumettre</button>
+        <!-- <button @click.prevent="submitPostulation">Soumettre</button> -->
+        <button @click.prevent="onUpload">Soumettre</button>
       </div>
     </form>
   </div>
@@ -146,7 +151,9 @@ import { ref } from "vue";
 import { getAuth } from "firebase/auth";
 import SideBar from "@/components/SideBar";
 import Header from "@/components/Header";
-import { doc, getDoc } from "firebase/firestore";
+import "firebase/storage";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { getStorage, uploadBytes, ref as stRef } from "firebase/storage";
 import db from "./../../main.js";
 export default {
   components: { Header, SideBar },
@@ -160,22 +167,18 @@ export default {
       modalPostulation.value = !modalPostulation.value;
     };
 
-    const submitPostulation = () => {
-      const cv = document.getElementById("cv").value;
-      console.log(cv);
-    };
     return {
       auth,
       idUser,
       modalPostulation,
       openPostulation,
-      submitPostulation,
     };
   },
   data() {
     return {
       jobInfo: [], // jobInfo[0]
       postulationsUser: [],
+      isLoading: false,
     };
   },
   created() {
@@ -190,15 +193,45 @@ export default {
   },
   methods: {
     async getJob() {
+      this.isLoading = true; 
       const docSnap = await getDoc(doc(db, "jobs", this.$route.params.id));
       if (docSnap.exists()) {
         // console.log(docSnap.data());
         this.jobInfo.push(docSnap.data());
+        this.isLoading = false; 
       } else {
         console.log("Document does not exist");
+        this.isLoading = false; 
       }
     },
+
+    async onFileChange(e) {
+      this.isLoading = true; 
+      const file = e.target.files[0];
+      const storage = getStorage();
+      const storageRef = stRef(storage, `cvs/${file.name}`);
+      await uploadBytes(storageRef, file).then((snapshot) => {
+        console.log("Uploaded a blob or file!");
+        console.log(snapshot)
+        this.isLoading = false;
+      });
+    },
+
+    async submitPostulation() {
+      this.isLoading = true; 
+      const cv = this.$refs.cv.files[0];
+      console.log(cv);
+
+      console.log(cv);
+      await updateDoc(doc(db, "users", this.idUser), {
+        cv: cv,
+      });
+      this.openPostulation();
+      this.isLoading = false; 
+    },
+
     async getPostulations(element) {
+      this.isLoading = true; 
       const docSnap = await getDoc(doc(db, "users", element));
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -208,8 +241,10 @@ export default {
         //console.log(finalResult);
 
         this.postulationsUser.push(finalResult);
+        this.isLoading = false; 
       } else {
         console.log("Document does not exist");
+        this.isLoading = false; 
       }
     },
   },
@@ -218,6 +253,38 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/styles/settings.scss";
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+
+  div{
+    background: transparent;
+    border: 10px solid transparent;
+    border-top-color: $white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: rotation 1s infinite linear;
+  }
+
+  @keyframes rotation {
+    0%{
+      transform: rotate(0);
+    }
+    100%{
+      transform: rotate(359deg);
+    }
+  }
+}
 
 .card-fixed {
   position: fixed;

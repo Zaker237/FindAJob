@@ -1,4 +1,7 @@
 <template>
+<div class="loading" v-if="isLoading">
+    <div></div>
+  </div>
   <Header />
   <div class="jobs-body">
     <SideBar />
@@ -48,6 +51,7 @@ export default {
   data() {
     return {
       allJobs: [],
+      isLoading: false,
     };
   },
   created() {
@@ -55,6 +59,7 @@ export default {
   },
   methods: {
     async getJobs() {
+      this.isLoading = true; 
       const querySnap = await getDocs(query(collection(db, "jobs")));
 
       querySnap.forEach((doc) => {
@@ -65,6 +70,7 @@ export default {
         // console.log(finalResult);
 
         this.allJobs.push(finalResult);
+        this.isLoading = false; 
       });
     },
   },
@@ -73,6 +79,37 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+
+  div{
+    background: transparent;
+    border: 10px solid transparent;
+    border-top-color: $white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: rotation 1s infinite linear;
+  }
+
+  @keyframes rotation {
+    0%{
+      transform: rotate(0);
+    }
+    100%{
+      transform: rotate(359deg);
+    }
+  }
+}
 .jobs-body {
   display: grid;
   grid-template-columns: repeat(12, 1fr);

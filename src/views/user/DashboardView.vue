@@ -1,4 +1,7 @@
 <template>
+  <div class="loading" v-if="isLoading">
+    <div></div>
+  </div>
   <div v-if="isOpen" class="container-alert">
     <div class="card">
       <span>Votre profile a bien ete mis a jour :)</span>
@@ -29,7 +32,7 @@
             :picture="job.picture"
             :status="job.status"
             :postulations="job.postulations"
-            :id = "job.id"
+            :id="job.id"
           />
         </div>
       </div>
@@ -48,7 +51,7 @@
             :picture="job.picture"
             :status="job.status"
             :postulations="job.postulations"
-            :id = "job.id"
+            :id="job.id"
           />
         </div>
       </div>
@@ -108,6 +111,7 @@ export default {
       allJobs: [],
       allUsers: [],
       userName: "",
+      isLoading: false,
     };
   },
   created() {
@@ -116,6 +120,7 @@ export default {
   },
   methods: {
     async getJobs() {
+      this.isLoading = true; 
       const querySnap = await getDocs(query(collection(db, "jobs")));
 
       querySnap.forEach((doc) => {
@@ -126,14 +131,18 @@ export default {
         // console.log(finalResult);
 
         this.allJobs.push(finalResult);
+        this.isLoading = false; 
       });
     },
     async getUser() {
+      this.isLoading = true; 
       const docSnap = await getDoc(doc(db, "users", this.id));
       if (docSnap.exists()) {
         this.userName = docSnap.data().name;
+        this.isLoading = false; 
       } else {
         console.log("Document does not exist");
+        this.isLoading = false; 
       }
     },
   },
@@ -142,6 +151,38 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/styles/settings.scss";
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+
+  div{
+    background: transparent;
+    border: 10px solid transparent;
+    border-top-color: $white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: rotation 1s infinite linear;
+  }
+
+  @keyframes rotation {
+    0%{
+      transform: rotate(0);
+    }
+    100%{
+      transform: rotate(359deg);
+    }
+  }
+}
 
 .dashboard-body {
   display: grid;
