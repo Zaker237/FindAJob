@@ -18,7 +18,8 @@
         <ul class="navigation-right">
           <li><a href="#about">A propos</a></li>
           <li><a href="#contact">Contact</a></li>
-          <li><a href="#" style="color: #bcbec3; cursor: not-allowed">Contribuer</a></li>
+          <li><a href="https://github.com/ln-dev7/FindAJob/" target="_blank" style="color: #bcbec3;">Contribuer</a></li>
+           <!-- cursor: not-allowed" -->
           <li>
             <router-link to="/login">
               <button class="btn__login">Connexion</button>
