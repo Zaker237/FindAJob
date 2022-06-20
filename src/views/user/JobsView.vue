@@ -23,6 +23,7 @@
             :id = "job.id"
             :salaryFrequency="job.salaryFrequency"
             :salaryDevise="job.salaryDevise"
+            :author="job.author"
           />
         </div>
       </div>

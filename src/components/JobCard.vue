@@ -1,9 +1,28 @@
 <template>
+  <div class="loading" v-if="isLoading">
+    <div></div>
+  </div>
+  <div class="card-fixed" v-if="modalDelete">
+    <form class="postulation-form">
+      <h2>Voulez vous vraiment supprimer cette offre ?</h2>
+      <div class="form-button">
+        <button @click="openDelete">Annuler</button>
+        <button @click.prevent="deleteJob">Supprimer</button>
+      </div>
+    </form>
+  </div>
   <router-link :to="'/job/' + id" custom v-slot="{ navigate }">
     <div
       :class="['job', { applied: this.postulations.includes(idUser) }]"
       @click="navigate"
     >
+      <div
+        v-show="author === idUser"
+        class="delete-job"
+        @click.stop.prevent="openDelete"
+      >
+        <img src="./../assets/icons/delete.svg" alt="delete" />
+      </div>
       <div class="job-image">
         <img :src="picture" alt="picture" />
       </div>
@@ -50,7 +69,7 @@
 import { ref } from "vue";
 import { getAuth } from "firebase/auth";
 // import { collection, addDoc } from "firebase/firestore";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 // import { query, collection, getDocs } from "firebase/firestore"
 // the firestore instance
 import db from "./../main.js";
@@ -102,25 +121,42 @@ export default {
       type: String,
       required: true,
     },
+    author: {
+      type: String,
+      required: true,
+    },
   },
   setup() {
     const auth = getAuth();
     const currentUser = getAuth().currentUser;
     const idUser = ref(currentUser.uid);
+
+    const modalDelete = ref(false);
+
+    const openDelete = () => {
+      modalDelete.value = !modalDelete.value;
+    };
     return {
       auth,
       idUser,
+      modalDelete,
+      openDelete,
     };
   },
   data() {
     return {
-      //
+      isLoading: false,
     };
   },
   created() {
     this.getUser();
   },
   methods: {
+    async deleteJob() {
+      this.isLoading = true;
+      await deleteDoc(doc(db, "jobs", this.id));
+      this.isLoading = false;
+    },
     async getUser() {
       const docSnap = await getDoc(doc(db, "users", this.idUser));
       if (docSnap.exists()) {
@@ -140,11 +176,123 @@ export default {
   font-weight: 300;
   color: #202121;
 }
+
+.card-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 4;
+
+  .postulation-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 90%;
+    background-color: #fff;
+    z-index: 5;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .form-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: crimson;
+        border: 1px solid crimson;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        color: $white;
+        cursor: pointer;
+        transition: box-shadow 0.2s ease-in-out;
+
+        &:hover {
+          box-shadow: 2px 2px 10px #dfdfdf;
+        }
+
+        &:nth-child(1) {
+          background: $gray;
+          border: 1px solid $gray;
+          color: $dark;
+        }
+      }
+    }
+  }
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+
+  div {
+    background: transparent;
+    border: 10px solid transparent;
+    border-top-color: $white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: rotation 1s infinite linear;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(359deg);
+    }
+  }
+}
+
 .job {
+  position: relative;
   cursor: pointer;
   background: $white;
   transition: 0.3s ease-out;
   border: 1px solid #e6eaea;
+
+  .delete-job {
+    position: absolute;
+    background: crimson;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.3rem;
+    cursor: pointer;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+  }
   &.applied {
     // background: #f5fbfb;
     opacity: 0.6;
@@ -154,6 +302,7 @@ export default {
   }
   &-image {
     width: 100%;
+    height: 200px;
     img {
       width: 100%;
       height: 100%;
