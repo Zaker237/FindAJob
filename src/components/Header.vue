@@ -199,7 +199,7 @@ export default {
       const docRef = await addDoc(colRef, dataObj);
       console.log("Document was created with ID:", docRef.id);
       this.openNewJob();
-      this.isLoading = false; 
+      this.isLoading = false;
     },
 
     async onFileChange(e) {
