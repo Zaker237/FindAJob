@@ -1,4 +1,7 @@
 <template>
+  <div class="loading" v-if="isLoading">
+    <div></div>
+  </div>
   <div v-if="isOpen" class="container-alert">
     <!-- <div class="card">
       <span>Un mail a ete envoye a <span>{{ email }}</span> veuillez l' ouvrir et activer compte. <br> Ensuite reactualiser la page.</span>
@@ -8,7 +11,7 @@
   <!-- <p v-if="!isEmailVerified" class="verify-email">
     <span @click="verifyEmail">Veuillez verifier votre email pour activer votre compte.</span>
   </p> -->
-  <div class="card-fixed" v-if="!modalJob">
+  <div class="card-fixed" v-if="modalJob">
     <form class="postulation-form">
       <div class="form-input">
         <label for="title">Titre du poste</label>
@@ -16,6 +19,7 @@
           type="text"
           id="title"
           placeholder="Entrez le titre du poste"
+          v-model="title"
           required
         />
       </div>
@@ -26,6 +30,7 @@
           cols="30"
           rows="5"
           placeholder="Faites une description la plus détaillé possible de l'offre ..."
+          v-model="description"
           required
         ></textarea>
       </div>
@@ -35,6 +40,7 @@
           type="number"
           id="salary"
           placeholder="Montant du salaire"
+          v-model="salary"
           required
         />
         <div>
@@ -42,15 +48,27 @@
             type="text"
             id="salaryDevise"
             placeholder="Devise (ex: FCFA)"
+            v-model="salaryDevise"
             required
           />
           <input
             type="text"
             id="salaryFrequency"
             placeholder="Frequence (ex: par mois)"
+            v-model="salaryFrequency"
             required
           />
         </div>
+      </div>
+      <div class="form-input">
+        <label for="title">Lieu</label>
+        <input
+          type="text"
+          id="location"
+          placeholder="Lieu de travail"
+          v-model="location"
+          required
+        />
       </div>
       <div class="form-input">
         <label for="init">Date de début</label>
@@ -58,6 +76,7 @@
           type="date"
           id="init"
           placeholder="En quel jour ce poste debute ?"
+          v-model="init"
           required
         />
       </div>
@@ -67,6 +86,7 @@
           type="text"
           id="enterprise"
           placeholder="Le nom de l' entrprise qui offre le poste"
+          v-model="enterprise"
           required
         />
       </div>
@@ -76,6 +96,7 @@
           type="text"
           id="picture"
           placeholder="CDI - CDD - STAGE - ALTERNANCE - FREELANCE ... ?"
+          v-model="status"
           required
         />
         <span>Veuillez separer chaque statut par un " <b>-</b> "</span>
@@ -87,6 +108,7 @@
           id="picture"
           accept="image/png, image/jpeg, image/jpg"
           placeholder="Image illustrative du poste"
+          @change="onFileChange"
           required
         />
       </div>
@@ -114,19 +136,85 @@
 <script>
 import { ref } from "vue";
 import { getAuth, sendEmailVerification } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import {
+  getStorage,
+  uploadBytes,
+  ref as stRef,
+  getDownloadURL,
+} from "firebase/storage";
+import db from "./../main.js";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Header",
+  data() {
+    return {
+      isLoading: false,
+      picture: "",
+      title: "",
+      description: "",
+      salary: null,
+      salaryDevise: "",
+      salaryFrequency: "",
+      init: null,
+      enterprise: "",
+      location: "",
+      status: "",
+    };
+  },
   methods: {
-    createJob() {
-      // program to convert date to number
-      // create date
-      // const d1 = new Date();
-      // console.log(d1);
-      // // converting to number
-      // const result = d1.getTime();
-      // console.log(result);
+    async createJob() {
+      if (
+        this.title === "" ||
+        this.description === "" ||
+        this.salary === null ||
+        this.init === null ||
+        this.enterprise === "" ||
+        this.status === "" ||
+        this.picture === "" ||
+        this.salaryDevise === "" ||
+        this.salaryFrequency === "" ||
+        this.location === ""
+      ) {
+        alert("Veuillez remplir tous les champs");
+        return;
+      }
+      this.isLoading = true;
+      const colRef = collection(db, "jobs");
+      const dataObj = {
+        author: getAuth().currentUser.uid,
+        title: this.title,
+        description: this.description,
+        salary: this.salary,
+        salaryDevise: this.salaryDevise,
+        salaryFrequency: this.salaryFrequency,
+        init: new Date(this.init).getTime(),
+        enterprise: this.enterprise,
+        status: this.status.split("-"),
+        picture: this.picture,
+        location: this.location,
+        postulations: [],
+      };
+      const docRef = await addDoc(colRef, dataObj);
+      console.log("Document was created with ID:", docRef.id);
+      this.openNewJob();
+      this.isLoading = false; 
+      this.$router.push("/dashboard");
+    },
+
+    async onFileChange(e) {
+      this.isLoading = true;
+      const file = e.target.files[0];
+      const storage = getStorage();
+      const storageRef = stRef(storage, `PictureJob/${file.name}`);
+      await uploadBytes(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then((url) => {
+          this.picture = url;
+          console.log(this.picture);
+        });
+        this.isLoading = false;
+      });
     },
   },
   setup() {
@@ -167,6 +255,38 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/styles/settings.scss";
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+
+  div {
+    background: transparent;
+    border: 10px solid transparent;
+    border-top-color: $white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: rotation 1s infinite linear;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(359deg);
+    }
+  }
+}
 
 .verify-email {
   display: flex;
@@ -272,7 +392,7 @@ export default {
       textarea {
         resize: none;
       }
-      div{
+      div {
         display: flex;
         align-items: center;
         justify-content: center;
