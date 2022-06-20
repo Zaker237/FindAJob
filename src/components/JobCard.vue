@@ -293,6 +293,11 @@ export default {
     z-index: 2;
     top: 10px;
     right: 10px;
+
+    &:hover ~ div {
+      filter: grayscale(1);
+    }
+
   }
   &.applied {
     // background: #f5fbfb;

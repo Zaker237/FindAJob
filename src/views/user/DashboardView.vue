@@ -240,7 +240,7 @@ export default {
 
 .content-cards-created {
   &::before {
-    content: "Mes offres";
+    content: "Mes offres | (cliquer pour voir les candidatures)";
   }
 }
 .content-cards-applied {
