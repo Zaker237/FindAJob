@@ -22,7 +22,7 @@
         </h3>
         <h3 class="job-salary">
           <img src="./../assets/icons/salary.svg" alt="salary" /><span
-            >{{ salary }} / mois</span
+            >{{ salary }} {{ salaryDevise }} / {{ salaryFrequency }}</span
           >
         </h3>
         <h3 class="job-enterprise">
@@ -91,6 +91,14 @@ export default {
       required: true,
     },
     id: {
+      type: String,
+      required: true,
+    },
+    salaryFrequency: {
+      type: String,
+      required: true,
+    },
+    salaryDevise: {
       type: String,
       required: true,
     },

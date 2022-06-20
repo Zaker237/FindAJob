@@ -33,6 +33,8 @@
             :status="job.status"
             :postulations="job.postulations"
             :id="job.id"
+            :salaryFrequency="job.salaryFrequency"
+            :salaryDevise="job.salaryDevise"
           />
         </div>
       </div>
@@ -52,6 +54,8 @@
             :status="job.status"
             :postulations="job.postulations"
             :id="job.id"
+            :salaryFrequency="job.salaryFrequency"
+            :salaryDevise="job.salaryDevise"
           />
         </div>
       </div>

@@ -44,7 +44,7 @@
               <img
                 src="./../../assets/icons/salary-white.svg"
                 alt="salary"
-              /><span>{{ jobInfo[0].salary }} / mois</span>
+              /><span>{{ jobInfo[0].salary }} {{jobInfo[0].salaryDevise}} / {{jobInfo[0].salaryFrequency}}</span>
             </h3>
             <h3>
               <img

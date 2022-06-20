@@ -8,7 +8,7 @@
   <!-- <p v-if="!isEmailVerified" class="verify-email">
     <span @click="verifyEmail">Veuillez verifier votre email pour activer votre compte.</span>
   </p> -->
-  <div class="card-fixed" v-if="modalJob">
+  <div class="card-fixed" v-if="!modalJob">
     <form class="postulation-form">
       <div class="form-input">
         <label for="title">Titre du poste</label>
@@ -34,9 +34,23 @@
         <input
           type="number"
           id="salary"
-          placeholder="Salaire par mois en FCFA"
+          placeholder="Montant du salaire"
           required
         />
+        <div>
+          <input
+            type="text"
+            id="salaryDevise"
+            placeholder="Devise (ex: FCFA)"
+            required
+          />
+          <input
+            type="text"
+            id="salaryFrequency"
+            placeholder="Frequence (ex: par mois)"
+            required
+          />
+        </div>
       </div>
       <div class="form-input">
         <label for="init">Date de début</label>
@@ -257,6 +271,17 @@ export default {
       }
       textarea {
         resize: none;
+      }
+      div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5px;
+        gap: 5px;
+        @media (max-width: 500px) {
+          width: 100%;
+          flex-direction: column;
+        }
       }
     }
 
