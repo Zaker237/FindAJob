@@ -2,14 +2,14 @@
   <div id="login">
     <router-link to="/">
       <div class="back-home">
-        <img src="../../assets/icons/arrow-up.svg" alt="back to home">
+        <img src="../../assets/icons/arrow-up.svg" alt="back to home" />
       </div>
     </router-link>
     <form class="container" @submit.prevent="Login">
       <h2>Connectez vous</h2>
       <div class="container-socials">
         <button class="button-google" @click.stop.prevent="LoginGoogle">
-          <img src="../../assets/icons/google.svg" alt="google">
+          <img src="../../assets/icons/google.svg" alt="google" />
           <span>Google</span>
         </button>
       </div>
@@ -29,19 +29,32 @@
       </div>
       <div class="container-input">
         <label for="email">Adresse email</label>
-        <input v-model="email" id="email" type="email" placeholder="Entrez votre adresse email" required>
+        <input
+          v-model="email"
+          id="email"
+          type="email"
+          placeholder="Entrez votre adresse email"
+          required
+        />
       </div>
       <div class="container-input">
         <label for="password">Mot de passe</label>
-        <input v-model="password" id="password" type="password" placeholder="Entrez votre mot de passe" required>
+        <input
+          v-model="password"
+          id="password"
+          type="password"
+          placeholder="Entrez votre mot de passe"
+          required
+        />
       </div>
-      <h3 class="container-options">Pas encore un compte ?
+      <h3 class="container-options">
+        Pas encore un compte ?
         <router-link to="/register">Inscrivez vous</router-link>
       </h3>
       <button type="submit" class="container-button" v-if="!isLoading">
         Se connecter
       </button>
-      <button class="container-button" v-else style="cursor: not-allowed;">
+      <button class="container-button" v-else style="cursor: not-allowed">
         Traitement ...
       </button>
     </form>
@@ -49,22 +62,26 @@
 </template>
 
 <script>
-import {ref} from 'vue';
-import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithRedirect} from "firebase/auth";
+import { ref } from "vue";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithRedirect,
+} from "firebase/auth";
 
 export default {
   setup() {
-    const email = ref('');
-    const password = ref('');
+    const email = ref("");
+    const password = ref("");
 
-    const isNotUserExist = ref(false)
-    const isWrongPassword = ref(false)
-    const isTooManyRequests = ref(false)
-    const isNetworkRequestFailed = ref(false)
-    const auth = getAuth()
-    const isLoading = ref(false)
-    const provider = new GoogleAuthProvider()
-
+    const isNotUserExist = ref(false);
+    const isWrongPassword = ref(false);
+    const isTooManyRequests = ref(false);
+    const isNetworkRequestFailed = ref(false);
+    const auth = getAuth();
+    const isLoading = ref(false);
+    const provider = new GoogleAuthProvider();
 
     const Login = () => {
       isLoading.value = true;
@@ -74,41 +91,49 @@ export default {
       isNetworkRequestFailed.value = false;
       // Sigin with email and password
       signInWithEmailAndPassword(auth, email.value, password.value)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode);
+          console.log(errorMessage);
 
-            if (errorCode === "auth/user-not-found") {
-              isNotUserExist.value = true;
-              isLoading.value = false;
-            }
+          if (errorCode === "auth/user-not-found") {
+            isNotUserExist.value = true;
+            isLoading.value = false;
+          }
 
-            if (errorCode === "auth/wrong-password") {
-              isWrongPassword.value = true;
-              isLoading.value = false;
-            }
+          if (errorCode === "auth/wrong-password") {
+            isWrongPassword.value = true;
+            isLoading.value = false;
+          }
 
-            if (errorCode === "auth/too-many-requests") {
-              isTooManyRequests.value = true;
-              isLoading.value = false;
-            }
+          if (errorCode === "auth/too-many-requests") {
+            isTooManyRequests.value = true;
+            isLoading.value = false;
+          }
 
-            if (errorCode === "auth/network-request-failed") {
-              isNetworkRequestFailed.value = true;
-              isLoading.value = false;
-            }
-
-          });
-    }
+          if (errorCode === "auth/network-request-failed") {
+            isNetworkRequestFailed.value = true;
+            isLoading.value = false;
+          }
+        });
+    };
     const LoginGoogle = () => {
+      isLoading.value = true;
       signInWithRedirect(auth, provider)
-    }
+        .then(() => {
+          console.log("redirected");
+          isLoading.value = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          isLoading.value = false;
+        });
+    };
 
     return {
       email,
@@ -121,10 +146,10 @@ export default {
       isLoading,
       provider,
       Login,
-      LoginGoogle
-    }
-  }
-}
+      LoginGoogle,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -158,7 +183,7 @@ export default {
   h2 {
     font-size: 36px;
     font-weight: 700;
-    color: #252F3F;
+    color: #252f3f;
   }
 
   &-input {
@@ -175,7 +200,7 @@ export default {
 
     input {
       width: 100%;
-      border: 1px solid #E5E7EB;
+      border: 1px solid #e5e7eb;
       border-radius: 4px;
       padding: 10px;
       outline: none;
@@ -190,7 +215,7 @@ export default {
     margin: 10px 0 15px 0;
     font-size: 14px;
     font-weight: 500;
-    color: #252F3F;
+    color: #252f3f;
     text-align: right;
   }
 
@@ -238,7 +263,7 @@ export default {
     background: rgb($dark, 0.05);
     border-width: 2px;
     border-color: transparent;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
 
     span {
       font-weight: 600;

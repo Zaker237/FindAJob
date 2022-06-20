@@ -230,7 +230,7 @@ export default {
         cv: this.cv,
       });
       await updateDoc(doc(db, "jobs", this.$route.params.id), {
-        
+        postulations: [...this.jobInfo[0].postulations, this.idUser],
       });
       this.openPostulation();
       this.isLoading = false; 
