@@ -200,8 +200,6 @@ export default {
       console.log("Document was created with ID:", docRef.id);
       this.openNewJob();
       this.isLoading = false; 
-      this.$router.push("/jobs");
-      this.$router.push("/dashboard");
     },
 
     async onFileChange(e) {

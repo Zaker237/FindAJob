@@ -156,6 +156,7 @@ export default {
       this.isLoading = true;
       await deleteDoc(doc(db, "jobs", this.id));
       this.isLoading = false;
+      this.openDelete();
     },
     async getUser() {
       const docSnap = await getDoc(doc(db, "users", this.idUser));
