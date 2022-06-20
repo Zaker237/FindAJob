@@ -202,7 +202,7 @@ export default {
       this.isLoading = true;
       const docSnap = await getDoc(doc(db, "jobs", this.$route.params.id));
       if (docSnap.exists()) {
-        // console.log(docSnap.data());
+        console.log(docSnap.data());
         this.jobInfo.push(docSnap.data());
         this.jobInfo[0].postulations.forEach((element) => {
           this.getPostulations(element);

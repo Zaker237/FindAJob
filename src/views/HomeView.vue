@@ -67,6 +67,9 @@
         <button>Commencez</button>
       </router-link>
     </div>
+    <div class="video">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/NzocsDDBifw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
     <div class="contact" id="contact">
       <form
           action="https://formspree.io/f/xzboklab"
@@ -435,6 +438,13 @@ li {
         background: linear-gradient(to right, #A94DFC, #7F3EF1);
       }
     }
+  }
+
+  .video{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .contact {
