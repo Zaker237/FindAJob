@@ -209,7 +209,7 @@ export default {
       this.isLoading = true; 
       const file = e.target.files[0];
       const storage = getStorage();
-      const storageRef = stRef(storage, `cvs/${file.name}`);
+      const storageRef = stRef(storage, `CV/${file.name}`);
       await uploadBytes(storageRef, file).then(() => {
         getDownloadURL(storageRef).then((url) => {
           this.cv = url;
@@ -228,6 +228,9 @@ export default {
       this.isLoading = true; 
       await updateDoc(doc(db, "users", this.idUser), {
         cv: this.cv,
+      });
+      await updateDoc(doc(db, "jobs", this.$route.params.id), {
+        
       });
       this.openPostulation();
       this.isLoading = false; 

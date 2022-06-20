@@ -92,7 +92,7 @@
         </a>
       </div>
     </div>
-    <p class="copy">&copy; Tout droits réservés - Find A Job - 2022</p>
+    <p class="copy">&copy; Tout droits réservés | Find A Job - 2022 | Codé par <a href="https://twitter.com/ln_dev7" target="_blank">Leonel Ngoya</a></p>
   </div>
 </template>
 
@@ -535,6 +535,11 @@ export default {
     font-size: 16px;
     font-weight: 600;
     background: rgb($dark, 0.05);
+
+    a{
+      font-weight: 500;
+      text-decoration: underline;
+    }
   }
 }
 
