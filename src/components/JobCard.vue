@@ -28,13 +28,6 @@
       </div>
       <div class="job-body">
         <h1 class="job-title">{{ title }}</h1>
-        <h2 class="job-description">
-          {{
-            description.length > 200
-              ? description.substring(0, 150) + " ..."
-              : description
-          }}
-        </h2>
         <h3 class="job-location">
           <img src="./../assets/icons/location.svg" alt="location" />
           <span>{{ location }}</span>
@@ -42,6 +35,14 @@
         <h3 class="job-salary">
           <img src="./../assets/icons/salary.svg" alt="salary" /><span
             >{{ salary }} {{ salaryDevise }} / {{ salaryFrequency }}</span
+          >
+        </h3>
+        <h3 class="job-init">
+          <img src="./../assets/icons/time.svg" alt="init" />
+          <span
+            >Début : {{ new Date(init).getDate() }} /
+            {{ new Date(init).getMonth() + 1 }} /
+            {{ new Date(init).getFullYear() }}</span
           >
         </h3>
         <h3 class="job-enterprise">
@@ -73,7 +74,6 @@ import { doc, getDoc, deleteDoc } from "firebase/firestore";
 // import { query, collection, getDocs } from "firebase/firestore"
 // the firestore instance
 import db from "./../main.js";
-
 export default {
   name: "JobCard",
   props: {
@@ -81,8 +81,8 @@ export default {
       type: String,
       required: true,
     },
-    description: {
-      type: String,
+    init: {
+      type: Number,
       required: true,
     },
     salary: {
@@ -130,9 +130,7 @@ export default {
     const auth = getAuth();
     const currentUser = getAuth().currentUser;
     const idUser = ref(currentUser.uid);
-
     const modalDelete = ref(false);
-
     const openDelete = () => {
       modalDelete.value = !modalDelete.value;
     };
@@ -177,7 +175,6 @@ export default {
   font-weight: 300;
   color: #202121;
 }
-
 .card-fixed {
   position: fixed;
   top: 0;
@@ -186,7 +183,6 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 4;
-
   .postulation-form {
     position: absolute;
     top: 50%;
@@ -201,13 +197,11 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
     h2 {
       font-size: 1.3rem;
       font-weight: 500;
       margin-bottom: 20px;
     }
-
     .form-button {
       display: flex;
       align-items: center;
@@ -227,11 +221,9 @@ export default {
         color: $white;
         cursor: pointer;
         transition: box-shadow 0.2s ease-in-out;
-
         &:hover {
           box-shadow: 2px 2px 10px #dfdfdf;
         }
-
         &:nth-child(1) {
           background: $gray;
           border: 1px solid $gray;
@@ -241,7 +233,6 @@ export default {
     }
   }
 }
-
 .loading {
   position: fixed;
   top: 0;
@@ -253,7 +244,6 @@ export default {
   justify-content: center;
   align-items: center;
   z-index: 5;
-
   div {
     background: transparent;
     border: 10px solid transparent;
@@ -263,7 +253,6 @@ export default {
     border-radius: 50%;
     animation: rotation 1s infinite linear;
   }
-
   @keyframes rotation {
     0% {
       transform: rotate(0);
@@ -273,14 +262,12 @@ export default {
     }
   }
 }
-
 .job {
   position: relative;
   cursor: pointer;
   background: $white;
   transition: 0.3s ease-out;
   border: 1px solid #e6eaea;
-
   .delete-job {
     position: absolute;
     background: crimson;
@@ -293,11 +280,9 @@ export default {
     z-index: 2;
     top: 10px;
     right: 10px;
-
     &:hover ~ div {
       filter: grayscale(1);
     }
-
   }
   &.applied {
     // background: #f5fbfb;

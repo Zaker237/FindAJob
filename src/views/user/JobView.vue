@@ -82,7 +82,7 @@
             <h3>
               <img
                 src="./../../assets/icons/time-white.svg"
-                alt="enterprise"
+                alt="init"
               /><span
                 >Début : {{ new Date(jobInfo[0].init).getDate() }} /
                 {{ new Date(jobInfo[0].init).getMonth() + 1 }} /
@@ -96,7 +96,7 @@
           v-show="jobInfo[0].author !== idUser ? true : false"
         >
           <h2>Description</h2>
-          <p>{{ jobInfo[0].description }}</p>
+          <p class="descriptionHtml"></p>
           <div>
             <h3>
               <img
@@ -189,6 +189,8 @@ export default {
       this.jobInfo[0].postulations.forEach((element) => {
         this.getPostulations(element);
       });
+      const descriptionHtml = document.querySelector('.descriptionHtml')
+      descriptionHtml.innerHTML = this.jobInfo[0].description
     }, 1000);
   },
   methods: {
@@ -498,11 +500,15 @@ export default {
         align-self: flex-start;
       }
       p {
+        width: 100%;
         font-family: "Inter", sans-serif;
         font-weight: 400;
         opacity: 0.8;
         padding: 0.5rem 1rem 2rem 1rem;
         line-height: 1.5rem;
+        li{
+          list-style: disc;
+        }
       }
       div {
         width: 400px;
